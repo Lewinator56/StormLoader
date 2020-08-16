@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30320.27
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StormLoader", "StormLoader\StormLoader.csproj", "{B0311C0A-8DB2-4982-A9F6-171F4DABBBD2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B0311C0A-8DB2-4982-A9F6-171F4DABBBD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0311C0A-8DB2-4982-A9F6-171F4DABBBD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0311C0A-8DB2-4982-A9F6-171F4DABBBD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0311C0A-8DB2-4982-A9F6-171F4DABBBD2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AC0CC248-A611-42D7-B805-AEEB014A0E30}
+	EndGlobalSection
+EndGlobal
