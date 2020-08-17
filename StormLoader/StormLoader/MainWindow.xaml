@@ -6,8 +6,9 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:StormLoader"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <materialDesign:DialogHost Background="Transparent">
+        Title="MainWindow" Height="450" Width="800"
+        Loaded="Window_Loaded">
+    <materialDesign:DialogHost Background="Transparent" Loaded="DialogHost_Loaded">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
@@ -26,7 +27,8 @@
                         </StackPanel>
                     </Button>
 
-                    <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="Settings" Height="75" Width="75" Background="White" BorderBrush="LightGray" BorderThickness="0" Foreground="Black" Margin="10" Click="Settings_Click" HorizontalAlignment="Right">
+                    
+                    <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="Settings" Height="75" Width="75" Background="White" BorderBrush="LightGray" BorderThickness="0" Foreground="Black" Margin="10" Click="Settings_Click" HorizontalAlignment="Right" DockPanel.Dock="Right">
                         <StackPanel Orientation="Vertical" Margin="-10" >
                             <materialDesign:PackIcon Kind="Settings" HorizontalAlignment="Center">
                                 <materialDesign:PackIcon.LayoutTransform>
@@ -36,6 +38,32 @@
                             <Label Content="Settings"/>
                         </StackPanel>
                     </Button>
+                    <StackPanel Orientation="Vertical" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="SaveProfile_Btn" Height="30" Width="150" Background="White" BorderBrush="LightGray" BorderThickness="0" Foreground="Black" Margin="0" Click="SaveProfile_Btn_Click" HorizontalContentAlignment="Left">
+                            <StackPanel Orientation="horizontal" Margin="-10" HorizontalAlignment="Left">
+                                <materialDesign:PackIcon Kind="AccountArrowRight" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon.LayoutTransform>
+                                        <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                    </materialDesign:PackIcon.LayoutTransform>
+                                </materialDesign:PackIcon>
+                                <Label Content="Save profile"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="OpenProfile_Btn" Height="30" Width="150" Background="White" BorderBrush="LightGray" BorderThickness="0" Foreground="Black" Margin="0" Click="OpenProfile_Btn_Click" HorizontalContentAlignment="Left">
+                            <StackPanel Orientation="horizontal" Margin="-10" HorizontalAlignment="Left" >
+                                <materialDesign:PackIcon Kind="AccountBalanceWallet" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon.LayoutTransform>
+                                        <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                    </materialDesign:PackIcon.LayoutTransform>
+                                </materialDesign:PackIcon>
+                                <Label Content="Open Profile"/>
+                            </StackPanel>
+                        </Button>
+                        
+                    </StackPanel>
+                        
+
+                    
 
 
 
@@ -52,12 +80,22 @@
                         
                     </StackPanel>
                 </ScrollViewer>
+                <DockPanel Grid.Column="1">
+                    <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
+                        <Label Name="ModNameLabel" Content="Name: "/>
+                        <Label Name="AuthorLabel" Content="Author: "/>
+                        <Label Name="ModVersionLabel" Content="Version: "/>
+                    </StackPanel>
+                    
 
-                <materialDesign:Card Grid.Column="1">
-                    <WebBrowser Name="infoDisp">
 
-                    </WebBrowser>
-                </materialDesign:Card>
+                    <materialDesign:Card Height="auto" VerticalAlignment="Stretch">
+                        <WebBrowser Name="infoDisp">
+
+                        </WebBrowser>
+                    </materialDesign:Card>
+                </DockPanel>
+                
                 
             </Grid>
 

@@ -13,16 +13,23 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace StormLoader
 {
     /// <summary>
-    /// Interaction logic for FirstRun.xaml
+    /// Interaction logic for FirstRunGameLocation.xaml
     /// </summary>
-    public partial class FirstRunStart : UserControl
+    public partial class FirstRunGameLocation : UserControl
     {
-        public FirstRunStart()
+        public FirstRunGameLocation()
         {
             InitializeComponent();
         }
+
+        private void InsLoc_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Next_Btn.IsEnabled = true;
+        }
+
     }
 }

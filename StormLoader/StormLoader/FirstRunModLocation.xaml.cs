@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace StormLoader
 {
     /// <summary>
-    /// Interaction logic for FirstRun.xaml
+    /// Interaction logic for FirstRunModLocation.xaml
     /// </summary>
-    public partial class FirstRunStart : UserControl
+    public partial class FirstRunModLocation : UserControl
     {
-        public FirstRunStart()
+        public FirstRunModLocation()
         {
             InitializeComponent();
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,5 +25,41 @@ namespace StormLoader
         {
             InitializeComponent();
         }
+        public void SetActive(bool active)
+        {
+            if (active)
+            {
+                ModActive.Kind = PackIconKind.Check;
+                ModActive.Foreground = new SolidColorBrush(Colors.Green);
+            } else
+            {
+                ModActive.Kind = PackIconKind.Close;
+                ModActive.Foreground = new SolidColorBrush(Colors.Red);
+            }
+        }
+
+        private void ActvMod_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            SetActive(true);
+            GlobalVar.mw.SetModActive(ModName.Content.ToString(), "true");
+        }
+
+        private void DeActvMod_Click(object sender, RoutedEventArgs e)
+        {
+            SetActive(false);
+            GlobalVar.mw.SetModActive(ModName.Content.ToString(), "false");
+        }
+
+        private void UninsMod_Click(object sender, RoutedEventArgs e)
+        {
+            GlobalVar.mw.DeleteMod(ModName.Content.ToString());
+        }
+
+        private void Card_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }
+
+    

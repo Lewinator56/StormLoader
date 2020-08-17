@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:StormLoader"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <materialDesign:Card Height="40" HorizontalAlignment="Stretch" Width="auto" Margin="5">
+    <materialDesign:Card Height="40" HorizontalAlignment="Stretch" Width="auto" Margin="5" MouseDown="Card_MouseDown">
         <DockPanel Margin="5">
             <materialDesign:PackIcon Name="ModActive" Kind="Check" Foreground="Green" VerticalAlignment="Center">
                 
@@ -16,13 +16,13 @@
             <Label Name="ModName" Content="Mod Name Here" MaxWidth="500" VerticalAlignment="Center"></Label>
             <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Margin="5, 0, 5, 0"/>
             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Style="{DynamicResource MaterialDesignToolButton}" Name="ActvMod_Btn">
+                <Button Style="{DynamicResource MaterialDesignToolButton}" Name="ActvMod_Btn" Click="ActvMod_Btn_Click">
                     <materialDesign:PackIcon Kind="Check"/>
                 </Button>
-                <Button Style="{DynamicResource MaterialDesignToolButton}" Name="DeActvMod">
+                <Button Style="{DynamicResource MaterialDesignToolButton}" Name="DeActvMod" Click="DeActvMod_Click">
                     <materialDesign:PackIcon Kind="Close"/>
                 </Button>
-                <Button Style="{DynamicResource MaterialDesignToolButton}" Name="UninsMod">
+                <Button Style="{DynamicResource MaterialDesignToolButton}" Name="UninsMod" Click="UninsMod_Click">
                     <materialDesign:PackIcon Kind="Bin"/>
                 </Button>
             </StackPanel>
