@@ -233,35 +233,115 @@ namespace StormLoader
                 if (mod.SelectSingleNode("Active").InnerText == "true")
                 {
                     string modPath = mod.SelectSingleNode("Path").InnerText;
-                    string[] mesh = Directory.GetFiles(modPath + "/Meshes");
-                    string[] def = Directory.GetFiles(modPath + "/Definitions");
-                    foreach(string fileName in mesh)
+                    //string[] mesh = Directory.GetFiles(modPath + "/Meshes");
+                    //string[] def = Directory.GetFiles(modPath + "/Definitions");
+                    //string[] sound = Directory.GetFiles(modPath + "/Sounds");
+                    try
                     {
-
-                        File.Copy(fileName, gameLocation + "/rom/meshes/" + System.IO.Path.GetFileName(fileName), true);
+                        RecursiveCopy(new DirectoryInfo(modPath + "/Meshes/"), new DirectoryInfo(gameLocation + "/rom/meshes/"));
                     }
-                    foreach (string fileName in def)
+                    catch (Exception) { }
+                    try
                     {
-
-                        File.Copy(fileName, gameLocation + "/rom/data/definitions/" + System.IO.Path.GetFileName(fileName), true);
+                        RecursiveCopy(new DirectoryInfo(modPath + "/Definitions/"), new DirectoryInfo(gameLocation + "/rom/data/definitions/"));
                     }
+                    catch (Exception) {}
+                    try
+                    {
+                        RecursiveCopy(new DirectoryInfo(modPath + "/Audio/"), new DirectoryInfo(gameLocation + "/rom/audio/"));
+                    }
+                    catch (Exception) { }
+
+//                    foreach(string fileName in mesh)
+//                    {
+//
+//                        File.Copy(fileName, gameLocation + "/rom/meshes/" + System.IO.Path.GetFileName(fileName), true);
+//                    }
+//                    foreach (string fileName in def)
+//                    {
+//
+//                        File.Copy(fileName, gameLocation + "/rom/data/definitions/" + System.IO.Path.GetFileName(fileName), true);
+//                    }
+//                    foreach (string fileName in sound)
+//                    {
+//
+//                        File.Copy(fileName, gameLocation + "/rom/audio/" + System.IO.Path.GetFileName(fileName), true);
+//                    }
+
+                    // copy any directories
+
                 } else if (mod.SelectSingleNode("Active").InnerText =="false")
                 {
                     string modPath = mod.SelectSingleNode("Path").InnerText;
-                    string[] mesh = Directory.GetFiles(modPath + "/Meshes");
-                    string[] def = Directory.GetFiles(modPath + "/Definitions");
-                    foreach (string fileName in mesh)
+                    try
                     {
-
-                        File.Delete(gameLocation + "/rom/meshes/" + System.IO.Path.GetFileName(fileName));
+                        RecursiveDelete(new DirectoryInfo(modPath + "/Meshes/"), new DirectoryInfo(gameLocation + "/rom/meshes/"));
                     }
-                    foreach (string fileName in def)
+                    catch (Exception) { }
+                    try
                     {
-
-                        File.Delete(gameLocation + "/rom/data/definitions/" + System.IO.Path.GetFileName(fileName));
+                        RecursiveDelete(new DirectoryInfo(modPath + "/Definitions/"), new DirectoryInfo(gameLocation + "/rom/data/definitions/"));
                     }
+                    catch (Exception) { }
+                    try
+                    {
+                        RecursiveDelete(new DirectoryInfo(modPath + "/Audio/"), new DirectoryInfo(gameLocation + "/rom/audio/"));
+                    } catch (Exception) { }
+                    
+                    //string[] mesh = Directory.GetFiles(modPath + "/Meshes/");
+                    //string[] def = Directory.GetFiles(modPath + "/Definitions/");
+                    //string[] sound = Directory.GetFiles(modPath + "/Sounds");
+                    //foreach (string fileName in mesh)
+                    //{
+
+//                        File.Delete(gameLocation + "/rom/meshes/" + System.IO.Path.GetFileName(fileName));
+//                    }
+//                    foreach (string fileName in def)
+//                    {
+
+//                        File.Delete(gameLocation + "/rom/data/definitions/" + System.IO.Path.GetFileName(fileName));
+///                    }
+                    //foreach (string fileName in sound)
+                    //{
+
+                      //  File.Delete(gameLocation + "/rom/audio/" + System.IO.Path.GetFileName(fileName));
+                    //}
+
+                    // delete any directories
                 }
 
+            }
+        }
+
+        public void RecursiveCopy(DirectoryInfo source, DirectoryInfo location)
+        {
+            foreach(FileInfo f in source.GetFiles())
+            {
+                File.Copy(source + f.Name, location + f.Name, true);
+            }
+            foreach (DirectoryInfo d in source.GetDirectories())
+            {
+                
+                DirectoryInfo next = location.CreateSubdirectory(d.Name);
+                DirectoryInfo dn = new DirectoryInfo(d.FullName + "/");
+                next = new DirectoryInfo(next.FullName + "/");
+                RecursiveCopy(dn, next);
+            }
+        }
+
+        public void RecursiveDelete(DirectoryInfo extractedPath, DirectoryInfo location)
+        {
+            foreach (FileInfo f in extractedPath.GetFiles())
+            {
+                File.Delete(location + f.Name);
+            }
+            foreach (DirectoryInfo d in extractedPath.GetDirectories())
+            {
+
+                DirectoryInfo next = new DirectoryInfo(location.FullName + d.Name);
+                DirectoryInfo dn = new DirectoryInfo(d.FullName + "/");
+                next = new DirectoryInfo(next.FullName + "/");
+                RecursiveDelete(dn, next);
             }
         }
 
@@ -343,6 +423,21 @@ namespace StormLoader
 
             }
             displayModList();
+        }
+
+        public void SelectMod(string modName)
+        {
+            ModNameLabel.Content = "Name: " + modName;
+            currentProfile.Load("CurrentProfile.xml");
+            XmlNode n = currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()='" + modName + "']");
+            AuthorLabel.Content = "Author: " + n.ParentNode.SelectSingleNode("Author").InnerText;
+            ModVersionLabel.Content = "Version: " + n.ParentNode.SelectSingleNode("Version").InnerText;
+            string modPath = n.ParentNode.SelectSingleNode("Path").InnerText;
+            string infoPath = modPath + "/info.html";
+            if (File.Exists(infoPath))
+            {
+                infoDisp.Navigate(new Uri("file://" + System.IO.Path.GetFullPath(infoPath)));
+            }
         }
     }
 }

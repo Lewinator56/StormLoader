@@ -57,7 +57,7 @@ namespace StormLoader
 
         private void Card_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            GlobalVar.mw.SelectMod(ModName.Content.ToString());
         }
     }
 }
