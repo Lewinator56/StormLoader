@@ -400,12 +400,12 @@ namespace StormLoader
                     Debug.WriteLine("Found");
                     string modPath = mli.modPath;
                     Debug.WriteLine("test");
-                    //try
-                    //{
+                    try
+                    {
                         RecursiveCopy(new DirectoryInfo(modPath + "/Meshes/"), new DirectoryInfo(gameLocation + "/rom/meshes/"));
                         Debug.WriteLine("Running");
-                    //}
-                    //catch (Exception) { }
+                    }
+                    catch (Exception) { }
                     try
                     {
                         RecursiveCopy(new DirectoryInfo(modPath + "/Definitions/"), new DirectoryInfo(gameLocation + "/rom/data/definitions/"));
