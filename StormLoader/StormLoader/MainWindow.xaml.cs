@@ -212,9 +212,11 @@ namespace StormLoader
             FirstRunGameLocation frgl = new FirstRunGameLocation();
             await MaterialDesignThemes.Wpf.DialogHost.Show(frgl);
             settingsDoc.SelectSingleNode("/Settings/Game_Location").InnerText = frgl.InsLoc.Text;
+            gameLocation = frgl.InsLoc.Text;
             FirstRunModLocation frml = new FirstRunModLocation();
             await MaterialDesignThemes.Wpf.DialogHost.Show(frml);
             settingsDoc.SelectSingleNode("/Settings/Mod_Location").InnerText = frml.ModLoc.Text == "" ? "./Extracted" : frml.ModLoc.Text;
+            modExtractionDir = frml.ModLoc.Text == "" ? "./Extracted" : frml.ModLoc.Text;
             settingsDoc.SelectSingleNode("/Settings/Setup_Complete").InnerText = "true";
             settingsDoc.Save("Settings.xml");
 
