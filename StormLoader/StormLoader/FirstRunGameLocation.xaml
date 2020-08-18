@@ -10,6 +10,7 @@
     <materialDesign:Card Height="200"  Width="700" Margin="5" UniformCornerRadius="10" Background="Transparent">
         <DockPanel Margin="20">
             <Label Content="Where is your game installed?" FontSize="25" DockPanel.Dock="Top"/>
+            <Label Content="This should be the root directory of your Stormworks install" FontSize="16" DockPanel.Dock="Top"/>
             <materialDesign:Card Height="40" HorizontalAlignment="Stretch" VerticalAlignment="Top" DockPanel.Dock="Top">
                 <DockPanel >
                     <TextBox Width="650"  ToolTip="Install location for stormworks, you can copy and paste the path here" Name="InsLoc" materialDesign:HintAssist.Hint="Install Location" Margin="5 0 0 0" BorderThickness="0,0,0,0"  Style="{DynamicResource MaterialDesignTextBox}" materialDesign:TextFieldAssist.UnderlineBrush="Transparent" FontSize="20" TextChanged="InsLoc_TextChanged" HorizontalAlignment="Stretch"/>
