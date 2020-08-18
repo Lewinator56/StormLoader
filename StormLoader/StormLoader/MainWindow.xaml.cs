@@ -162,6 +162,7 @@ namespace StormLoader
             gameLocation = sp.InsLoc.Text;
             settingsDoc.Save("Settings.xml");
             CreateDir(modExtractionDir);
+            ApplyProfileAlt();
         }
 
         private void createSetupFile()
