@@ -40,7 +40,9 @@ namespace StormLoader
             createSetupFile();
             settingsDoc.Load("Settings.xml");
             modExtractionDir = settingsDoc.SelectSingleNode("/Settings/Mod_Location").InnerText;
+            CreateDir(modExtractionDir);
             gameLocation = settingsDoc.SelectSingleNode("/Settings/Game_Location").InnerText;
+
 
             currentProfile.Load("CurrentProfile.xml");
             this.Title = "StormLoader : " + currentProfile.SelectSingleNode("/Profile").Attributes["Name"].InnerText;
@@ -52,6 +54,14 @@ namespace StormLoader
 
 
 
+        }
+
+        public void CreateDir(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
         }
 
         private void displayModList()
@@ -146,7 +156,10 @@ namespace StormLoader
             settingsDoc.Load("Settings.xml");
             settingsDoc.SelectSingleNode("/Settings/Game_Location").InnerText = sp.InsLoc.Text;
             settingsDoc.SelectSingleNode("/Settings/Mod_Location").InnerText = sp.ModLoc.Text == "" ? "./Extracted" : sp.ModLoc.Text;
+            modExtractionDir = settingsDoc.SelectSingleNode("/Settings/Mod_Location").InnerText;
+            gameLocation = sp.InsLoc.Text;
             settingsDoc.Save("Settings.xml");
+            CreateDir(modExtractionDir);
         }
 
         private void createSetupFile()
@@ -170,7 +183,7 @@ namespace StormLoader
             }
 
             System.IO.Directory.CreateDirectory("Profiles");
-            
+
             if (!File.Exists("CurrentProfile.xml"))
             {
                 XmlWriter xwm = XmlWriter.Create("CurrentProfile.xml", xws);
