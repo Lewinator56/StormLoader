@@ -21,6 +21,8 @@ namespace StormLoader
     /// </summary>
     public partial class ModListItem : UserControl
     {
+
+        public string modPath;
         public ModListItem()
         {
             InitializeComponent();
@@ -41,23 +43,23 @@ namespace StormLoader
         private void ActvMod_Btn_Click(object sender, RoutedEventArgs e)
         {
             SetActive(true);
-            GlobalVar.mw.SetModActive(ModName.Content.ToString(), "true");
+            GlobalVar.mw.SetModActive(ModName.Content.ToString(), modPath, true);
         }
 
         private void DeActvMod_Click(object sender, RoutedEventArgs e)
         {
             SetActive(false);
-            GlobalVar.mw.SetModActive(ModName.Content.ToString(), "false");
+            GlobalVar.mw.SetModActive(ModName.Content.ToString(), modPath, false);
         }
 
         private void UninsMod_Click(object sender, RoutedEventArgs e)
         {
-            GlobalVar.mw.DeleteMod(ModName.Content.ToString());
+            GlobalVar.mw.DeleteMod(ModName.Content.ToString(), modPath);
         }
 
         private void Card_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            GlobalVar.mw.SelectMod(ModName.Content.ToString());
+            GlobalVar.mw.SelectMod(ModName.Content.ToString(), modPath);
         }
     }
 }
