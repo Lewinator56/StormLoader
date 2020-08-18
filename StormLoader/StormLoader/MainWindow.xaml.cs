@@ -143,8 +143,10 @@ namespace StormLoader
                 meta.Load(modExtractionDir + "/" + System.IO.Path.GetFileNameWithoutExtension(opf.FileName) + "/metadata.xml");
                 Debug.WriteLine(meta.OuterXml);
                 AddModNew(modExtractionDir + "/" + System.IO.Path.GetFileNameWithoutExtension(opf.FileName), System.IO.Path.GetFileNameWithoutExtension(opf.FileName), meta.SelectSingleNode("/Metadata/Version").InnerText, meta.SelectSingleNode("/Metadata/Author").InnerText);
+                displayModList();
+                ApplyProfileAlt();
             }
-            displayModList();
+            
 
         }
 
@@ -393,16 +395,17 @@ namespace StormLoader
             {
                 if (currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()='" + mli.ModName.Content + "']") != null)
                 {
-                    Debug.WriteLine(mli.ModName.Content);
-                    Debug.WriteLine(currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()='" + mli.ModName.Content + "']"));
+                    //Debug.WriteLine(mli.ModName.Content);
+                    //Debug.WriteLine(currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()='" + mli.ModName.Content + "']"));
                     Debug.WriteLine("Found");
                     string modPath = mli.modPath;
-                    try
-                    {
+                    Debug.WriteLine("test");
+                    //try
+                    //{
                         RecursiveCopy(new DirectoryInfo(modPath + "/Meshes/"), new DirectoryInfo(gameLocation + "/rom/meshes/"));
                         Debug.WriteLine("Running");
-                    }
-                    catch (Exception) { }
+                    //}
+                    //catch (Exception) { }
                     try
                     {
                         RecursiveCopy(new DirectoryInfo(modPath + "/Definitions/"), new DirectoryInfo(gameLocation + "/rom/data/definitions/"));
@@ -507,7 +510,7 @@ namespace StormLoader
             ModRoot.AppendChild(ModNode);
 
             currentProfile.Save("CurrentProfile.xml");
-            ApplyProfileAlt();
+            //ApplyProfileAlt();
         }
 
         
