@@ -18,6 +18,8 @@ using System.Windows.Shapes;
 using System.Xml;
 using Ionic.Zip;
 using System.Security.RightsManagement;
+using System.IO;
+using System.Net;
 
 namespace StormLoader
 {
@@ -27,10 +29,11 @@ namespace StormLoader
     public partial class MainWindow : Window
     {
         public XmlDocument settingsDoc = new XmlDocument();
-        public String modExtractionDir;
+        public String modExtractionDir = "";
         public XmlDocument currentProfile = new XmlDocument();
-        public string gameLocation;
+        public string gameLocation = "";
         public List<ModListItem> modListItems = new List<ModListItem>();
+        public string version = "v0.1.7-beta";
         public MainWindow()
         {
             
@@ -42,19 +45,53 @@ namespace StormLoader
             modExtractionDir = settingsDoc.SelectSingleNode("/Settings/Mod_Location").InnerText;
             CreateDir(modExtractionDir);
             gameLocation = settingsDoc.SelectSingleNode("/Settings/Game_Location").InnerText;
+            settingsDoc.SelectSingleNode("/Settings/Version").InnerText = version;
+            settingsDoc.Save("Settings.xml");
 
 
             currentProfile.Load("CurrentProfile.xml");
             this.Title = "StormLoader : " + currentProfile.SelectSingleNode("/Profile").Attributes["Name"].InnerText;
             displayModList();
             ApplyProfileAlt();
-
+            
+            
+            
 
 
 
 
 
         }
+
+        private string checkNewVersion(bool ShowDialog)
+        {
+            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create("https://github.com/Lewinator56/StormLoader/releases/latest");
+            wr.AllowAutoRedirect = true;
+            HttpWebResponse wrs = (HttpWebResponse)wr.GetResponse();
+            string onlineVer = wrs.ResponseUri.ToString().Substring(wrs.ResponseUri.ToString().LastIndexOf('/') + 1);
+            Debug.WriteLine(onlineVer);
+            if (onlineVer != version)
+            {
+                Debug.WriteLine("New version released");
+                if (ShowDialog)
+                {
+                    List<Control> c = new List<Control>();
+                    Label l = new Label();
+                    l.Content = "Version: " + version + " -> Version: " + onlineVer;
+                    DockPanel.SetDock(l, Dock.Top);
+                    c.Add(l);
+                    Label ls = new Label();
+                    ls.Content = "Head over to github to get it";
+                    DockPanel.SetDock(ls, Dock.Top);
+                    c.Add(ls);
+                    ShowInfoPopup("An update is available", c, PackIconKind.Update);
+                }
+                
+            }
+            return onlineVer;
+        }
+
+        
 
         public void CreateDir(string path)
         {
@@ -137,11 +174,14 @@ namespace StormLoader
 
             if (r == true)
             {
+                
                 ZipFile z = new ZipFile(opf.FileName);
                 z.ExtractAll(modExtractionDir + "/" + System.IO.Path.GetFileNameWithoutExtension(opf.FileName), ExtractExistingFileAction.OverwriteSilently);
                 XmlDocument meta = new XmlDocument();
                 meta.Load(modExtractionDir + "/" + System.IO.Path.GetFileNameWithoutExtension(opf.FileName) + "/metadata.xml");
                 Debug.WriteLine(meta.OuterXml);
+
+                
                 AddModNew(modExtractionDir + "/" + System.IO.Path.GetFileNameWithoutExtension(opf.FileName), System.IO.Path.GetFileNameWithoutExtension(opf.FileName), meta.SelectSingleNode("/Metadata/Version").InnerText, meta.SelectSingleNode("/Metadata/Author").InnerText);
                 displayModList();
                 ApplyProfileAlt();
@@ -156,10 +196,10 @@ namespace StormLoader
             await MaterialDesignThemes.Wpf.DialogHost.Show(sp);
 
             settingsDoc.Load("Settings.xml");
-            settingsDoc.SelectSingleNode("/Settings/Game_Location").InnerText = sp.InsLoc.Text;
-            settingsDoc.SelectSingleNode("/Settings/Mod_Location").InnerText = sp.ModLoc.Text == "" ? "./Extracted" : sp.ModLoc.Text;
+            settingsDoc.SelectSingleNode("/Settings/Game_Location").InnerText = sp.InsLoc.GetLocation();
+            settingsDoc.SelectSingleNode("/Settings/Mod_Location").InnerText = sp.ModLoc.GetLocation() == "" ? "./Extracted" : sp.ModLoc.GetLocation();
             modExtractionDir = settingsDoc.SelectSingleNode("/Settings/Mod_Location").InnerText;
-            gameLocation = sp.InsLoc.Text;
+            gameLocation = sp.InsLoc.GetLocation();
             settingsDoc.Save("Settings.xml");
             CreateDir(modExtractionDir);
             ApplyProfileAlt();
@@ -180,6 +220,7 @@ namespace StormLoader
                 xw.WriteElementString("Setup_Complete", "false");
                 xw.WriteElementString("Mod_Location", "./Extracted");
                 xw.WriteElementString("Game_Location", "C:/Program Files (x86)/Steam/steamapps/common/Stormworks");
+                xw.WriteElementString("Version", version);
                 xw.WriteEndElement();
                 xw.WriteEndDocument();
                 xw.Close();
@@ -235,7 +276,8 @@ namespace StormLoader
                 RunSetup();
 
             }
-            
+            checkNewVersion(true);
+
         }
 
 
@@ -588,6 +630,34 @@ namespace StormLoader
             }
             MaterialDesignThemes.Wpf.DialogHost.Show(ifp);
 
+        }
+
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            
+            List<Control> c = new List<Control>();
+            ListBox s = new ListBox();
+            Label l = new Label();
+            l.Content = "Version: " + this.version;
+            s.Items.Add(l);
+            Label l2 = new Label();
+            l2.Content = "Developer: Lewinator56";
+            s.Items.Add(l2);
+            c.Add(s);
+            ShowInfoPopup("About", c, PackIconKind.About);
+            
+        }
+
+        private void LaunchGame_Click(object sender, RoutedEventArgs e)
+        {
+            ShowInfoPopup("Launching game", new List<Control>(), PackIconKind.Information);
+            System.Diagnostics.Process.Start(gameLocation + "/stormworks64.exe");
+        }
+
+        private void Updates_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateDialog ud = new UpdateDialog();
+            DialogHost.Show(ud);
         }
     }
 }

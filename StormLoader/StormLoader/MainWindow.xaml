@@ -27,17 +27,49 @@
                         </StackPanel>
                     </Button>
 
-                    
-                    <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="Settings" Height="75" Width="75" Background="White" BorderBrush="LightGray" BorderThickness="0" Foreground="Black" Margin="10" Click="Settings_Click" HorizontalAlignment="Right" DockPanel.Dock="Right">
+                    <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="LaunchGame" Height="75" Width="75" Background="White" BorderBrush="LightGray" BorderThickness="2 2 2 2" Foreground="Black" Margin="10" Click="LaunchGame_Click" >
                         <StackPanel Orientation="Vertical" Margin="-10" >
-                            <materialDesign:PackIcon Kind="Settings" HorizontalAlignment="Center">
+                            <materialDesign:PackIcon Kind="Play" HorizontalAlignment="Center">
                                 <materialDesign:PackIcon.LayoutTransform>
                                     <ScaleTransform ScaleX="2" ScaleY="2"/>
                                 </materialDesign:PackIcon.LayoutTransform>
                             </materialDesign:PackIcon>
-                            <Label Content="Settings"/>
+                            <Label Content="Launch"/>
                         </StackPanel>
                     </Button>
+
+                    <!--Menu-->
+                    <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="True" Foreground="black" Margin="10">
+                        <StackPanel>
+                            <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="Settings" Height="auto" Width="auto" Background="White" BorderBrush="LightGray" BorderThickness="0" Foreground="Black" Margin="0" Click="Settings_Click" HorizontalAlignment="Stretch" DockPanel.Dock="Right" HorizontalContentAlignment="Left">
+                                <StackPanel Orientation="Horizontal" Margin="0" >
+                                    <materialDesign:PackIcon Kind="Settings" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    </materialDesign:PackIcon>
+                                    <Label Content="Settings"/>
+                                </StackPanel>
+                            </Button>
+                            <Separator/>
+                            <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="About" Height="auto" Width="auto" Background="White" BorderBrush="LightGray" BorderThickness="0" Foreground="Black" Margin="0" Click="About_Click" HorizontalAlignment="Stretch" DockPanel.Dock="Right" HorizontalContentAlignment="Left">
+                                <StackPanel Orientation="Horizontal" Margin="0" >
+                                    <materialDesign:PackIcon Kind="About" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    </materialDesign:PackIcon>
+                                    <Label Content="About"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="Updates" Height="auto" Width="auto" Background="White" BorderBrush="LightGray" BorderThickness="0" Foreground="Black" Margin="0" Click="Updates_Click" HorizontalAlignment="Stretch" DockPanel.Dock="Right" HorizontalContentAlignment="Left">
+                                <StackPanel Orientation="Horizontal" Margin="0" >
+                                    <materialDesign:PackIcon Kind="Update" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    </materialDesign:PackIcon>
+                                    <Label Content="Updates"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                        
+
+                    </materialDesign:PopupBox>
+
+                    
+                    
                     <StackPanel Orientation="Vertical" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center">
                         <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="SaveProfile_Btn" Height="30" Width="150" Background="White" BorderBrush="LightGray" BorderThickness="0" Foreground="Black" Margin="0" Click="SaveProfile_Btn_Click" HorizontalContentAlignment="Left">
                             <StackPanel Orientation="horizontal" Margin="-10" HorizontalAlignment="Left">

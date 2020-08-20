@@ -23,8 +23,8 @@ namespace StormLoader
         public SettingsPopup()
         {
             InitializeComponent();
-            InsLoc.Text = GlobalVar.mw.gameLocation;
-            ModLoc.Text = GlobalVar.mw.modExtractionDir;
+            InsLoc.setText(GlobalVar.mw.gameLocation);
+            ModLoc.setText(GlobalVar.mw.modExtractionDir);
         }
 
         private void close_btn_Click(object sender, RoutedEventArgs e)

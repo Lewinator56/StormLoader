@@ -22,7 +22,7 @@ namespace StormLoader
     public partial class ModListItem : UserControl
     {
 
-        public string modPath;
+        public string modPath = "";
         public ModListItem()
         {
             InitializeComponent();
@@ -43,7 +43,9 @@ namespace StormLoader
         private void ActvMod_Btn_Click(object sender, RoutedEventArgs e)
         {
             SetActive(true);
+            
             GlobalVar.mw.SetModActive(ModName.Content.ToString(), modPath, true);
+            
         }
 
         private void DeActvMod_Click(object sender, RoutedEventArgs e)

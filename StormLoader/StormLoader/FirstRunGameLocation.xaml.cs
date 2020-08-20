@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 
+
 namespace StormLoader
 {
     /// <summary>
@@ -31,5 +32,11 @@ namespace StormLoader
             Next_Btn.IsEnabled = true;
         }
 
+        private void Browse_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.FolderBrowserDialog fbd = new System.Windows.Forms.FolderBrowserDialog();
+            System.Windows.Forms.DialogResult r = fbd.ShowDialog();
+            InsLoc.Text = fbd.SelectedPath;
+        }
     }
 }
