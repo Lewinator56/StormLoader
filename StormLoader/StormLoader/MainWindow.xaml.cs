@@ -33,7 +33,7 @@ namespace StormLoader
         public XmlDocument currentProfile = new XmlDocument();
         public string gameLocation = "";
         public List<ModListItem> modListItems = new List<ModListItem>();
-        public string version = "v0.1.7-beta";
+        public string version = "v0.1.8-beta";
         public MainWindow()
         {
             
@@ -65,6 +65,7 @@ namespace StormLoader
 
         private string checkNewVersion(bool ShowDialog)
         {
+            
             HttpWebRequest wr = (HttpWebRequest)WebRequest.Create("https://github.com/Lewinator56/StormLoader/releases/latest");
             wr.AllowAutoRedirect = true;
             HttpWebResponse wrs = (HttpWebResponse)wr.GetResponse();
@@ -276,7 +277,12 @@ namespace StormLoader
                 RunSetup();
 
             }
-            checkNewVersion(true);
+            try
+            {
+                checkNewVersion(true);
+            }
+            catch (Exception) { }
+            
 
         }
 

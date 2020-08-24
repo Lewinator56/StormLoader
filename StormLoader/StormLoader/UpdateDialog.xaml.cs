@@ -37,11 +37,19 @@ namespace StormLoader
 
         private void Check_Btn_Click(object sender, RoutedEventArgs e)
         {
-            checkNewVersion();
+            try
+            {
+                checkNewVersion();
+            } catch (Exception)
+            {
+                UpdateInfo.Content = "Could not connect";
+            }
+            
         }
 
         private void checkNewVersion()
         {
+            
             HttpWebRequest wr = (HttpWebRequest)WebRequest.Create("https://github.com/Lewinator56/StormLoader/releases/latest");
             wr.AllowAutoRedirect = true;
             HttpWebResponse wrs = (HttpWebResponse) wr.GetResponse();
