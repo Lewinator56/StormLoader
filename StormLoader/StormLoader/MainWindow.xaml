@@ -16,16 +16,30 @@
             </Grid.RowDefinitions>
             <materialDesign:Card Background="White" materialDesign:ShadowAssist.ShadowDepth="Depth2"  UniformCornerRadius="0" Grid.Row="0" Height="100">
                 <DockPanel >
-                    <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="AddMod" Height="75" Width="75" Background="White" BorderBrush="LightGray" BorderThickness="2 2 2 2" Foreground="Black" Margin="10" Click="AddMod_Click" >
-                        <StackPanel Orientation="Vertical" Margin="-10" >
-                            <materialDesign:PackIcon Kind="PlaylistPlus" HorizontalAlignment="Center">
-                                <materialDesign:PackIcon.LayoutTransform>
-                                    <ScaleTransform ScaleX="2" ScaleY="2"/>
-                                </materialDesign:PackIcon.LayoutTransform>
-                            </materialDesign:PackIcon>
-                            <Label Content="Add"/>
-                        </StackPanel>
-                    </Button>
+                    <StackPanel Orientation="Vertical" DockPanel.Dock="left" HorizontalAlignment="left" VerticalAlignment="Center">
+                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="AddMod" Height="30" Width="160" Background="White" BorderBrush="LightGray" BorderThickness="2 2 2 2" Foreground="Black" Margin="7" Click="AddMod_Click" >
+                            <StackPanel Orientation="Horizontal" Margin="-10" >
+                                <materialDesign:PackIcon Kind="PlaylistPlus" HorizontalAlignment="left" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon.LayoutTransform>
+                                        <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                    </materialDesign:PackIcon.LayoutTransform>
+                                </materialDesign:PackIcon>
+                                <Label Content="Add mod from file"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="BrowseRepo" Height="30" Width="160" Background="White" BorderBrush="LightGray" BorderThickness="2 2 2 2" Foreground="Black" Margin="7"  HorizontalContentAlignment="Left" Click="BrowseRepo_Click">
+                            <StackPanel Orientation="horizontal" Margin="-10" HorizontalAlignment="Left" >
+                                <materialDesign:PackIcon Kind="DownloadBox" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon.LayoutTransform>
+                                        <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                    </materialDesign:PackIcon.LayoutTransform>
+                                </materialDesign:PackIcon>
+                                <Label Content="Browse repo"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    
 
                     <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="LaunchGame" Height="75" Width="75" Background="White" BorderBrush="LightGray" BorderThickness="2 2 2 2" Foreground="Black" Margin="10" Click="LaunchGame_Click" >
                         <StackPanel Orientation="Vertical" Margin="-10" >

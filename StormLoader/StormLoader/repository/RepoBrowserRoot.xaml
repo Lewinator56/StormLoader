@@ -1,0 +1,49 @@
+﻿<Window x:Class="StormLoader.repository.RepoBrowserRoot"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:StormLoader.repository"
+        mc:Ignorable="d"
+        Title="RepoBrowserRoot" Height="450" Width="800">
+    <materialDesign:DialogHost CloseOnClickAway="True" Name="RepoDialog" Identifier="RepoDialog">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="75"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+                
+            </Grid.RowDefinitions>
+            <materialDesign:Card Background="White" materialDesign:ShadowAssist.ShadowDepth="Depth2"  UniformCornerRadius="0" Height="75" Grid.Row="0">
+                <DockPanel Margin="10,10,10,10">
+                    <materialDesign:PackIcon Name="icon" Kind="SourceRepositories" VerticalAlignment="Center" DockPanel.Dock="Left">
+                        <materialDesign:PackIcon.LayoutTransform>
+                            <ScaleTransform ScaleX="2" ScaleY="2"/>
+                        </materialDesign:PackIcon.LayoutTransform>
+                    </materialDesign:PackIcon>
+                    <Label Name ="titleText" Content="Repository Browser" FontSize="24" VerticalAlignment="Center" DockPanel.Dock="left"/>
+                    <Button Name="UploadMod" Style="{DynamicResource MaterialDesignFlatButton}" Content="Upload" DockPanel.Dock="Right" HorizontalAlignment="right" Click="UploadMod_Click"/>
+                </DockPanel>
+                
+            </materialDesign:Card>
+            <materialDesign:Card Grid.Row="1" Height="auto"  Margin="5" >
+                <DockPanel>
+                    <CheckBox Name="VerifiedOnly" Content="Verified Only" Margin="5" DockPanel.Dock="left" />
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right">
+                        <TextBox Name="SearchTxbx" Width="200" Margin="5" materialDesign:HintAssist.Hint="Search"/>
+                        <Button Name="SearchMods" Style="{DynamicResource MaterialDesignFlatButton}">
+                            <materialDesign:PackIcon Kind="Search"/>
+                        </Button>
+                    </StackPanel>
+                    
+                </DockPanel>
+            </materialDesign:Card>
+            <ScrollViewer Margin="0,0,5,0" Grid.Row="2">
+                <WrapPanel Name="ModList">
+                    
+                </WrapPanel>
+            </ScrollViewer>
+        </Grid>
+    </materialDesign:DialogHost>
+</Window>

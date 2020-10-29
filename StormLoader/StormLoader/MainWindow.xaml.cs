@@ -20,6 +20,7 @@ using Ionic.Zip;
 using System.Security.RightsManagement;
 using System.IO;
 using System.Net;
+using StormLoader.repository;
 
 namespace StormLoader
 {
@@ -664,6 +665,12 @@ namespace StormLoader
         {
             UpdateDialog ud = new UpdateDialog();
             DialogHost.Show(ud);
+        }
+
+        private void BrowseRepo_Click(object sender, RoutedEventArgs e)
+        {
+            RepoBrowserRoot rpbr = new RepoBrowserRoot();
+            rpbr.Show();
         }
     }
 }

@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="StormLoader.repository.RepoModListItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:StormLoader.repository"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <materialDesign:Card Height="400" HorizontalAlignment="Stretch" Width="200" Margin="5">
+        <DockPanel>
+            <Grid DockPanel.Dock="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="200"/>
+                </Grid.RowDefinitions>
+                <Image Grid.Row="0" Name="ModImage" Width="200" Height="200">
+                </Image>
+                <StackPanel Orientation="Horizontal" Name="VerifiedMod" Margin="5">
+                    <materialDesign:PackIcon Kind="Verified" Foreground="Green" Margin="0 4 0 0"/>
+                    <Label Content="SMF verified" Foreground="Green"/>
+                </StackPanel>
+                
+            </Grid>
+            
+            
+            <Label Name="modName" DockPanel.Dock="Top"/>
+            <Separator DockPanel.Dock="Top"/>
+            <Label Name="Author" Content="Author: " DockPanel.Dock="Top"/>
+            <Label Name="Version" Content="Version: " DockPanel.Dock="Top"/>
+            <Label Content="Description" DockPanel.Dock="Top"/>
+            <TextBlock Width="200" Height="80" Name="Description" DockPanel.Dock="Top"/>
+
+            
+            <DockPanel  DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
+                <Button Name="infoBtn" Style="{DynamicResource MaterialDesignFlatButton}" DockPanel.Dock="Left" Content="more info" HorizontalAlignment="left" VerticalAlignment="Bottom"/>
+                <Button Name="getModBtn" Style="{DynamicResource MaterialDesignFlatButton}" DockPanel.Dock="Right" Content="Get" HorizontalAlignment="right" VerticalAlignment="Bottom"/>
+
+                
+            </DockPanel>
+
+            
+        </DockPanel>
+    </materialDesign:Card>
+</UserControl>
