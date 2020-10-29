@@ -10,27 +10,27 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace StormLoader.modder_control_panel
 {
     /// <summary>
-    /// Interaction logic for ModderPanelRoot.xaml
+    /// Interaction logic for modderPanelModListItem.xaml
     /// </summary>
-    public partial class ModderPanelRoot : Window
+    public partial class modderPanelModListItem : UserControl
     {
-        string username;
-        public ModderPanelRoot()
+        public modderPanelModListItem()
         {
             InitializeComponent();
         }
 
-        public void setUser(string username)
+        private void UpdateMod_Click(object sender, RoutedEventArgs e)
         {
-            this.username = username;
+
         }
 
-        private void Logout_Click(object sender, RoutedEventArgs e)
+        private void DeleteMod_Click(object sender, RoutedEventArgs e)
         {
 
         }

@@ -32,7 +32,7 @@
                     <DockPanel >
                         <Label Content="Mod Extraction Directory" FontSize="18" DockPanel.Dock="Top"/>
                         <!--<TextBox Width="650"  ToolTip="Directory where mod packages should be extracted" Name="ModLoc" materialDesign:HintAssist.Hint="Mod Extraction Location" Margin="5 0 0 0" BorderThickness="0,0,0,0"  Style="{DynamicResource MaterialDesignTextBox}" materialDesign:TextFieldAssist.UnderlineBrush="Transparent" FontSize="20"  HorizontalAlignment="Stretch"/>-->
-                        <local:BrowsableFolderSelect x:Name="ModLoc" Hint="Mod Extraction Location" Tooltip="The llocation to extract downloaded mods to"/>
+                        <local:BrowsableFolderSelect x:Name="ModLoc" Hint="Mod Extraction Location" Tooltip="The location to extract downloaded mods to"/>
                     </DockPanel>
 
                 </materialDesign:Card>
