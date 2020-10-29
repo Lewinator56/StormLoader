@@ -1,5 +1,6 @@
 ﻿using MaterialDesignThemes.Wpf;
 using MySql.Data.MySqlClient;
+using StormLoader.modder_control_panel;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -36,6 +37,9 @@ namespace StormLoader.repository
             if (sqcm.checkUser(UsernameTxbx.Text, PasswordTxbx.Password.ToString()))
             {
                 Console.WriteLine("authenitcation successful");
+                ModderPanelRoot mpr = new ModderPanelRoot();
+                mpr.setUser(UsernameTxbx.Text);
+                mpr.Show();
                 
             } else
             {

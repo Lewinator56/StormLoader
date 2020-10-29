@@ -33,7 +33,7 @@
                 </StackPanel>
             </ScrollViewer>
             <DockPanel Grid.Row="2">
-                <Button  Width="auto" Content="Upload new" Foreground="White" Background="#1E88E5" BorderThickness="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" materialDesign:ButtonAssist.CornerRadius="5" Margin="10"/>
+                <Button  Width="auto" Content="Upload new" Foreground="White" Background="#1E88E5" BorderThickness="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" materialDesign:ButtonAssist.CornerRadius="5" Margin="10" Click="Button_Click"/>
             </DockPanel>
         </Grid>
         

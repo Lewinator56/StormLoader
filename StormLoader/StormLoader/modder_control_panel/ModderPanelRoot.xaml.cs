@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,6 +34,13 @@ namespace StormLoader.modder_control_panel
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e) // upload button, i just forgot to name it
+        {
+            ModderUploadPanel mup = new ModderUploadPanel();
+            mup.user = username;
+            modderPanelDialogHost.ShowDialog(mup);
         }
     }
 }

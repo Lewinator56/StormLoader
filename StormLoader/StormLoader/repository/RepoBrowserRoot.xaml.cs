@@ -1,8 +1,11 @@
 ﻿using MaterialDesignThemes.Wpf;
+using MySqlX.XDevAPI.Relational;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,13 +23,40 @@ namespace StormLoader.repository
     /// </summary>
     public partial class RepoBrowserRoot : Window
     {
+        SQLManager sqcm;
         public RepoBrowserRoot()
         {
             InitializeComponent();
-            for (int i = 0; i < 10; i++)
+            sqcm = new SQLManager();
+            sqcm.connect(GlobalVar.server, GlobalVar.database, GlobalVar.user, GlobalVar.password, GlobalVar.port);
+            refreshMods();
+        }
+
+        void refreshMods() {
+            DataTable dt = sqcm.getModListWithoutData();
+            foreach (DataRow rmds in dt.Rows)
             {
-                RepoModListItem rpml = new RepoModListItem();
-                ModList.Children.Add(rpml);
+                int mod_id = (int)rmds["mod_id"];
+                addModListItem(mod_id);
+                //Thread t = new Thread(() => addModListItem(mod_id));
+                //t.SetApartmentState(ApartmentState.STA);
+                //t.Start();
+
+                
+                
+
+            }
+        }
+
+        public void addModListItem(int mod_id)
+        {
+            DataTable dtm = sqcm.getModDataByID(mod_id);
+            foreach (DataRow r in dtm.Rows)
+            {
+                RepoModListItem li = new RepoModListItem(r["mod_name"].ToString(), r["user_name"].ToString(), r["mod_version"].ToString(), r["mod_description"].ToString(), (byte[])r["mod_data_image"], Convert.ToInt32(r["mod_id"]));
+                ModList.Children.Add(li);
+
+                //li.Dispatcher.BeginInvoke((Action)(() => { ModList.Children.Add(li); }));
             }
         }
 
