@@ -25,7 +25,7 @@
                 <TextBox Name="Name" materialDesign:HintAssist.Hint="Name" FontSize="20" Margin="5"/>
                 <TextBox Name="Version" materialDesign:HintAssist.Hint="Version" FontSize="20" Margin="5"/>
                 <TextBox Name="ExtraDetailsLink" materialDesign:HintAssist.Hint="Full link to website (can be blank)" FontSize="20" Margin="5"/>
-                <TextBox Name="Description" materialDesign:HintAssist.Hint="Short description (200)" FontSize="20" Margin="5" TextWrapping="Wrap" MaxLength="1200" VerticalScrollBarVisibility="Auto" AcceptsReturn="True"/>
+                <TextBox Name="Description" materialDesign:HintAssist.Hint="Short description (400)" FontSize="20" Margin="5" TextWrapping="Wrap" MaxLength="400" VerticalScrollBarVisibility="Auto" AcceptsReturn="True"/>
 
                 <Button  Name="UploadBtn" Width="auto" Content="Upload" Foreground="White" Background="#1E88E5" BorderThickness="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" materialDesign:ButtonAssist.CornerRadius="5" Margin="10" Click="UploadBtn_Click" />
 
