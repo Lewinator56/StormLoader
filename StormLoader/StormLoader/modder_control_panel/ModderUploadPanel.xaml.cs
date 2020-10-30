@@ -1,4 +1,5 @@
-﻿using StormLoader.repository;
+﻿using MaterialDesignThemes.Wpf;
+using StormLoader.repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +24,12 @@ namespace StormLoader.modder_control_panel
     public partial class ModderUploadPanel : UserControl
     {
         public string user;
-        public ModderUploadPanel()
+        public ModderPanelRoot mpr;
+        public ModderUploadPanel(ModderPanelRoot mpr)
         {
             InitializeComponent();
+            this.mpr = mpr;
+
         }
 
         private async void UploadBtn_Click(object sender, RoutedEventArgs e)
@@ -35,7 +39,22 @@ namespace StormLoader.modder_control_panel
                 // ok, this should be a valid upload, guess i need to build the sql query now..... oh god
                 SQLManager sqcm = new SQLManager();
                 sqcm.connect(GlobalVar.server, GlobalVar.database, GlobalVar.user, GlobalVar.password, GlobalVar.port);
-                await sqcm.uploadMod(user, Description.Text, Version.Text, Name.Text, ModImagePath.GetLocation(), ModFilePath.GetLocation());
+                InfoPopup ifp = new InfoPopup();
+                ifp.titleText.Content = "uploading file";
+                
+                if ( await sqcm.uploadMod(user, Description.Text, Version.Text, Name.Text, ModImagePath.GetLocation(), ModFilePath.GetLocation(), ExtraDetailsLink.Text))
+                {
+                    
+                    ifp.titleText.Content = "Upload Succeeded";
+                    await UploadDialogHost.ShowDialog(ifp);
+                    DialogHost.CloseDialogCommand.Execute(null, null);
+                    mpr.refreshMods();
+                } else
+                {
+                    ifp.titleText.Content = "Upload Failed";
+                    await UploadDialogHost.ShowDialog(ifp);
+                    DialogHost.CloseDialogCommand.Execute(null, null);
+                }
                 
 
                 

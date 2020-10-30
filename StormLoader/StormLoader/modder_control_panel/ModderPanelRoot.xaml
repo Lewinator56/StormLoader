@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:StormLoader.modder_control_panel"
         mc:Ignorable="d"
         Title="ModderPanelRoot" Height="450" Width="800">
-    <materialDesign:DialogHost Name="modderPanelDialogHost">
+    <materialDesign:DialogHost Name="modderPanelDialogHost" CloseOnClickAway="True">
        
             <Grid>
                 <Grid.RowDefinitions>
@@ -23,7 +23,7 @@
                         </materialDesign:PackIcon.LayoutTransform>
                     </materialDesign:PackIcon>
                     <Label Name ="titleText" Content="Welcome " FontSize="24" VerticalAlignment="Center" DockPanel.Dock="left"/>
-                    <Button Name="UploadMod" Style="{DynamicResource MaterialDesignFlatButton}" Content="Logout" DockPanel.Dock="Right" HorizontalAlignment="right" Click="Logout_Click"/>
+                    <!--<Button Name="UploadMod" Style="{DynamicResource MaterialDesignFlatButton}" Content="Logout" DockPanel.Dock="Right" HorizontalAlignment="right" Click="Logout_Click"/>-->
                 </DockPanel>
             </materialDesign:Card>
 

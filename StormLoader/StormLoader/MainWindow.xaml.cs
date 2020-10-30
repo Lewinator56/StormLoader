@@ -45,6 +45,7 @@ namespace StormLoader
             settingsDoc.Load("Settings.xml");
             modExtractionDir = settingsDoc.SelectSingleNode("/Settings/Mod_Location").InnerText;
             CreateDir(modExtractionDir);
+            CreateDir("Downloaded");
             gameLocation = settingsDoc.SelectSingleNode("/Settings/Game_Location").InnerText;
             settingsDoc.SelectSingleNode("/Settings/Version").InnerText = version;
             settingsDoc.Save("Settings.xml");
@@ -176,20 +177,26 @@ namespace StormLoader
 
             if (r == true)
             {
+                addModFromFile(opf.FileName,System.IO.Path.GetFileNameWithoutExtension(opf.FileName));
                 
-                ZipFile z = new ZipFile(opf.FileName);
-                z.ExtractAll(modExtractionDir + "/" + System.IO.Path.GetFileNameWithoutExtension(opf.FileName), ExtractExistingFileAction.OverwriteSilently);
-                XmlDocument meta = new XmlDocument();
-                meta.Load(modExtractionDir + "/" + System.IO.Path.GetFileNameWithoutExtension(opf.FileName) + "/metadata.xml");
-                Debug.WriteLine(meta.OuterXml);
-
                 
-                AddModNew(modExtractionDir + "/" + System.IO.Path.GetFileNameWithoutExtension(opf.FileName), System.IO.Path.GetFileNameWithoutExtension(opf.FileName), meta.SelectSingleNode("/Metadata/Version").InnerText, meta.SelectSingleNode("/Metadata/Author").InnerText);
-                displayModList();
-                ApplyProfileAlt();
             }
             
 
+        }
+
+        public void addModFromFile(string path, string nameWithoutExt)
+        {
+            ZipFile z = new ZipFile(path);
+            z.ExtractAll(modExtractionDir + "/" + nameWithoutExt, ExtractExistingFileAction.OverwriteSilently);
+            XmlDocument meta = new XmlDocument();
+            meta.Load(modExtractionDir + "/" + nameWithoutExt + "/metadata.xml");
+            Debug.WriteLine(meta.OuterXml);
+
+
+            AddModNew(modExtractionDir + "/" + nameWithoutExt, nameWithoutExt, meta.SelectSingleNode("/Metadata/Version").InnerText, meta.SelectSingleNode("/Metadata/Author").InnerText);
+            displayModList();
+            ApplyProfileAlt();
         }
 
         private async void Settings_Click(object sender, RoutedEventArgs e)

@@ -8,23 +8,28 @@
              xmlns:StormLoader="clr-namespace:StormLoader"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <materialDesign:Card Background="White" materialDesign:ShadowAssist.ShadowDepth="Depth2"  VerticalAlignment="Top" UniformCornerRadius="10" MaxWidth="800">
-        <StackPanel Orientation="Vertical">
-            <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
-                <materialDesign:PackIcon Name="icon" Kind="Upload" VerticalAlignment="Center">
-                    <materialDesign:PackIcon.LayoutTransform>
-                        <ScaleTransform ScaleX="2" ScaleY="2"/>
-                    </materialDesign:PackIcon.LayoutTransform>
-                </materialDesign:PackIcon>
-                <Label Name ="titleText" Content="Upload mod" FontSize="18"/>
+    <materialDesign:DialogHost Name="UploadDialogHost" CloseOnClickAway="True">
+        <materialDesign:Card Background="White" materialDesign:ShadowAssist.ShadowDepth="Depth2"  VerticalAlignment="Top" UniformCornerRadius="10" MaxWidth="800">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
+                    <materialDesign:PackIcon Name="icon" Kind="Upload" VerticalAlignment="Center">
+                        <materialDesign:PackIcon.LayoutTransform>
+                            <ScaleTransform ScaleX="2" ScaleY="2"/>
+                        </materialDesign:PackIcon.LayoutTransform>
+                    </materialDesign:PackIcon>
+                    <Label Name ="titleText" Content="Upload mod" FontSize="18"/>
+                </StackPanel>
+                <Separator Margin="5"/>
+                <StormLoader:BrowsableFileSelect x:Name="ModImagePath" Hint="Mod Image Path" ToolTip="The path to the image for the mod" Margin="5"/>
+                <StormLoader:BrowsableFileSelect x:Name="ModFilePath" Hint="Mod slp file path" Tooltip="The mod to upload to the server" Margin="5" fileFilter="Stromloader mod packages|*.slp"/>
+                <TextBox Name="Name" materialDesign:HintAssist.Hint="Name" FontSize="20" Margin="5"/>
+                <TextBox Name="Version" materialDesign:HintAssist.Hint="Version" FontSize="20" Margin="5"/>
+                <TextBox Name="ExtraDetailsLink" materialDesign:HintAssist.Hint="Full link to website (can be blank)" FontSize="20" Margin="5"/>
+                <TextBox Name="Description" materialDesign:HintAssist.Hint="Description" FontSize="20" Margin="5" TextWrapping="Wrap"/>
+
+                <Button  Name="UploadBtn" Width="auto" Content="Upload" Foreground="White" Background="#1E88E5" BorderThickness="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" materialDesign:ButtonAssist.CornerRadius="5" Margin="10" Click="UploadBtn_Click" />
+
             </StackPanel>
-            <Separator Margin="5"/>
-            <StormLoader:BrowsableFileSelect x:Name="ModImagePath" Hint="Mod Image Path" ToolTip="The path to the image for the mod" Margin="5"/>
-            <StormLoader:BrowsableFileSelect x:Name="ModFilePath" Hint="Mod slp file path" Tooltip="The mod to upload to the server" Margin="5" fileFilter="Stromloader mod packages|*.slp"/>
-            <TextBox Name="Name" materialDesign:HintAssist.Hint="Name" FontSize="20" Margin="5"/>
-            <TextBox Name="Version" materialDesign:HintAssist.Hint="Version" FontSize="20" Margin="5"/>
-            <TextBox Name="Description" materialDesign:HintAssist.Hint="Description" FontSize="20" Margin="5" TextWrapping="Wrap"/>
-            <Button  Name="UploadBtn" Width="auto" Content="Upload" Foreground="White" Background="#1E88E5" BorderThickness="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" materialDesign:ButtonAssist.CornerRadius="5" Margin="10" Click="UploadBtn_Click"/>
-        </StackPanel>
-    </materialDesign:Card>
+        </materialDesign:Card>
+    </materialDesign:DialogHost>
 </UserControl>

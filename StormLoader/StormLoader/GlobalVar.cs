@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StormLoader.repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,5 +16,7 @@ namespace StormLoader
         public static string user = "swModsUser";
         public static string password = "swModsPassword";
         public static string port = "3306";
+
+        public static SQLManager sqcm;
     }
 }

@@ -24,21 +24,22 @@ namespace StormLoader.repository
     /// </summary>
     public partial class RepoLoginPanel : UserControl
     {
+        SQLManager sqcm;
         public RepoLoginPanel()
         {
             InitializeComponent();
+            this.sqcm = GlobalVar.sqcm;
+            
         }
 
         private void LoginBtn_Click(object sender, RoutedEventArgs e)
         {
             // check login details
-            SQLManager sqcm = new SQLManager();
-            sqcm.connect(GlobalVar.server, GlobalVar.database, GlobalVar.user, GlobalVar.password, GlobalVar.port);
             if (sqcm.checkUser(UsernameTxbx.Text, PasswordTxbx.Password.ToString()))
             {
                 Console.WriteLine("authenitcation successful");
-                ModderPanelRoot mpr = new ModderPanelRoot();
-                mpr.setUser(UsernameTxbx.Text);
+                ModderPanelRoot mpr = new ModderPanelRoot(UsernameTxbx.Text);
+                DialogHost.CloseDialogCommand.Execute(null, null);
                 mpr.Show();
                 
             } else
@@ -58,8 +59,6 @@ namespace StormLoader.repository
         {
             if (UsernameTxbx.Text != "" && PasswordTxbx.Password.ToString() != "")
             {
-                SQLManager sqcm = new SQLManager();
-                sqcm.connect(GlobalVar.server, GlobalVar.database, GlobalVar.user, GlobalVar.password, GlobalVar.port);
                 // uniqueness checking is server side, so we can ignore it here, addUser will return false if the user already exists!
                 if (sqcm.addUser(UsernameTxbx.Text, PasswordTxbx.Password.ToString()))
                 {

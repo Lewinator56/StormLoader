@@ -1,6 +1,10 @@
 ﻿using MaterialDesignThemes.Wpf;
+using MySql.Data.MySqlClient;
+using StormLoader.repository;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,15 +25,16 @@ namespace StormLoader.modder_control_panel
     public partial class ModderPanelRoot : Window
     {
         string username;
-        public ModderPanelRoot()
+        SQLManager sqcm;
+        public ModderPanelRoot(string username)
         {
             InitializeComponent();
+            this.sqcm = GlobalVar.sqcm;
+            this.username = username;
+            titleText.Content += username;
+            refreshMods();
         }
 
-        public void setUser(string username)
-        {
-            this.username = username;
-        }
 
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
@@ -38,9 +43,21 @@ namespace StormLoader.modder_control_panel
 
         private void Button_Click(object sender, RoutedEventArgs e) // upload button, i just forgot to name it
         {
-            ModderUploadPanel mup = new ModderUploadPanel();
+            ModderUploadPanel mup = new ModderUploadPanel(this);
             mup.user = username;
             modderPanelDialogHost.ShowDialog(mup);
+        }
+        public void refreshMods()
+        {
+            ModList.Children.Clear();
+            DataTable dt = sqcm.getModListByUser(username);
+            
+            foreach (DataRow r in dt.Rows)
+            {
+                Console.Write("Reading");
+                modderPanelModListItem mpmli = new modderPanelModListItem(this, r["mod_name"].ToString(), r["mod_version"].ToString(), (int)r["mod_id"]);
+                ModList.Children.Add(mpmli);
+            }
         }
     }
 }
