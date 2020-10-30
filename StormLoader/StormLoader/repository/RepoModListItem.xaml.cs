@@ -49,9 +49,12 @@ namespace StormLoader.repository
 
         public void enableInfoButton(string link)
         {
-            infoBtn.IsEnabled = true;
-            infoPath = link;
-            infoBtn.ToolTip = link;
+            if (link.StartsWith("http://")) {
+                infoBtn.IsEnabled = true;
+                infoPath = link;
+                infoBtn.ToolTip = link;
+            }
+            
             
         }
 

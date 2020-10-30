@@ -58,6 +58,11 @@ namespace StormLoader.modder_control_panel
                 
 
                 
+            } else
+            {
+                InfoPopup ifp = new InfoPopup();
+                ifp.titleText.Content = "Missing content, try again";
+                UploadDialogHost.ShowDialog(ifp);
             }
         }
     }

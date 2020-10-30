@@ -7,18 +7,22 @@
              xmlns:local="clr-namespace:StormLoader.repository"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <materialDesign:Card Height="420" HorizontalAlignment="Stretch" Width="200" Margin="5">
+    <materialDesign:Card Height="420" HorizontalAlignment="Stretch" Width="250" Margin="5">
         <DockPanel>
             <Grid DockPanel.Dock="Top">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="200"/>
                 </Grid.RowDefinitions>
-                <Image Grid.Row="0" Name="ModImage" Width="200" Height="200">
+                <Image Grid.Row="0" Name="ModImage" Width="250" Height="200">
                 </Image>
-                <StackPanel Orientation="Horizontal" Name="VerifiedMod" Margin="5">
-                    <materialDesign:PackIcon Kind="Verified" Foreground="Green" Margin="0 4 0 0"/>
-                    <Label Content="SMF verified" Foreground="Green"/>
-                </StackPanel>
+                <materialDesign:Card Height="auto" Width="auto" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5" UniformCornerRadius="15">
+                    <StackPanel Orientation="Horizontal" Name="VerifiedMod" Margin="5 0 5 0">
+                        <materialDesign:PackIcon Kind="Verified" Foreground="Green" Margin="0 4 0 0"/>
+                        <Label Content="SMF verified" Foreground="Green"/>
+
+                    </StackPanel>
+                </materialDesign:Card>
+                
                 
                 
             </Grid>
@@ -28,10 +32,11 @@
             <Separator DockPanel.Dock="Top"/>
             <Label Name="Author" Content="Author: " DockPanel.Dock="Top"/>
             <Label Name="Version" Content="Version: " DockPanel.Dock="Top"/>
-            <Label Content="Description" DockPanel.Dock="Top"/>
-            <TextBlock Width="200" Height="80" Name="Description" DockPanel.Dock="Top"/>
+            <!--<Label Content="Description" DockPanel.Dock="Top"/>-->
+            <TextBlock Width="auto" Height="110" Name="Description" DockPanel.Dock="Top" Margin="5" TextWrapping="Wrap"  />
+            <!--<RichTextBox Width="auto" Height="110" Name="Description" DockPanel.Dock="Top" Margin="5" />-->
 
-            
+
             <DockPanel  DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
                 <Button Name="infoBtn" Style="{DynamicResource MaterialDesignFlatButton}" DockPanel.Dock="Left" Content="more info" HorizontalAlignment="left" VerticalAlignment="Bottom" IsEnabled="False" Click="infoBtn_Click"/>
                 <Button Name="getModBtn" Style="{DynamicResource MaterialDesignFlatButton}" DockPanel.Dock="Right" Content="Get" HorizontalAlignment="right" VerticalAlignment="Bottom" Click="getModBtn_Click"/>
