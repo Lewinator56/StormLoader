@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,6 +33,19 @@ namespace StormLoader.modder_control_panel
 
         private async void UpdateBtn_Click(object sender, RoutedEventArgs e)
         {
+
+            if (!isValidFilename(Name.Text))
+            {
+                InfoPopup ifpo = new InfoPopup();
+                ifpo.titleText.Content = "Invalid mod name";
+                TextBlock t = new TextBlock();
+                t.TextWrapping = TextWrapping.Wrap;
+                t.Text = "make sure your name does not contain the characters: '< > : \" / \\ | ? *'";
+                ifpo.infoContainer.Children.Add(t);
+                await UploadDialogHost.ShowDialog(ifpo);
+                return;
+            }
+
             InfoPopup ifp = new InfoPopup();
             if (await GlobalVar.sqcm.updateMod(mod_id, Name.Text, Version.Text, Description.Text, ModImagePath.GetLocation(), ModFilePath.GetLocation(), ExtraDetailsLink.Text))
             {
@@ -48,6 +62,13 @@ namespace StormLoader.modder_control_panel
                 DialogHost.CloseDialogCommand.Execute(null, null);
                 
             }
+
+        }
+
+        bool isValidFilename(string filename)
+        {
+            Regex badCharacter = new Regex("[" + Regex.Escape(new String(System.IO.Path.GetInvalidPathChars())) + "]");
+            return !badCharacter.IsMatch(filename);
         }
     }
 }
