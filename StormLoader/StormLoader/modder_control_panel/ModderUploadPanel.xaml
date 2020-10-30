@@ -20,7 +20,7 @@
                     <Label Name ="titleText" Content="Upload mod" FontSize="18"/>
                 </StackPanel>
                 <Separator Margin="5"/>
-                <StormLoader:BrowsableFileSelect x:Name="ModImagePath" Hint="Mod Image (3:2 raito recommended)" ToolTip="The path to the image for the mod" Margin="5"/>
+                <StormLoader:BrowsableFileSelect x:Name="ModImagePath" Hint="Mod Image (3:2 raito recommended)" ToolTip="The path to the image for the mod" Margin="5" fileFilter="Image files|*.png;*.jpg"/>
                 <StormLoader:BrowsableFileSelect x:Name="ModFilePath" Hint="Mod slp file path" Tooltip="The mod to upload to the server" Margin="5" fileFilter="Stromloader mod packages|*.slp"/>
                 <TextBox Name="Name" materialDesign:HintAssist.Hint="Name" FontSize="20" Margin="5"/>
                 <TextBox Name="Version" materialDesign:HintAssist.Hint="Version" FontSize="20" Margin="5"/>

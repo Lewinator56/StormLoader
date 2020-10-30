@@ -37,12 +37,12 @@ namespace StormLoader.modder_control_panel
             if (Name.Text != "" && Version.Text != "" && Description.Text != "" && ModImagePath.GetLocation() != "" && ModFilePath.GetLocation() != "")
             {
                 // ok, this should be a valid upload, guess i need to build the sql query now..... oh god
-                SQLManager sqcm = new SQLManager();
-                sqcm.connect(GlobalVar.server, GlobalVar.database, GlobalVar.user, GlobalVar.password, GlobalVar.port);
+                
+                
                 InfoPopup ifp = new InfoPopup();
                 ifp.titleText.Content = "uploading file";
                 
-                if ( await sqcm.uploadMod(user, Description.Text, Version.Text, Name.Text, ModImagePath.GetLocation(), ModFilePath.GetLocation(), ExtraDetailsLink.Text))
+                if ( await GlobalVar.sqcm.uploadMod(user, Description.Text, Version.Text, Name.Text, ModImagePath.GetLocation(), ModFilePath.GetLocation(), ExtraDetailsLink.Text))
                 {
                     
                     ifp.titleText.Content = "Upload Succeeded";

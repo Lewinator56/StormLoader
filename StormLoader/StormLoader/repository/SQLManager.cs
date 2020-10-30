@@ -194,6 +194,74 @@ namespace StormLoader.repository
             return modFile;
         }
 
+        public async Task<bool> updateMod(int mod_id, string name, string version, string description, string imagepath, string modpath, string extraDetails)
+        {
+            try
+            {
+                byte[] modfile = modpath != "" ? File.ReadAllBytes(modpath) : null;
+                byte[] modimage = imagepath != "" ? File.ReadAllBytes(imagepath) : null;
+
+                string values = "";
+
+
+                if (name != "")
+                {
+                    values += "mod_name = '" + name + "' ,";
+                }
+                if (version != "")
+                {
+                    values += "mod_version = '" + version + "' ,";
+                }
+                if (description != "")
+                {
+                    values += "mod_description + '" + description + "' ,";
+                }
+                if (extraDetails != "")
+                {
+                    values += "mod_details_path = '" + extraDetails + "' ,";
+                }
+
+                if (modfile != null)
+                {
+                    values += "mod_local_data = @mod_local_data ,";
+                }
+                if (modimage != null)
+                {
+                    values += "mod_data_image = @mod_data_image ,";
+                }
+                values = values.TrimEnd(',');
+                string sql = "UPDATE mods SET " + values + "WHERE mod_id = " + mod_id + ";";
+                MySqlCommand msc = new MySqlCommand(sql, conn);
+
+                try
+                {
+                    msc.Parameters.Add("@mod_local_data", MySqlDbType.LongBlob);
+                    msc.Parameters["@mod_local_data"].Value = modfile;
+                }
+                catch (Exception e){ Console.WriteLine(e.StackTrace.ToString()); }
+                try
+                {
+                    msc.Parameters.Add("@mod_data_image", MySqlDbType.MediumBlob);
+                    msc.Parameters["@mod_data_image"].Value = modimage;
+                }
+                catch (Exception e) { Console.WriteLine(e.StackTrace.ToString()); }
+                
+                conn.Open();
+                
+                int n = await msc.ExecuteNonQueryAsync();
+                conn.Close();
+                return n > 0;
+            } catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace.ToString());
+                //throw e;
+                return false;
+            }
+            
+           
+
+        }
+
         public async Task<bool> uploadMod(string username, string description, string version, string name, string imagepath, string modpath, string extraDetails)
         {
             byte[] modfile = File.ReadAllBytes(modpath);

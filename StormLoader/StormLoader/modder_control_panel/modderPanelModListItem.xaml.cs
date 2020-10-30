@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,7 +35,8 @@ namespace StormLoader.modder_control_panel
 
         private void UpdateMod_Click(object sender, RoutedEventArgs e)
         {
-
+            mpr.modderPanelDialogHost.ShowDialog(new ModderUpdateModPanel(mod_id, mpr));
+            mpr.refreshMods();
         }
 
         private void DeleteMod_Click(object sender, RoutedEventArgs e)

@@ -124,11 +124,15 @@
     <Compile Include="BrowsableFolderSelect.xaml.cs">
       <DependentUpon>BrowsableFolderSelect.xaml</DependentUpon>
     </Compile>
+    <Compile Include="modder_control_panel\Mod.cs" />
     <Compile Include="modder_control_panel\modderPanelModListItem.xaml.cs">
       <DependentUpon>modderPanelModListItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="modder_control_panel\ModderPanelRoot.xaml.cs">
       <DependentUpon>ModderPanelRoot.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="modder_control_panel\ModderUpdateModPanel.xaml.cs">
+      <DependentUpon>ModderUpdateModPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="modder_control_panel\ModderUploadPanel.xaml.cs">
       <DependentUpon>ModderUploadPanel.xaml</DependentUpon>
@@ -204,6 +208,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="modder_control_panel\ModderPanelRoot.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="modder_control_panel\ModderUpdateModPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

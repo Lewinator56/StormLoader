@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:StormLoader.repository"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <materialDesign:Card Height="420" HorizontalAlignment="Stretch" Width="300" Margin="5">
+    <materialDesign:Card MaxHeight="500" HorizontalAlignment="Stretch" Width="300" Margin="5" Height="auto">
         <DockPanel>
             <Grid DockPanel.Dock="Top">
                 <Grid.RowDefinitions>
@@ -33,7 +33,7 @@
             <Label Name="Author" Content="Author: " DockPanel.Dock="Top"/>
             <Label Name="Version" Content="Version: " DockPanel.Dock="Top"/>
             <!--<Label Content="Description" DockPanel.Dock="Top"/>-->
-            <TextBlock Width="auto" Height="110" Name="Description" DockPanel.Dock="Top" Margin="5" TextWrapping="Wrap"  />
+            <TextBlock Width="auto" Height="auto" Name="Description" DockPanel.Dock="Top" Margin="5" TextWrapping="Wrap"  />
             <!--<RichTextBox Width="auto" Height="110" Name="Description" DockPanel.Dock="Top" Margin="5" />-->
 
 
