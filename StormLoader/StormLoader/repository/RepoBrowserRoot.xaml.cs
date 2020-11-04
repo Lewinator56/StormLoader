@@ -30,21 +30,26 @@ namespace StormLoader.repository
             this.sqcm = new SQLManager();
             sqcm.connect(GlobalVar.server, GlobalVar.database, GlobalVar.user, GlobalVar.password, GlobalVar.port);
             GlobalVar.sqcm = sqcm;
-            refreshMods();
+            Task.Run(() => refreshMods());
+            //Task.Run(() => refreshMods());
+            //refreshMods();
         }
 
         void refreshMods() {
-            string searchterm = SearchTxbx.Text;
-            bool verified = (bool)VerifiedOnly.IsChecked;
-            ModList.Children.Clear();
+            //string searchterm = SearchTxbx.Text;
+            string searchterm = "";
+            bool verified = false;
+            this.Dispatcher.Invoke(() => { searchterm = SearchTxbx.Text; verified = (bool)VerifiedOnly.IsChecked; ModList.Children.Clear(); });
+            //bool verified = (bool)VerifiedOnly.IsChecked;
+            //ModList.Children.Clear();
             DataTable dt = sqcm.getModListWithoutData(searchterm, verified);
             foreach (DataRow rmds in dt.Rows)
             {
                 int mod_id = (int)rmds["mod_id"];
-                addModListItem(mod_id);
-                //Thread t = new Thread(() => addModListItem(mod_id));
-                //t.SetApartmentState(ApartmentState.STA);
-                //t.Start();
+                //this.Dispatcher.Invoke(() => { addModListItem(mod_id, sqcm); }) ;
+                Thread t = new Thread(() => addModListItem(mod_id ));
+                t.SetApartmentState(ApartmentState.STA);
+                t.Start();
 
                 
                 
@@ -52,20 +57,29 @@ namespace StormLoader.repository
             }
         }
 
-        public void addModListItem(int mod_id)
+        void addModListItem(int mod_id)
         {
-            DataTable dtm = (DataTable)sqcm.getModDataByID(mod_id);
-            foreach (DataRow r in dtm.Rows)
-            {
-                RepoModListItem li = new RepoModListItem(r["mod_name"].ToString(), r["user_name"].ToString(), r["mod_version"].ToString(), r["mod_description"].ToString(), (byte[])r["mod_data_image"], Convert.ToInt32(r["mod_id"]), Convert.ToInt32(r["mod_smf_verified"]), this);
-                if (r["mod_details_path"].ToString() != "")
+            SQLManager sqcml = new SQLManager();
+            sqcml.connect(GlobalVar.server, GlobalVar.database, GlobalVar.user, GlobalVar.password, GlobalVar.port);
+                DataTable dtm = (DataTable)sqcml.getModDataByID(mod_id);
+                foreach (DataRow r in dtm.Rows)
                 {
-                    li.enableInfoButton(r["mod_details_path"].ToString());
-                }
-                ModList.Children.Add(li);
+                this.Dispatcher.Invoke(() =>
+                {
+                    RepoModListItem li = new RepoModListItem(r["mod_name"].ToString(), r["user_name"].ToString(), r["mod_version"].ToString(), r["mod_description"].ToString(), (byte[])r["mod_data_image"], Convert.ToInt32(r["mod_id"]), Convert.ToInt32(r["mod_smf_verified"]), this);
+                    if (r["mod_details_path"].ToString() != "")
+                    {
+                        li.enableInfoButton(r["mod_details_path"].ToString());
+                    }
+                    ModList.Children.Add(li);
+                });
+                    
+                    
+                    //ModList.Children.Add(li);
 
-                //li.Dispatcher.BeginInvoke((Action)(() => { ModList.Children.Add(li); }));
-            }
+                    //li.Dispatcher.BeginInvoke((Action)(() => { ModList.Children.Add(li); }));
+                }
+            
         }
 
         private void UploadMod_Click(object sender, RoutedEventArgs e)
@@ -76,7 +90,7 @@ namespace StormLoader.repository
 
         private void refreshListing_Click(object sender, RoutedEventArgs e)
         {
-            refreshMods();
+            Task.Run(() => refreshMods());
         }
     }
 }

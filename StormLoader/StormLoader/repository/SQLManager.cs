@@ -164,7 +164,9 @@ namespace StormLoader.repository
             }
             catch (Exception e)
             {
+                throw e;
                 return null;
+
             }
         }
 
@@ -301,6 +303,11 @@ namespace StormLoader.repository
                 Console.WriteLine(e.StackTrace.ToString());
                 return false;
             }
+        }
+
+        public bool isConnectionOpen()
+        {
+            return conn.State == ConnectionState.Open ? true : false;
         }
     }
 
