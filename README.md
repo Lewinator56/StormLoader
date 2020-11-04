@@ -4,6 +4,9 @@ Mod manager (loader and packager) for stormworks
 # Disclaimer
 I, StormLoader and mods loaded with stormloader are not affiliated with stormworks, or Sunfire Software LTD in any way. We claim no rights or ownership in any way to any file formats or folder structures used in mods and/or mod packages other than where a packaging format has been designed specifically for the operation of the mod loader. The StormLoader development team cannot guarantee the safety of mods downloaded and installed from sources not sanctioned by the development team. 
 
+# Downloads
+- Head to releases to get the latest version!
+
 # FAQ
 **Q** What platforms are supported?<br>
 **A** StormLoader only runs on windows.
