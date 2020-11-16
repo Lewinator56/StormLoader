@@ -17,10 +17,11 @@ namespace StormLoader.repository
     {
         MySqlConnection conn;
 
-        public void connect(string server, string database, string user, string password, string port)
+        public void connect()
         {
-            string constr = "server=" + server + ";user=" + user + ";database=" + database + ";port=" + port + ";password=" + password;
-            conn = new MySqlConnection(constr);
+            //string constr = "server=" + server + ";user=" + user + ";database=" + database + ";port=" + port + ";password=" + password;
+            conn = StormLoaderRepoConnectorData.Connection.connect();
+            
 
         }
 
@@ -216,7 +217,7 @@ namespace StormLoader.repository
                 }
                 if (description != "")
                 {
-                    values += "mod_description + '" + description + "' ,";
+                    values += "mod_description = '" + description + "' ,";
                 }
                 if (extraDetails != "")
                 {
@@ -256,7 +257,7 @@ namespace StormLoader.repository
             } catch (Exception e)
             {
                 Console.WriteLine(e.StackTrace.ToString());
-                //throw e;
+                throw e;
                 return false;
             }
             

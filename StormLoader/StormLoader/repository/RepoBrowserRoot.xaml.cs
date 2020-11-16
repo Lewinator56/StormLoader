@@ -28,7 +28,7 @@ namespace StormLoader.repository
         {
             InitializeComponent();
             this.sqcm = new SQLManager();
-            sqcm.connect(GlobalVar.server, GlobalVar.database, GlobalVar.user, GlobalVar.password, GlobalVar.port);
+            sqcm.connect();
             GlobalVar.sqcm = sqcm;
             Task.Run(() => refreshMods());
             //Task.Run(() => refreshMods());
@@ -60,7 +60,7 @@ namespace StormLoader.repository
         void addModListItem(int mod_id)
         {
             SQLManager sqcml = new SQLManager();
-            sqcml.connect(GlobalVar.server, GlobalVar.database, GlobalVar.user, GlobalVar.password, GlobalVar.port);
+            sqcml.connect();
                 DataTable dtm = (DataTable)sqcml.getModDataByID(mod_id);
                 foreach (DataRow r in dtm.Rows)
                 {

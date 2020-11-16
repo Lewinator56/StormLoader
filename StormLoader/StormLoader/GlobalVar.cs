@@ -11,11 +11,6 @@ namespace StormLoader
     {
         public static MainWindow mw;
 
-        public static string server = "softwarehut.ddns.net";
-        public static string database = "swModsRepo";
-        public static string user = "swModsUser";
-        public static string password = "swModsPassword";
-        public static string port = "3306";
 
         public static SQLManager sqcm;
     }
