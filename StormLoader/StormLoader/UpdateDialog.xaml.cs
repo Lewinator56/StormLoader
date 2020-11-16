@@ -44,6 +44,7 @@ namespace StormLoader
             {
                 UpdateInfo.Content = "Could not connect";
             }
+            Updater.AutoUpdater.initiateUpdate();
             
         }
 

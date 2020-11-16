@@ -188,6 +188,7 @@ namespace StormLoader
         public void addModFromFile(string path, string nameWithoutExt)
         {
             ZipFile z = new ZipFile(path);
+            
             z.ExtractAll(modExtractionDir + "/" + nameWithoutExt, ExtractExistingFileAction.OverwriteSilently);
             XmlDocument meta = new XmlDocument();
             meta.Load(modExtractionDir + "/" + nameWithoutExt + "/metadata.xml");
