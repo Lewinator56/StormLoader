@@ -37,7 +37,10 @@ namespace StormLoader
         public string version = "v1.0.2";
         public MainWindow()
         {
-            
+            AppDomain cd = AppDomain.CurrentDomain;
+            cd.UnhandledException += new UnhandledExceptionEventHandler(unhandledExceptionHandler);
+
+
             InitializeComponent();
             GlobalVar.mw = this;
 
@@ -65,6 +68,12 @@ namespace StormLoader
 
         }
 
+        static void unhandledExceptionHandler(Object sender, UnhandledExceptionEventArgs args)
+        {
+            Exception e = (Exception) args.ExceptionObject;
+            DbgLog.WriteLine(e.Message);
+            DbgLog.WriteLine(e.StackTrace.ToString());
+        }
         private string checkNewVersion(bool ShowDialog)
         {
             
@@ -72,10 +81,10 @@ namespace StormLoader
             wr.AllowAutoRedirect = true;
             HttpWebResponse wrs = (HttpWebResponse)wr.GetResponse();
             string onlineVer = wrs.ResponseUri.ToString().Substring(wrs.ResponseUri.ToString().LastIndexOf('/') + 1);
-            Debug.WriteLine(onlineVer);
+            DbgLog.WriteLine(onlineVer);
             if (onlineVer != version)
             {
-                Debug.WriteLine("New version released");
+                DbgLog.WriteLine("New version released");
                 if (ShowDialog)
                 {
                     List<Control> c = new List<Control>();
@@ -113,7 +122,7 @@ namespace StormLoader
                 ModListItem mli = new ModListItem();
                 mli.ModName.Content = new DirectoryInfo(dir).Name;
                 mli.modPath = dir;
-                Debug.WriteLine(dir);
+                DbgLog.WriteLine(dir);
                 ModList.Children.Add(mli);
             }
             CheckModActiveAlt();
@@ -156,13 +165,14 @@ namespace StormLoader
             {
                 if (currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()='" + mli.ModName.Content + "']") != null)
                 {
-                    Debug.WriteLine(mli.ModName.Content);
-                    Debug.WriteLine(currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()='" + mli.ModName.Content + "']").InnerText);
-                    Debug.WriteLine("Found");
+                    DbgLog.WriteLine(mli.ModName.Content.ToString());
+                    DbgLog.WriteLine(currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()='" + mli.ModName.Content + "']").InnerText);
+                    DbgLog.WriteLine("Found");
                     mli.SetActive(true);
                 } else
                 {
                     mli.SetActive(false);
+                    
                 }
 
             }
@@ -192,7 +202,7 @@ namespace StormLoader
             z.ExtractAll(modExtractionDir + "/" + nameWithoutExt, ExtractExistingFileAction.OverwriteSilently);
             XmlDocument meta = new XmlDocument();
             meta.Load(modExtractionDir + "/" + nameWithoutExt + "/metadata.xml");
-            Debug.WriteLine(meta.OuterXml);
+            DbgLog.WriteLine(meta.OuterXml);
 
 
             AddModNew(modExtractionDir + "/" + nameWithoutExt, nameWithoutExt, meta.SelectSingleNode("/Metadata/Version").InnerText, meta.SelectSingleNode("/Metadata/Author").InnerText);
@@ -282,7 +292,7 @@ namespace StormLoader
         {
             if (settingsDoc.SelectSingleNode("/Settings/Setup_Complete").InnerText == "false")
             {
-                Debug.WriteLine("Running");
+                DbgLog.WriteLine("Running");
                 RunSetup();
 
             }
@@ -318,7 +328,7 @@ namespace StormLoader
                     {
                         if (mli.ModName.Content.ToString() == m.SelectSingleNode("Name").InnerText)
                         {
-                            Debug.WriteLine("Found mod");
+                            DbgLog.WriteLine("Found mod");
                             modFound = true;
                         }
                     }
@@ -457,25 +467,25 @@ namespace StormLoader
                 {
                     //Debug.WriteLine(mli.ModName.Content);
                     //Debug.WriteLine(currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()='" + mli.ModName.Content + "']"));
-                    Debug.WriteLine("Found");
+                    DbgLog.WriteLine("Found");
                     string modPath = mli.modPath;
-                    Debug.WriteLine("test");
+                    DbgLog.WriteLine("test");
                     try
                     {
                         RecursiveCopy(new DirectoryInfo(modPath + "/Meshes/"), new DirectoryInfo(gameLocation + "/rom/meshes/"));
-                        Debug.WriteLine("Running");
+                        DbgLog.WriteLine("Running");
                     }
-                    catch (Exception) { }
+                    catch (Exception e) {}
                     try
                     {
                         RecursiveCopy(new DirectoryInfo(modPath + "/Definitions/"), new DirectoryInfo(gameLocation + "/rom/data/definitions/"));
                     }
-                    catch (Exception) { }
+                    catch (Exception e) {}
                     try
                     {
                         RecursiveCopy(new DirectoryInfo(modPath + "/Audio/"), new DirectoryInfo(gameLocation + "/rom/audio/"));
                     }
-                    catch (Exception) { }
+                    catch (Exception e) {}
 
                 }
                 else
@@ -484,7 +494,7 @@ namespace StormLoader
                     try
                     {
                         RecursiveDelete(new DirectoryInfo(modPath + "/Meshes/"), new DirectoryInfo(gameLocation + "/rom/meshes/"));
-                        Debug.WriteLine("Running Delete");
+                        DbgLog.WriteLine("Running Delete");
                     }
                     catch (Exception) { }
                     try
@@ -582,7 +592,7 @@ namespace StormLoader
             {
                 XmlDocument meta = new XmlDocument();
                 meta.Load(path + "/metadata.xml");
-                Debug.WriteLine(meta.OuterXml);
+                DbgLog.WriteLine(meta.OuterXml);
                 AddModNew(path, modName, meta.SelectSingleNode("/Metadata/Version").InnerText, meta.SelectSingleNode("/Metadata/Author").InnerText);
             } else
             {

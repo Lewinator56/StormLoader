@@ -48,7 +48,7 @@ namespace StormLoader.repository
 
             } catch (Exception e)
             {
-                Console.WriteLine( e.StackTrace.ToString());
+                DbgLog.WriteLine( e.StackTrace.ToString());
                 return false;
             }
         }
@@ -76,7 +76,7 @@ namespace StormLoader.repository
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.StackTrace.ToString());
+                DbgLog.WriteLine(e.StackTrace.ToString());
                 return false;
             }
         }
@@ -108,6 +108,8 @@ namespace StormLoader.repository
                 return dt;
             } catch (Exception e)
             {
+                DbgLog.WriteLine(e.StackTrace.ToString());
+                // fix to prevent crashes
                 return null;
             }
         }
@@ -125,6 +127,7 @@ namespace StormLoader.repository
             }
             catch (Exception e)
             {
+                DbgLog.WriteLine(e.StackTrace.ToString());
                 return false;
             }
         }
@@ -139,14 +142,14 @@ namespace StormLoader.repository
                 MySqlCommand msc = new MySqlCommand(sql, conn);
                 MySqlDataReader mdr = msc.ExecuteReader();
                 DataTable dt = new DataTable();
-                Console.WriteLine(dt.Rows.Count);
+                DbgLog.WriteLine(dt.Rows.Count.ToString());
                 dt.Load(mdr);
                 conn.Close();
                 return dt;
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.StackTrace.ToString());
+                DbgLog.WriteLine(e.StackTrace.ToString());
                 return null;
             }
         }
@@ -165,7 +168,7 @@ namespace StormLoader.repository
             }
             catch (Exception e)
             {
-                throw e;
+                DbgLog.WriteLine(e.StackTrace.ToString());
                 return null;
 
             }
@@ -191,7 +194,7 @@ namespace StormLoader.repository
                 await conn.CloseAsync();
             } catch (Exception e)
             {
-
+                DbgLog.WriteLine(e.StackTrace.ToString());
             }
 
             return modFile;
@@ -241,13 +244,13 @@ namespace StormLoader.repository
                     msc.Parameters.Add("@mod_local_data", MySqlDbType.LongBlob);
                     msc.Parameters["@mod_local_data"].Value = modfile;
                 }
-                catch (Exception e){ Console.WriteLine(e.StackTrace.ToString()); }
+                catch (Exception e){ DbgLog.WriteLine(e.StackTrace.ToString()); }
                 try
                 {
                     msc.Parameters.Add("@mod_data_image", MySqlDbType.MediumBlob);
                     msc.Parameters["@mod_data_image"].Value = modimage;
                 }
-                catch (Exception e) { Console.WriteLine(e.StackTrace.ToString()); }
+                catch (Exception e) { DbgLog.WriteLine(e.StackTrace.ToString()); }
                 
                 conn.Open();
                 
@@ -256,8 +259,8 @@ namespace StormLoader.repository
                 return n > 0;
             } catch (Exception e)
             {
-                Console.WriteLine(e.StackTrace.ToString());
-                throw e;
+                DbgLog.WriteLine(e.StackTrace.ToString());
+                //throw e;
                 return false;
             }
             
@@ -301,7 +304,7 @@ namespace StormLoader.repository
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.StackTrace.ToString());
+                DbgLog.WriteLine(e.StackTrace.ToString());
                 return false;
             }
         }

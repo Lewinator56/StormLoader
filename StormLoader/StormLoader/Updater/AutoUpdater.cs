@@ -27,7 +27,7 @@ namespace StormLoader.Updater
                     w.Headers.Add("user-agent", "request");
                     string json = w.DownloadString("https://api.github.com/repos/Lewinator56/StormLoader/releases/latest");
                     var jsd = JsonDocument.Parse(json);
-                    Console.WriteLine(jsd.RootElement.GetProperty("assets")[0].GetProperty("browser_download_url"));
+                    DbgLog.WriteLine(jsd.RootElement.GetProperty("assets")[0].GetProperty("browser_download_url").ToString());
 
 
                 }

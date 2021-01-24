@@ -50,14 +50,23 @@ namespace StormLoader.modder_control_panel
         public void refreshMods()
         {
             ModList.Children.Clear();
-            DataTable dt = sqcm.getModListByUser(username);
-            
-            foreach (DataRow r in dt.Rows)
+            try
             {
-                Console.Write("Reading");
-                modderPanelModListItem mpmli = new modderPanelModListItem(this, r["mod_name"].ToString(), r["mod_version"].ToString(), (int)r["mod_id"]);
-                ModList.Children.Add(mpmli);
+                DataTable dt = sqcm.getModListByUser(username);
+
+                foreach (DataRow r in dt.Rows)
+                {
+                    DbgLog.WriteLine("Reading");
+                    modderPanelModListItem mpmli = new modderPanelModListItem(this, r["mod_name"].ToString(), r["mod_version"].ToString(), (int)r["mod_id"]);
+                    ModList.Children.Add(mpmli);
+                }
+            } catch (Exception e)
+            {
+                DbgLog.WriteLine(e.Message);
+                DbgLog.WriteLine(e.StackTrace.ToString());
+                
             }
+            
         }
     }
 }

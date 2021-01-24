@@ -43,6 +43,18 @@ namespace StormLoader.repository
             //bool verified = (bool)VerifiedOnly.IsChecked;
             //ModList.Children.Clear();
             DataTable dt = sqcm.getModListWithoutData(searchterm, verified);
+            if (dt == null)
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    InfoPopup ifp = new InfoPopup();
+                    ifp.titleText.Content = "Could not connect";
+                    RepoDialog.ShowDialog(ifp);
+                });
+                
+                return;
+                
+            }
             foreach (DataRow rmds in dt.Rows)
             {
                 int mod_id = (int)rmds["mod_id"];

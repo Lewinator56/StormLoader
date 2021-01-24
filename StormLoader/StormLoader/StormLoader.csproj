@@ -124,6 +124,7 @@
     <Compile Include="BrowsableFolderSelect.xaml.cs">
       <DependentUpon>BrowsableFolderSelect.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DbgLog.cs" />
     <Compile Include="modder_control_panel\Mod.cs" />
     <Compile Include="modder_control_panel\modderPanelModListItem.xaml.cs">
       <DependentUpon>modderPanelModListItem.xaml</DependentUpon>

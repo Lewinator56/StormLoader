@@ -37,14 +37,14 @@ namespace StormLoader.repository
             // check login details
             if (sqcm.checkUser(UsernameTxbx.Text, PasswordTxbx.Password.ToString()))
             {
-                Console.WriteLine("authenitcation successful");
+                DbgLog.WriteLine("authenitcation successful");
                 ModderPanelRoot mpr = new ModderPanelRoot(UsernameTxbx.Text);
                 DialogHost.CloseDialogCommand.Execute(null, null);
                 mpr.Show();
                 
             } else
             {
-                Console.WriteLine("authentication failure");
+                DbgLog.WriteLine("authentication failure");
                 InfoPopup ifp = new InfoPopup();
                 ifp.titleText.Content = "Authentication failure";
                 Label errorText = new Label();
@@ -62,7 +62,7 @@ namespace StormLoader.repository
                 // uniqueness checking is server side, so we can ignore it here, addUser will return false if the user already exists!
                 if (sqcm.addUser(UsernameTxbx.Text, PasswordTxbx.Password.ToString()))
                 {
-                    Console.WriteLine("added new user successfully");
+                    DbgLog.WriteLine("added new user successfully");
                     InfoPopup ifp = new InfoPopup();
                     ifp.titleText.Content = "Added user";
                     Label errorText = new Label();
@@ -71,7 +71,7 @@ namespace StormLoader.repository
                     infoDialog.ShowDialog(ifp);
                 } else
                 {
-                    Console.WriteLine("could not add new user");
+                    DbgLog.WriteLine("could not add new user");
                     InfoPopup ifp = new InfoPopup();
                     ifp.titleText.Content = "User not added";
                     Label errorText = new Label();

@@ -21,7 +21,7 @@ namespace StormLoader.repository
                 {
                     builder.Append(bytes[i].ToString("X2"));
                 }
-                Console.WriteLine(builder.ToString());
+                DbgLog.WriteLine(builder.ToString());
                 return builder.ToString() ;
             }
 
