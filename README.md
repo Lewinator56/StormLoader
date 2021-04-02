@@ -16,3 +16,39 @@ I, StormLoader and mods loaded with stormloader are not affiliated with stormwor
 
 **Q** Are mods officially supported by the stormworks development team?<br>
 **A** While we cannot provide a definitive answer to this, the current stance is that there is no official stance, we have had no contact from the developers.
+
+# Building Yourself
+If you want to build stormloader yourself (because you dont trust me, or want to customize it for your needs), you will need visual studio installed. Stormloader also uses the 'material design in XAML' nuget package, this should be automatically set up if you pull to project from github, however, if this isnt the case, search for it in the nuget package manager.
+
+Additionaly, to enable repository functionalyity you will need to set up the SQL connection class, this is distributed as a DLL (StormLoaderData) with the release and you can use this as a reference, alternatively, you can build your own class, below is all the code for the DLL, without the connection information for the SQL server.
+
+```C#
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MySql.Data;
+using MySql.Data.MySqlClient;
+
+namespace StormLoaderRepoConnectorData
+{
+    public class Connection
+    {
+        static string server = ;
+        static string database = ;
+        static string user = ;
+        static string password = ;
+        static string port = "3306";
+
+        public static MySqlConnection connect()
+        {
+            MySqlConnection conn;
+            string constr = "server=" + server + ";user=" + user + ";database=" + database + ";port=" + port + ";password=" + password;
+            conn = new MySqlConnection(constr);
+            return conn;
+        }
+    }
+}
+```
+
