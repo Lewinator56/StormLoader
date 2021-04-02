@@ -78,4 +78,7 @@ note that while there is the ability to add a path to an external mod file, for 
 ![image](https://user-images.githubusercontent.com/56686419/113420337-095d1b00-93c1-11eb-807e-9c302583f4b3.png)
 
 
+If you have any questions, open an issue or contact me on discord.
+
+
 
