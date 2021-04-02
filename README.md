@@ -60,3 +60,20 @@ public void connect()
     conn = StormLoaderRepoConnectorData.Connection.connect();
 }
 ```
+### Online Functionality
+If you want to set up the online repository yourself, the database MUST be set up like so:
+![image](https://user-images.githubusercontent.com/56686419/113419942-568cbd00-93c0-11eb-9efb-aae8061871e7.png)
+
+It is of course up to you to ensure that the user set up to access the mods database on behalf of stormloader has appropriate access rights ONLY for the actions it should need to perform, these actions are:
+* Add new entries to the users table
+* Add, update and delete entries from the mods table
+
+Below I have included images of the tables in PHPMyAdmin, as this contains more detail about specific fields:
+
+### mods
+![image](https://user-images.githubusercontent.com/56686419/113420287-f4808780-93c0-11eb-80e8-b2fb3ab1c16d.png)
+### users
+![image](https://user-images.githubusercontent.com/56686419/113420337-095d1b00-93c1-11eb-807e-9c302583f4b3.png)
+
+
+
