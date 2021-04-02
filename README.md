@@ -73,7 +73,7 @@ Below I have included images of the tables in PHPMyAdmin, as this contains more 
 ### mods
 ![image](https://user-images.githubusercontent.com/56686419/113420287-f4808780-93c0-11eb-80e8-b2fb3ab1c16d.png)
 
-note that while there is the ability to add a path to an external mod file, for example, hosted on a different server rather than internally on the database server, stormloader cannot yet download the mod from this path
+note that while there is the ability to add a path to an external mod file, for example, hosted on a different server rather than internally on the database server, stormloader cannot yet download the mod from this path.
 ### users
 ![image](https://user-images.githubusercontent.com/56686419/113420337-095d1b00-93c1-11eb-807e-9c302583f4b3.png)
 
