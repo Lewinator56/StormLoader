@@ -51,4 +51,15 @@ namespace StormLoaderRepoConnectorData
     }
 }
 ```
+If your class differes from this, you may well need to change the code that sets up the connection the `SQLManager` class, you will need to ensure the code in the `connect` method sets the `conn` variable, like so. You may also completely disregard the use of another class returning a connection object and create a new one in the connection method in `SQLManager`, this can be done by copying the code in the connection method in the DLL (above) to replace the code in the connection method in `SQLManager` (without the `return conn` line)
 
+```C#
+public void connect()
+        {
+            //string constr = "server=" + server + ";user=" + user + ";database=" + database + ";port=" + port + ";password=" + password;
+            conn = StormLoaderRepoConnectorData.Connection.connect();
+            
+            
+
+        }
+        ```
