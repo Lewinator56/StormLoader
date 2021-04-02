@@ -55,11 +55,11 @@ If your class differes from this, you may well need to change the code that sets
 
 ```C#
 public void connect()
-        {
-            //string constr = "server=" + server + ";user=" + user + ";database=" + database + ";port=" + port + ";password=" + password;
-            conn = StormLoaderRepoConnectorData.Connection.connect();
+{
+    //string constr = "server=" + server + ";user=" + user + ";database=" + database + ";port=" + port + ";password=" + password;
+    conn = StormLoaderRepoConnectorData.Connection.connect();
             
             
 
-        }
+}
 ```
