@@ -34,11 +34,11 @@ namespace StormLoader
         public XmlDocument currentProfile = new XmlDocument();
         public string gameLocation = "";
         public List<ModListItem> modListItems = new List<ModListItem>();
-        public string version = "v1.0.3";
+        public string version = "v1.0.4";
         public MainWindow()
         {
             AppDomain cd = AppDomain.CurrentDomain;
-            cd.UnhandledException += new UnhandledExceptionEventHandler(unhandledExceptionHandler);
+            cd.UnhandledException += new UnhandledExceptionEventHandler(UnhandledExceptionHandler);
 
 
             InitializeComponent();
@@ -68,7 +68,7 @@ namespace StormLoader
 
         }
 
-        static void unhandledExceptionHandler(Object sender, UnhandledExceptionEventArgs args)
+        static void UnhandledExceptionHandler(Object sender, UnhandledExceptionEventArgs args)
         {
             Exception e = (Exception) args.ExceptionObject;
             DbgLog.WriteLine(e.Message);
@@ -676,7 +676,18 @@ namespace StormLoader
         private void LaunchGame_Click(object sender, RoutedEventArgs e)
         {
             ShowInfoPopup("Launching game", new List<Control>(), PackIconKind.Information);
-            System.Diagnostics.Process.Start(gameLocation + "/stormworks64.exe");
+            try
+            {
+                System.Diagnostics.Process.Start(gameLocation + "/stormworks64.exe");
+            } catch
+            {
+                Label tb = new Label();
+                tb.Content = "Check your install location is set to the path for Stormworks' directory BEFORE you ask on discord!";
+                List<Control> tbl = new List<Control>();
+                tbl.Add(tb);
+                ShowInfoPopup("Unable to find game", tbl ,PackIconKind.Warning);
+            }
+            
         }
 
         private void Updates_Click(object sender, RoutedEventArgs e)

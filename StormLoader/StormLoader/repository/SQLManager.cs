@@ -22,6 +22,7 @@ namespace StormLoader.repository
             //string constr = "server=" + server + ";user=" + user + ";database=" + database + ";port=" + port + ";password=" + password;
             conn = StormLoaderRepoConnectorData.Connection.connect();
             
+            
 
         }
 
