@@ -25,11 +25,13 @@ namespace StormLoader
             InitializeComponent();
             InsLoc.setText(GlobalVar.mw.gameLocation);
             ModLoc.setText(GlobalVar.mw.modExtractionDir);
+            NexAPIKey.Text = GlobalVar.NMAPIKey;
         }
 
         private void close_btn_Click(object sender, RoutedEventArgs e)
         {
 
         }
+
     }
 }

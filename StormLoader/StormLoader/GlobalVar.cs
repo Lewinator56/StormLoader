@@ -13,5 +13,7 @@ namespace StormLoader
 
 
         public static SQLManager sqcm;
+
+        public static string NMAPIKey;
     }
 }
