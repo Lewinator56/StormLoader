@@ -17,25 +17,42 @@
                 </materialDesign:PackIcon>
                 <Label Name ="titleText" Content="Settings" FontSize="18"/>
             </StackPanel>
-            <DockPanel Name="infoContainer" Margin="10" MaxHeight="200">
+            <DockPanel Name="infoContainer" Margin="10">
                 
-                <materialDesign:Card Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Top" DockPanel.Dock="Top" Margin="0, 10, 0 ,10">
-                    
-                    <DockPanel >
-                        <Label Content="Game Location" FontSize="18" DockPanel.Dock="Top"/>
-                        <!--<TextBox Width="650"  ToolTip="Install location for stormworks, you can copy and paste the path here" Name="InsLoc" materialDesign:HintAssist.Hint="Install Location" Margin="5 0 0 0" BorderThickness="0,0,0,0"  Style="{DynamicResource MaterialDesignTextBox}" materialDesign:TextFieldAssist.UnderlineBrush="Transparent" FontSize="20"  HorizontalAlignment="Stretch"/>-->
-                        <local:BrowsableFolderSelect x:Name="InsLoc" Hint="Install Location" Tooltip="The install location for stormworks"/>
-                    </DockPanel>
+                <Border BorderThickness="2 2 2 2" BorderBrush="LightGray" CornerRadius="5" DockPanel.Dock="Top">
+                    <DockPanel Margin="10">
+                        <Label Content="Mod Installation Settings" FontSize="18" DockPanel.Dock="Top"/>
+                        <materialDesign:Card Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Top" DockPanel.Dock="Top" Margin="0, 10, 0 ,10">
 
-                </materialDesign:Card>
-                <materialDesign:Card Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Top" DockPanel.Dock="Top" Margin="0, 10, 0, 10">
-                    <DockPanel >
-                        <Label Content="Mod Extraction Directory" FontSize="18" DockPanel.Dock="Top"/>
-                        <!--<TextBox Width="650"  ToolTip="Directory where mod packages should be extracted" Name="ModLoc" materialDesign:HintAssist.Hint="Mod Extraction Location" Margin="5 0 0 0" BorderThickness="0,0,0,0"  Style="{DynamicResource MaterialDesignTextBox}" materialDesign:TextFieldAssist.UnderlineBrush="Transparent" FontSize="20"  HorizontalAlignment="Stretch"/>-->
-                        <local:BrowsableFolderSelect x:Name="ModLoc" Hint="Mod Extraction Location" Tooltip="The location to extract downloaded mods to"/>
-                    </DockPanel>
+                            <DockPanel >
+                                <Label Content="Game Location" FontSize="18" DockPanel.Dock="Top"/>
+                                <!--<TextBox Width="650"  ToolTip="Install location for stormworks, you can copy and paste the path here" Name="InsLoc" materialDesign:HintAssist.Hint="Install Location" Margin="5 0 0 0" BorderThickness="0,0,0,0"  Style="{DynamicResource MaterialDesignTextBox}" materialDesign:TextFieldAssist.UnderlineBrush="Transparent" FontSize="20"  HorizontalAlignment="Stretch"/>-->
+                                <local:BrowsableFolderSelect x:Name="InsLoc" Hint="Install Location" Tooltip="The install location for stormworks"/>
+                            </DockPanel>
 
-                </materialDesign:Card>
+                        </materialDesign:Card>
+                        <materialDesign:Card Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Top" DockPanel.Dock="Top" Margin="0, 10, 0, 10">
+                            <DockPanel >
+                                <Label Content="Mod Extraction Directory" FontSize="18" DockPanel.Dock="Top"/>
+                                <!--<TextBox Width="650"  ToolTip="Directory where mod packages should be extracted" Name="ModLoc" materialDesign:HintAssist.Hint="Mod Extraction Location" Margin="5 0 0 0" BorderThickness="0,0,0,0"  Style="{DynamicResource MaterialDesignTextBox}" materialDesign:TextFieldAssist.UnderlineBrush="Transparent" FontSize="20"  HorizontalAlignment="Stretch"/>-->
+                                <local:BrowsableFolderSelect x:Name="ModLoc" Hint="Mod Extraction Location" Tooltip="The location to extract downloaded mods to"/>
+                            </DockPanel>
+
+                        </materialDesign:Card>
+                    </DockPanel>
+                </Border>
+                <Border BorderThickness="2 2 2 2" BorderBrush="LightGray" CornerRadius="5" DockPanel.Dock="Top" Margin="0 10 0 0">
+                    <DockPanel Margin="10">
+                        <Label Content="Online Stuff" FontSize="18" DockPanel.Dock="top"/>
+                        <materialDesign:Card Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Top" DockPanel.Dock="Top" Margin="0, 10, 0 ,10">
+                            <DockPanel >
+                                <Label Content="Nexus API key" FontSize="18" DockPanel.Dock="Top"/>
+                                <TextBox Width="650" ToolTip="Copy the API key found on your account settings on nexus here" Name="NexAPIKey" materialDesign:HintAssist.Hint="Nexus API Key" Margin="5 0 0 0" BorderThickness="0,0,0,0"  Style="{DynamicResource MaterialDesignTextBox}" materialDesign:TextFieldAssist.UnderlineBrush="Transparent" FontSize="20"  HorizontalAlignment="Stretch"/>
+                            </DockPanel>
+                        </materialDesign:Card>
+                    </DockPanel>
+                </Border>
+                
             </DockPanel>
             <Button Click="close_btn_Click" Name="close_btn" Content="Ok" HorizontalAlignment="Right" Height="40" Background="White" materialDesign:ShadowAssist.ShadowDepth="Depth0" BorderThickness="1" BorderBrush="LightGray" Foreground="#FF2196F3" materialDesign:ButtonAssist.CornerRadius="5" Style="{DynamicResource MaterialDesignFlatButton}" Margin="10" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
         </StackPanel>

@@ -701,5 +701,15 @@ namespace StormLoader
             RepoBrowserRoot rpbr = new RepoBrowserRoot();
             rpbr.Show();
         }
+
+        private void BrowseNexus_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BrowseOnline_Click(object sender, RoutedEventArgs e)
+        {
+            BrowseOnline.ContextMenu.IsOpen = true;
+        }
     }
 }

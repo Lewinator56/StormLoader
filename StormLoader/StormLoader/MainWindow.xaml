@@ -27,16 +27,21 @@
                                 <Label Content="Add mod from file"/>
                             </StackPanel>
                         </Button>
-
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="BrowseRepo" Height="30" Width="160" Background="White" BorderBrush="LightGray" BorderThickness="2 2 2 2" Foreground="Black" Margin="7"  HorizontalContentAlignment="Left" Click="BrowseRepo_Click">
+                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="BrowseOnline" Height="30" Width="160" Background="White" BorderBrush="LightGray" BorderThickness="2 2 2 2" Foreground="Black" Margin="7"  HorizontalContentAlignment="Left" Click="BrowseOnline_Click">
                             <StackPanel Orientation="horizontal" Margin="-10" HorizontalAlignment="Left" >
                                 <materialDesign:PackIcon Kind="DownloadBox" VerticalAlignment="Center">
                                     <materialDesign:PackIcon.LayoutTransform>
                                         <ScaleTransform ScaleX="1" ScaleY="1"/>
                                     </materialDesign:PackIcon.LayoutTransform>
                                 </materialDesign:PackIcon>
-                                <Label Content="Browse repo"/>
+                                <Label Content="Browse online"/>
                             </StackPanel>
+                            <Button.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Browse Repo" Click="BrowseRepo_Click"/>
+                                    <MenuItem Header="Browse Nexus" Click="BrowseNexus_Click"/>
+                                </ContextMenu>
+                            </Button.ContextMenu>
                         </Button>
                     </StackPanel>
                     
