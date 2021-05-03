@@ -8,5 +8,8 @@ namespace StormLoader.Nexus
 {
     class NexusModsAPIManager
     {
+        string ApiKey = GlobalVar.NMAPIKey;
+
+
     }
 }
