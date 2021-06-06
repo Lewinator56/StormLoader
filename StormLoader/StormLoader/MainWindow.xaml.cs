@@ -35,6 +35,8 @@ namespace StormLoader
         public string gameLocation = "";
         public List<ModListItem> modListItems = new List<ModListItem>();
         public string version = "v1.0.4";
+        public bool x64 { get; set; }
+        public bool notx64 { get { return !x64; } set { x64=!value; } }
         public MainWindow()
         {
             AppDomain cd = AppDomain.CurrentDomain;
@@ -51,11 +53,15 @@ namespace StormLoader
             CreateDir("Downloaded");
             gameLocation = settingsDoc.SelectSingleNode("/Settings/Game_Location").InnerText;
             settingsDoc.SelectSingleNode("/Settings/Version").InnerText = version;
+            x64 = settingsDoc.SelectSingleNode("/Settings/x64").InnerText == "true";
             settingsDoc.Save("Settings.xml");
 
 
             currentProfile.Load("CurrentProfile.xml");
             this.Title = "StormLoader : " + currentProfile.SelectSingleNode("/Profile").Attributes["Name"].InnerText;
+
+            x64Box.DataContext = this;
+            x86Box.DataContext = this;
             displayModList();
             ApplyProfileAlt();
             
@@ -241,6 +247,7 @@ namespace StormLoader
                 xw.WriteElementString("Mod_Location", "./Extracted");
                 xw.WriteElementString("Game_Location", "C:/Program Files (x86)/Steam/steamapps/common/Stormworks");
                 xw.WriteElementString("Version", version);
+                xw.WriteElementString("x64", "true");
                 xw.WriteEndElement();
                 xw.WriteEndDocument();
                 xw.Close();
@@ -675,10 +682,14 @@ namespace StormLoader
 
         private void LaunchGame_Click(object sender, RoutedEventArgs e)
         {
-            ShowInfoPopup("Launching game", new List<Control>(), PackIconKind.Information);
+            ShowInfoPopup("Launching game" + (x64 ? " 64-bit" : " 32-bit") , new List<Control>(), PackIconKind.Information);
             try
             {
-                System.Diagnostics.Process.Start(gameLocation + "/stormworks64.exe");
+                System.Diagnostics.Process p = new System.Diagnostics.Process();
+                p.StartInfo.FileName = gameLocation + "/stormworks" + (x64 ? "64" : "") + ".exe";
+                p.StartInfo.Arguments = "-n";
+                p.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
+                p.Start();
             } catch
             {
                 Label tb = new Label();
@@ -710,6 +721,13 @@ namespace StormLoader
         private void BrowseOnline_Click(object sender, RoutedEventArgs e)
         {
             BrowseOnline.ContextMenu.IsOpen = true;
+        }
+
+        private void ContextMenu_Closed(object sender, RoutedEventArgs e)
+        {
+            settingsDoc.Load("Settings.xml");
+            settingsDoc.SelectSingleNode("/Settings/x64").InnerText = x64 ? "true" : "false";
+            settingsDoc.Save("Settings.xml");
         }
     }
 }

@@ -46,7 +46,13 @@
                     </StackPanel>
                     
 
-                    <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="LaunchGame" Height="75" Width="75" Background="White" BorderBrush="LightGray" BorderThickness="2 2 2 2" Foreground="Black" Margin="10" Click="LaunchGame_Click" >
+                    <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="LaunchGame" Height="75" Width="75" Background="White" BorderBrush="LightGray" BorderThickness="2 2 2 2" Foreground="Black" Margin="10" Click="LaunchGame_Click">
+                        <Button.ContextMenu >
+                            <ContextMenu Closed="ContextMenu_Closed">
+                                <RadioButton Name="x64Box" Content="x64" GroupName="bits" IsChecked="{Binding x64}"/>
+                                <RadioButton Name="x86Box" Content="x86" GroupName="bits" IsChecked="{Binding notx64}"/>
+                            </ContextMenu>
+                        </Button.ContextMenu>
                         <StackPanel Orientation="Vertical" Margin="-10" >
                             <materialDesign:PackIcon Kind="Play" HorizontalAlignment="Center">
                                 <materialDesign:PackIcon.LayoutTransform>
