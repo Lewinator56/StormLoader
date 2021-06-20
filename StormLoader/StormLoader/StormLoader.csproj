@@ -154,6 +154,7 @@
     <Compile Include="SettingsPopup.xaml.cs">
       <DependentUpon>SettingsPopup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="StringFormatTools.cs" />
     <Compile Include="UpdateDialog.xaml.cs">
       <DependentUpon>UpdateDialog.xaml</DependentUpon>
     </Compile>

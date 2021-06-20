@@ -34,7 +34,7 @@ namespace StormLoader
         public XmlDocument currentProfile = new XmlDocument();
         public string gameLocation = "";
         public List<ModListItem> modListItems = new List<ModListItem>();
-        public string version = "v1.0.4";
+        public string version = "v1.0.5";
         public bool x64 { get; set; }
         public bool notx64 { get { return !x64; } set { x64=!value; } }
         public MainWindow()
@@ -169,10 +169,10 @@ namespace StormLoader
             currentProfile.Load("CurrentProfile.xml");
             foreach (ModListItem mli in ModList.Children)
             {
-                if (currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()='" + mli.ModName.Content + "']") != null)
+                if (currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()=\"" + mli.ModName.Content + "\"]") != null)
                 {
                     DbgLog.WriteLine(mli.ModName.Content.ToString());
-                    DbgLog.WriteLine(currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()='" + mli.ModName.Content + "']").InnerText);
+                    DbgLog.WriteLine(currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()=\"" + mli.ModName.Content + "\"]").InnerText);
                     DbgLog.WriteLine("Found");
                     mli.SetActive(true);
                 } else
@@ -470,17 +470,17 @@ namespace StormLoader
             currentProfile.Load("CurrentProfile.xml");
             foreach (ModListItem mli in ModList.Children)
             {
-                if (currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()='" + mli.ModName.Content + "']") != null)
+                if (currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()=\"" + mli.ModName.Content + "\"]") != null)
                 {
                     //Debug.WriteLine(mli.ModName.Content);
                     //Debug.WriteLine(currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()='" + mli.ModName.Content + "']"));
-                    DbgLog.WriteLine("Found");
+                    //DbgLog.WriteLine("Found");
                     string modPath = mli.modPath;
-                    DbgLog.WriteLine("test");
+                    //DbgLog.WriteLine("test");
                     try
                     {
                         RecursiveCopy(new DirectoryInfo(modPath + "/Meshes/"), new DirectoryInfo(gameLocation + "/rom/meshes/"));
-                        DbgLog.WriteLine("Running");
+                        //DbgLog.WriteLine("Running");
                     }
                     catch (Exception e) {}
                     try
@@ -501,7 +501,7 @@ namespace StormLoader
                     try
                     {
                         RecursiveDelete(new DirectoryInfo(modPath + "/Meshes/"), new DirectoryInfo(gameLocation + "/rom/meshes/"));
-                        DbgLog.WriteLine("Running Delete");
+                        //DbgLog.WriteLine("Running Delete");
                     }
                     catch (Exception) { }
                     try
@@ -655,11 +655,17 @@ namespace StormLoader
             InfoPopup ifp = new InfoPopup();
             ifp.titleText.Content = title;
             ifp.icon.Kind = iconKind;
-
-            foreach (Control c in controls)
+            
+            if (controls != null)
             {
-                ifp.infoContainer.Children.Add(c);
+                foreach (Control c in controls)
+                {
+                    ifp.infoContainer.Children.Add(c);
+                }
             }
+                
+            
+            
             MaterialDesignThemes.Wpf.DialogHost.Show(ifp);
 
         }
@@ -715,7 +721,12 @@ namespace StormLoader
 
         private void BrowseNexus_Click(object sender, RoutedEventArgs e)
         {
-
+            List<Control> cons = new List<Control>();
+            cons.Add(new Label
+            {
+                Content = "I know how much you all want this, but its taking a while :("
+            });
+            ShowInfoPopup("Not Implemented Yet", cons, PackIconKind.SmileySadOutline);
         }
 
         private void BrowseOnline_Click(object sender, RoutedEventArgs e)
