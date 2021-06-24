@@ -211,7 +211,13 @@ namespace StormLoader
             {
                 AddModFromZip(path, nameWithoutExt);
             }
-            
+            XmlDocument meta = new XmlDocument();
+            meta.Load(modExtractionDir + "/" + nameWithoutExt + "/metadata.xml");
+            DbgLog.WriteLine(meta.OuterXml);
+
+
+            AddModNew(modExtractionDir + "/" + nameWithoutExt, nameWithoutExt, meta.SelectSingleNode("/Metadata/Version").InnerText, meta.SelectSingleNode("/Metadata/Author").InnerText);
+
             displayModList();
             ApplyProfileAlt();
         }
@@ -220,12 +226,7 @@ namespace StormLoader
         {
             ZipFile z = new ZipFile(path);
             z.ExtractAll(modExtractionDir + "/" + nameWithoutExt, ExtractExistingFileAction.OverwriteSilently);
-            XmlDocument meta = new XmlDocument();
-            meta.Load(modExtractionDir + "/" + nameWithoutExt + "/metadata.xml");
-            DbgLog.WriteLine(meta.OuterXml);
-
-
-            AddModNew(modExtractionDir + "/" + nameWithoutExt, nameWithoutExt, meta.SelectSingleNode("/Metadata/Version").InnerText, meta.SelectSingleNode("/Metadata/Author").InnerText);
+            
         }
         private void AddModFromZip(string path, string nameWithoutExt)
         {
