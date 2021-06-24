@@ -63,6 +63,16 @@ namespace StormLoader
         {
             GlobalVar.mw.SelectMod(ModName.Content.ToString(), modPath);
         }
+
+        private void Card_MouseEnter(object sender, MouseEventArgs e)
+        {
+            MaterialDesignThemes.Wpf.ShadowAssist.SetShadowDepth(ModCard, ShadowDepth.Depth2);
+        }
+
+        private void Card_MouseLeave(object sender, MouseEventArgs e)
+        {
+            MaterialDesignThemes.Wpf.ShadowAssist.SetShadowDepth(ModCard, ShadowDepth.Depth1);
+        }
     }
 }
 

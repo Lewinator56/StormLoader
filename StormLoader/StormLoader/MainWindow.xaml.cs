@@ -188,12 +188,12 @@ namespace StormLoader
         private void AddMod_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog opf = new Microsoft.Win32.OpenFileDialog();
-            opf.Filter = "StormLoader mod package|*.slp";
+            opf.Filter = "StormLoader mod package|*.slp|Zip File|*.zip";
             Nullable<bool> r = opf.ShowDialog();
 
             if (r == true)
             {
-                addModFromFile(opf.FileName,System.IO.Path.GetFileNameWithoutExtension(opf.FileName));
+                addModFromFile(opf.FileName, System.IO.Path.GetFileNameWithoutExtension(opf.FileName), System.IO.Path.GetExtension(opf.FileName));
                 
                 
             }
@@ -201,10 +201,24 @@ namespace StormLoader
 
         }
 
-        public void addModFromFile(string path, string nameWithoutExt)
+        public void addModFromFile(string path, string nameWithoutExt, string ext)
+        {
+            
+            if (ext == ".slp")
+            {
+                AddModFromSLP(path, nameWithoutExt);
+            } else if (ext == ".zip")
+            {
+                AddModFromZip(path, nameWithoutExt);
+            }
+            
+            displayModList();
+            ApplyProfileAlt();
+        }
+
+        private void AddModFromSLP(string path, string nameWithoutExt)
         {
             ZipFile z = new ZipFile(path);
-            
             z.ExtractAll(modExtractionDir + "/" + nameWithoutExt, ExtractExistingFileAction.OverwriteSilently);
             XmlDocument meta = new XmlDocument();
             meta.Load(modExtractionDir + "/" + nameWithoutExt + "/metadata.xml");
@@ -212,8 +226,103 @@ namespace StormLoader
 
 
             AddModNew(modExtractionDir + "/" + nameWithoutExt, nameWithoutExt, meta.SelectSingleNode("/Metadata/Version").InnerText, meta.SelectSingleNode("/Metadata/Author").InnerText);
-            displayModList();
-            ApplyProfileAlt();
+        }
+        private void AddModFromZip(string path, string nameWithoutExt)
+        {
+            Directory.CreateDirectory("temp");
+            Directory.CreateDirectory(modExtractionDir + "/" + nameWithoutExt);
+            ZipFile z = new ZipFile(path);
+            z.ExtractAll("temp", ExtractExistingFileAction.OverwriteSilently);
+
+
+            CheckFilesInDirectory("temp", modExtractionDir + "/" + nameWithoutExt, "", false);
+            Directory.Delete("temp", true);
+            // now check if metadata exists
+            
+            if (!File.Exists(modExtractionDir + "/" + nameWithoutExt + "/" + "Metadata.xml"))
+            {
+                
+                // ok its not here, time to generate one
+                XmlWriterSettings xws = new XmlWriterSettings();
+                xws.Indent = true;
+                xws.IndentChars = "\t";
+                xws.OmitXmlDeclaration = false;
+                xws.Encoding = Encoding.UTF8;
+
+                XmlWriter xw = XmlWriter.Create(modExtractionDir + "/" + nameWithoutExt + "/Metadata.xml", xws);
+                xw.WriteStartDocument();
+                xw.WriteStartElement("Metadata");
+                xw.WriteElementString("Author", "Unknown");
+                xw.WriteElementString("Version", "Unknown");
+                xw.WriteEndElement();
+                xw.WriteEndDocument();
+
+                xw.Close();
+
+            }
+            
+        }
+
+        private void CheckFilesInDirectory(string path, string modExtractionDir, string currentIterationPath, bool isInSubfolder)
+        {
+            
+            // first lets check if there are any files to copy
+            if (Directory.GetFiles(path).Length > 0)
+            {
+                // ok now lets check what the files are, .mesh goes into modExtractionDir/Meshes and .ogg goes into /Audio and .xml goes into /Definitions
+                foreach(string f in Directory.GetFiles(path))
+                {
+                    string filenameWithoutPath = f.Substring(f.LastIndexOf(System.IO.Path.DirectorySeparatorChar) + 1);
+                    // first, lets check for a metadata file
+                    if (filenameWithoutPath == "Metadata.xml" || filenameWithoutPath == "info.html")
+                    {
+                        File.Copy(f, modExtractionDir + filenameWithoutPath, true);
+                    }
+                    // ok, now to actually copy the files
+                    if (f.Substring(f.LastIndexOf('.') + 1) == "mesh")
+                    {
+                        Directory.CreateDirectory(modExtractionDir + "/Meshes/" + currentIterationPath);
+                        // copy the file to the meshes folder
+                        File.Copy(f, modExtractionDir + "/Meshes/" + currentIterationPath + "/" + filenameWithoutPath, true);
+                    }
+                    else if (f.Substring(f.LastIndexOf('.') + 1) == "ogg")
+                    {
+                        Directory.CreateDirectory(modExtractionDir + "/Audio/" + currentIterationPath);
+                        // copy the file to the meshes folder
+                        File.Copy(f, modExtractionDir + "/Audio/"+ currentIterationPath + "/" + filenameWithoutPath, true);
+                    }
+                    else if (f.Substring(f.LastIndexOf('.') + 1) == "xml")
+                    {
+                        Directory.CreateDirectory(modExtractionDir + "/Definitions");
+                        // copy the file to the meshes folder
+                        File.Copy(f, modExtractionDir + "/Definitions/" + filenameWithoutPath, true);
+                    }
+                }
+            }
+            // ok weve done that, now to check for subdirectories
+            if (Directory.GetDirectories(path).Length > 0)
+            {
+                // call itself, but change a few things
+                foreach(String dir in Directory.GetDirectories(path))
+                {
+                    string directoryWithoutPath = dir.Substring(dir.LastIndexOf(System.IO.Path.DirectorySeparatorChar) + 1);
+                    if (directoryWithoutPath.Equals("meshes", StringComparison.OrdinalIgnoreCase) || directoryWithoutPath.Equals("audio", StringComparison.OrdinalIgnoreCase))
+                    {
+                        // update the current iteration path to take this into account
+                        //Directory.CreateDirectory(modExtractionDir + "/" + currentIterationPath + "/" + directoryWithoutPath);
+                        CheckFilesInDirectory(path + "/" + directoryWithoutPath, modExtractionDir, currentIterationPath, true);
+                    }
+                    // got to do another check now, the previous one only works for the first iteration
+                    if (isInSubfolder == true)
+                    {
+                        //Directory.CreateDirectory(modExtractionDir + "/" + currentIterationPath + "/" + directoryWithoutPath);
+                        CheckFilesInDirectory(path + "/" + directoryWithoutPath, modExtractionDir, currentIterationPath + "/" + directoryWithoutPath, true);
+                    }
+                    CheckFilesInDirectory(path + "/" + directoryWithoutPath, modExtractionDir, currentIterationPath, false);
+                }
+            }
+            // otherwise, we are done
+            return;
         }
 
         private async void Settings_Click(object sender, RoutedEventArgs e)

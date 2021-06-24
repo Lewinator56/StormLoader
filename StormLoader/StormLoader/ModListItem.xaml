@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:StormLoader"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <materialDesign:Card Height="40" HorizontalAlignment="Stretch" Width="auto" Margin="5" MouseDown="Card_MouseDown">
+    <materialDesign:Card Name="ModCard" Height="40" HorizontalAlignment="Stretch" Width="auto" Margin="5" MouseDown="Card_MouseDown" MouseEnter="Card_MouseEnter" MouseLeave="Card_MouseLeave" materialDesign:ShadowAssist.ShadowDepth="Depth1">
         <DockPanel Margin="5">
             <materialDesign:PackIcon Name="ModActive" Kind="Check" Foreground="Green" VerticalAlignment="Center">
                 

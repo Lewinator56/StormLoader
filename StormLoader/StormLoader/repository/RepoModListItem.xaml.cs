@@ -74,7 +74,7 @@ namespace StormLoader.repository
             File.WriteAllBytes("Downloaded/" + modName.Content + ".slp", mod);
             InfoPopup ifp = new InfoPopup();
             ifp.titleText.Content = "Download Complete, Activating Mod";
-            GlobalVar.mw.addModFromFile("Downloaded/" + modName.Content + ".slp", modName.Content.ToString());
+            GlobalVar.mw.addModFromFile("Downloaded/" + modName.Content + ".slp", modName.Content.ToString(), ".slp");
             await rbr.RepoDialog.ShowDialog(ifp);
 
         }
