@@ -23,7 +23,7 @@
                         </materialDesign:PackIcon.LayoutTransform>
                     </materialDesign:PackIcon>
                     <Label Name ="titleText" Content="Repository Browser" FontSize="24" VerticalAlignment="Center" DockPanel.Dock="left"/>
-                    <Button Name="UploadMod" Style="{DynamicResource MaterialDesignFlatButton}" Content="Upload" DockPanel.Dock="Right" HorizontalAlignment="right" Click="UploadMod_Click"/>
+                    <Button Name="UploadMod" Style="{DynamicResource MaterialDesignFlatButton}" Content="Manage your content" DockPanel.Dock="Right" HorizontalAlignment="right" Click="UploadMod_Click"/>
                 </DockPanel>
                 
             </materialDesign:Card>

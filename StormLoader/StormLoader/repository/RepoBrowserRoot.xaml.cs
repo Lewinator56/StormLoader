@@ -96,8 +96,10 @@ namespace StormLoader.repository
 
         private void UploadMod_Click(object sender, RoutedEventArgs e)
         {
-            RepoLoginPanel rplp = new RepoLoginPanel();
-            RepoDialog.ShowDialog(rplp);
+            System.Diagnostics.Process.Start("https://portal.stormloader.uk");
+
+            //RepoLoginPanel rplp = new RepoLoginPanel();
+            //RepoDialog.ShowDialog(rplp);
         }
 
         private void refreshListing_Click(object sender, RoutedEventArgs e)
