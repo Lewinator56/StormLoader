@@ -716,7 +716,8 @@ namespace StormLoader
             {
                 System.Diagnostics.Process p = new System.Diagnostics.Process();
                 p.StartInfo.FileName = gameLocation + "/stormworks" + (x64 ? "64" : "") + ".exe";
-                p.StartInfo.Arguments = "-n";
+                p.StartInfo.Arguments = "";
+                p.StartInfo.WorkingDirectory = gameLocation;
                 p.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
                 p.Start();
             } catch
