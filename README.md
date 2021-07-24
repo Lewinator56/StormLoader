@@ -22,6 +22,9 @@ I, StormLoader and mods loaded with stormloader are not affiliated with stormwor
 * Any bugs, issues or features please create an issue on the repo with the links above.
 * If you want to make your own mods, this is the wrong tool, you are looking for the mesh converter, which can be found here: https://github.com/Lewinator56/swMesh2XML_repo.
 * Any other support can be requested on discord by DM'ing @Lewinator56#9325 or joining the SMF discord server: https://discord.gg/9HS7cb6.
+# Manage your Mods
+* Ive recently added an online portal to manage mods for stormworks, and that will directly impact the repository browser in StormLoader, its all secured over HTTPS, and is available here: https://portal.stormloader.uk
+* Ill be adding a repo browser to it soon too!
 
 # The Repository
 Yep, StormLoader has its own repository, its currently hosted on one of my servers, of course, you can host it yourself (and all the info about it is below). Now, i have to mention that if you want to upload stuff onto it, you will need to create an account, this only needs a username and password, both of which are not classified as identifiable information, of course, im taking appropriate precautions to protect your data. Where applicable, information is transmitted pre-hashed to the server, so your passwords are never stored, transmitted or accessed in plain text, in fact, they only temoprarily exist in local RAM on your system in plain text. The connection infromation for the SQL database is securely stored in a DLL, that isnt open source. Only I have access to the database (and the user for the StormLoader connections), and as such, your data is protected. Should you wish to have data removed, just ask and ill do it ASAP (ok, i *could* have added an option to delete your account from within StormLoader, but chose not to)
