@@ -90,17 +90,17 @@ namespace StormLoader.repository
                 conn.Open();
                 if (searchterm == "" && !verified)
                 {
-                    sql = "SELECT mod_id FROM mods;";
+                    sql = "SELECT mod_id FROM mods";
                 } else if (searchterm != "" && !verified)
                 {
-                    sql = "SELECT mod_id FROM mods WHERE mod_name LIKE '%" + searchterm + "%';";
+                    sql = "SELECT mod_id FROM mods WHERE mod_name LIKE '%" + searchterm + "%'";
                 } else if (searchterm != "" && verified) {
-                    sql = "SELECT mod_id FROM mods WHERE mod_name LIKE '%" + searchterm + "%' AND mod_smf_verified=1;";
+                    sql = "SELECT mod_id FROM mods WHERE mod_name LIKE '%" + searchterm + "%' AND mod_smf_verified=1";
                 } else if (searchterm == "" && verified)
                 {
-                    sql = "SELECT mod_id FROM mods WHERE mod_smf_verified=1;";
+                    sql = "SELECT mod_id FROM mods WHERE mod_smf_verified=1";
                 }
-                
+                sql += " ORDER BY mod_id DESC;"; // make the results a bit nicer, orders by the latest upload
                 MySqlCommand msc = new MySqlCommand(sql, conn);
                 MySqlDataReader mdr = msc.ExecuteReader();
                 DataTable dt = new DataTable();

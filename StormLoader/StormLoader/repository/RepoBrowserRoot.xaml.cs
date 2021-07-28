@@ -57,11 +57,13 @@ namespace StormLoader.repository
             }
             foreach (DataRow rmds in dt.Rows)
             {
+                // change to use one thread for the entire repo browser, its a bit slower, but will hoppefully prevent crashes
                 int mod_id = (int)rmds["mod_id"];
                 //this.Dispatcher.Invoke(() => { addModListItem(mod_id, sqcm); }) ;
-                Thread t = new Thread(() => addModListItem(mod_id ));
-                t.SetApartmentState(ApartmentState.STA);
-                t.Start();
+                //Thread t = new Thread(() => addModListItem(mod_id ));
+                addModListItem(mod_id);
+                //t.SetApartmentState(ApartmentState.STA);
+                //t.Start();
 
                 
                 
