@@ -43,6 +43,8 @@ namespace StormLoader
         private void ActvMod_Btn_Click(object sender, RoutedEventArgs e)
         {
             SetActive(true);
+            //mod_handling.ModInstaller mi = new mod_handling.ModInstaller();
+            //mi.InstallMod(ModName.Content.ToString(), modPath, GlobalVar.mw.gameLocation);
             
             GlobalVar.mw.SetModActive(ModName.Content.ToString(), modPath, true);
             
@@ -51,11 +53,15 @@ namespace StormLoader
         private void DeActvMod_Click(object sender, RoutedEventArgs e)
         {
             SetActive(false);
+            //mod_handling.ModInstaller mi = new mod_handling.ModInstaller();
+            //mi.DeleteByInstallInfo(ModName.Content.ToString(), GlobalVar.mw.gameLocation);
             GlobalVar.mw.SetModActive(ModName.Content.ToString(), modPath, false);
         }
 
         private void UninsMod_Click(object sender, RoutedEventArgs e)
         {
+            //mod_handling.ModInstaller mi = new mod_handling.ModInstaller();
+            //mi.DeleteByInstallInfo(ModName.Content.ToString(), GlobalVar.mw.gameLocation);
             GlobalVar.mw.DeleteMod(ModName.Content.ToString(), modPath);
         }
 

@@ -18,7 +18,7 @@ using System.Windows.Shapes;
 using System.Xml;
 using Ionic.Zip;
 using System.Security.RightsManagement;
-using System.IO;
+
 using System.Net;
 using StormLoader.repository;
 
@@ -37,6 +37,7 @@ namespace StormLoader
         public string version = "v1.0.9";
         public bool x64 { get; set; }
         public bool notx64 { get { return !x64; } set { x64=!value; } }
+        mod_handling.ModInstaller mi = new mod_handling.ModInstaller();
         public MainWindow()
         {
             AppDomain cd = AppDomain.CurrentDomain;
@@ -63,7 +64,7 @@ namespace StormLoader
             x64Box.DataContext = this;
             x86Box.DataContext = this;
             displayModList();
-            ApplyProfileAlt();
+            //ApplyProfileAlt();
             
             
             
@@ -217,9 +218,12 @@ namespace StormLoader
 
 
             AddModNew(modExtractionDir + "/" + nameWithoutExt, nameWithoutExt, meta.SelectSingleNode("/Metadata/Version").InnerText, meta.SelectSingleNode("/Metadata/Author").InnerText);
-
-            displayModList();
-            ApplyProfileAlt();
+            this.Dispatcher.Invoke(() =>
+            {
+                displayModList();
+                //ApplyProfileAlt();
+            });
+            
         }
 
         private void AddModFromSLP(string path, string nameWithoutExt)
@@ -338,7 +342,7 @@ namespace StormLoader
             gameLocation = sp.InsLoc.GetLocation();
             settingsDoc.Save("Settings.xml");
             CreateDir(modExtractionDir);
-            ApplyProfileAlt();
+            //ApplyProfileAlt();
         }
 
         private void createSetupFile()
@@ -467,8 +471,8 @@ namespace StormLoader
             }
             this.Title = "StormLoader : " + currentProfile.SelectSingleNode("/Profile").Attributes["Name"].InnerText;
             displayModList();
-            CheckModActiveAlt();
-            ApplyProfileAlt();
+            //CheckModActiveAlt();
+            //ApplyProfileAlt();
         }
 
         private void SaveProfile_Btn_Click(object sender, RoutedEventArgs e)
@@ -610,6 +614,9 @@ namespace StormLoader
             ModRoot.AppendChild(ModNode);
 
             currentProfile.Save("CurrentProfile.xml");
+
+            // install the mod
+            mi.InstallMod(modName, modPath, gameLocation);
             //ApplyProfileAlt();
         }
 
@@ -637,9 +644,10 @@ namespace StormLoader
                 
                 }
                 catch (Exception) { }
+                mi.DeleteByInstallInfo(modName, gameLocation);
             }
             currentProfile.Save("CurrentProfile.xml");
-            ApplyProfileAlt();
+            //ApplyProfileAlt();
 
         }
 
@@ -653,7 +661,8 @@ namespace StormLoader
             {
                 Directory.Delete(path, true);
             }
-            ApplyProfileAlt();
+            //ApplyProfileAlt();
+            mi.DeleteByInstallInfo(modName, gameLocation);
             displayModList();
         }
 

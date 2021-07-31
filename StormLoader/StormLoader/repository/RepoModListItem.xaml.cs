@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
 using MaterialDesignThemes.Wpf;
+using System.Threading;
 
 namespace StormLoader.repository
 {
@@ -65,17 +66,22 @@ namespace StormLoader.repository
 
         private  void getModBtn_Click(object sender, RoutedEventArgs e)
         {
-            downloadMod();
+            string name = modName.Content.ToString();
+            Thread t = new Thread(() => downloadMod(name));
+
+            t.SetApartmentState(ApartmentState.STA);
+            t.Start();
         }
 
-        private async void downloadMod()
+        private async void downloadMod(string name)
         {
             byte[] mod = await GlobalVar.sqcm.downloadMod(id);
-            File.WriteAllBytes("Downloaded/" + modName.Content + ".slp", mod);
-            InfoPopup ifp = new InfoPopup();
-            ifp.titleText.Content = "Download Complete, Activating Mod";
-            GlobalVar.mw.addModFromFile("Downloaded/" + modName.Content + ".slp", modName.Content.ToString(), ".slp");
-            await rbr.RepoDialog.ShowDialog(ifp);
+            File.WriteAllBytes("Downloaded/" + name + ".slp", mod);
+            //InfoPopup ifp = new InfoPopup();
+            //ifp.titleText.Content = "Download Complete, Activating Mod";
+            GlobalVar.mw.addModFromFile("Downloaded/" + name + ".slp", name, ".slp");
+            
+            //await rbr.RepoDialog.ShowDialog(ifp);
 
         }
     }
