@@ -23,7 +23,7 @@ namespace StormLoader.mod_handling
             if (CheckModInstalled(modName, gamePath))
             {
                 //ask overwrite
-                if (MessageBox.Show("The mod " + modName + " is already installed, do you want to overwrite it?", "Overwrite File", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                if (MessageBox.Show("The mod " + modName + " is already installed, do you want to overwrite it? \n (Overwriting a mod will place THIS mod at the top of the overwrites list unless you choose not to overwrite individual files)", "Overwrite File", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
                 {
                     overwrite = false;
                 }
@@ -36,20 +36,16 @@ namespace StormLoader.mod_handling
             if (!CheckModInstalled(modName, gamePath) || overwrite)
             {
                 //add the mod to the installinfo file
+                
+                if (overwrite)
+                {
+                    // uninstall the mod before re-installing it
+                    DeleteByInstallInfo(modName, gamePath);
+                }
                 XmlDocument installInfo = new XmlDocument();
                 installInfo.Load(gamePath + "/StormLoader_install_info.xml");
                 XmlNode installRoot = installInfo.SelectSingleNode("/InstallInfo");
                 XmlElement modParent;
-                if (overwrite)
-                {
-                    foreach (XmlNode xn in installRoot)
-                    {
-                        if (xn.Attributes["Name"].Value == modName)
-                        {
-                            installRoot.RemoveChild(xn);
-                        }
-                    }
-                } 
                 modParent = installInfo.CreateElement("Mod");
                 modParent.SetAttribute("Name", modName);
                 installRoot.AppendChild(modParent);
@@ -92,21 +88,54 @@ namespace StormLoader.mod_handling
             foreach (FileInfo f in source.GetFiles())
             {
                 bool installFile = true;
+                bool exists = File.Exists(location + f.Name);
+                string overwriteSource = "";
+                string relativeFileName = location.ToString().Replace(GlobalVar.mw.gameLocation, "") + f.Name;
                 // check the file doesnt exist
                 foreach (XmlElement modRoot in installRoot)
                 {
                     foreach (XmlElement modFile in modRoot)
                     {
+                        // loop for every file
+                        // in the installinfo xml to check for overwrites
                         string filePath = modFile.Attributes["Path"].Value;
-                        if (filePath == location.ToString().Replace(GlobalVar.mw.gameLocation, "") + f.Name)
+                        string overwritesData = "";
+                        string overwrittenData = "";
+
+                        // find the mod the current iteration overwrites
+                        overwritesData = modFile.GetAttribute("Overwrites");
+
+                        // find the mod overwriting the current iteration
+                        overwrittenData = modFile.GetAttribute("Overwritten");
+
+                        //
+                        // The final mod in an insttall with many overwrites will only have an 'Overwrites' attribute, NOT an overwritten attribute,
+                        // this can be checked by checking if overwrittenData, which specifys the path for the mod overwriting the file, doesnt exist
+                        // if it doesnt, then its the top mod, and the one that needs overwriting
+                        //
+                        // if the path for the current FILE is equal to the path for the current iteration in installinfo AND if the mod isnt overwritten
+                        // ask the user if they want to overwrite the current mod
+                        // if yes, add the 'overwritten' attribute to the current iteration mod, and then write the new mod with the overwrites attribute
+
+                        // If the user doesnt want to overwrite the existing file, we can just ignore this and not install the file,
+                        // if there are no files to overwrite, proceed with a normal install
+                        if (filePath == relativeFileName && overwrittenData == "" && modRoot.GetAttribute("Name") != currentModNode.GetAttribute("Name"))
                         {
                             //ask overwrite
-                            if (AskOverwriteFile(location.ToString().Replace(GlobalVar.mw.gameLocation, "") + f.Name, modRoot.Attributes["Name"].Value))
+                            if (AskOverwriteFile(relativeFileName, modRoot.GetAttribute("Name")))
                             {
                                 // overwrite the file
+                                overwriteSource = modRoot.GetAttribute("Name") + "::" + filePath;
                                 installFile = true;
-                                modRoot.RemoveChild(modFile);
+
+
+                                //modFile.RemoveAttribute("Overwrites");
+                                modFile.SetAttribute("Overwritten", (currentModNode.GetAttribute("Name") + "::" + relativeFileName));
+                                installInfo.Save(location + "/StormLoader_install_info.xml");
                                 
+
+                                //modRoot.RemoveChild(modFile);
+
                             } else
                             {
                                 // skip this file
@@ -119,13 +148,16 @@ namespace StormLoader.mod_handling
                         }
                     }
                 }
+                
                 if (installFile)
                 {
-                    File.Copy(source + f.Name, location + f.Name, true);
-                    XmlElement modFileElement = installInfo.CreateElement("File");
-                    modFileElement.SetAttribute("Path", location.ToString().Replace(GlobalVar.mw.gameLocation, "") + f.Name);
-                    currentModNode.AppendChild(modFileElement);
-                    installInfo.Save(location + "StormLoader_install_info.xml");
+                    if (overwriteSource != "")
+                    {
+                        InstallModFile(source + f.Name, location + f.Name, true, overwriteSource, installInfo, currentModNode);
+                    } else
+                    {
+                        InstallModFile(source + f.Name, location + f.Name, false, "", installInfo, currentModNode);
+                    }
                 }
                 
 
@@ -140,6 +172,22 @@ namespace StormLoader.mod_handling
             }
         }
 
+        private void InstallModFile(string source, string location, bool overwrite, string overwriteSource, XmlDocument installInfo, XmlElement currentModNode)
+        {
+            File.Copy(source, location, true);
+            XmlElement modFileElement = installInfo.CreateElement("File");
+            modFileElement.SetAttribute("Path", location.ToString().Replace(GlobalVar.mw.gameLocation, ""));
+            if (overwrite)
+            {
+                modFileElement.SetAttribute("Overwrites", overwriteSource);
+
+            }
+            modFileElement.SetAttribute("ContentPath", source);
+            currentModNode.AppendChild(modFileElement);
+            installInfo.Save(GlobalVar.mw.gameLocation + "/StormLoader_install_info.xml");
+        }
+
+
         public void DeleteByInstallInfo(string modName, string gameLocation)
         {
             XmlDocument installInfo = new XmlDocument();
@@ -149,13 +197,74 @@ namespace StormLoader.mod_handling
             {
                 if (mod.Attributes["Name"].Value == modName)
                 {
+                    // we are now traversing the mod being uninstalled
                     foreach (XmlElement file in mod)
                     {
-                        try
+                        string overwrittenBy = "";
+                        string overwrites = "";
+                        
+
+                        // check the current mod file in the iteratio is overwritten
+                        overwrittenBy = file.GetAttribute("Overwritten");
+                        // check if the current mod file in the iteration is overwriting another
+                        overwrites = file.GetAttribute("Overwrites");
+
+                        XmlElement nodeOverwriting = null;
+                        XmlElement overwrittenNode = null;
+
+                        if (overwrittenBy != "")
                         {
-                            File.Delete(gameLocation + file.Attributes["Path"].Value);
-                            mod.RemoveChild(file);
-                        } catch { }
+                            nodeOverwriting = (XmlElement)modRoot.SelectSingleNode("Mod[contains(@Name, '" + overwrittenBy.Substring(0, overwrittenBy.IndexOf(':')) + "')]/File[contains(@Overwrites, '" + mod.GetAttribute("Name") + "::" + file.GetAttribute(("Path")) + "')]");
+                        }
+                        if (overwrites != "")
+                        {
+                            overwrittenNode = (XmlElement)modRoot.SelectSingleNode("Mod[contains(@Name, '" + overwrites.Substring(0, overwrites.IndexOf(':')) + "')]/File[contains(@Overwritten, '" + mod.GetAttribute("Name") + "::" + mod.GetAttribute(("Path")) + "')]");
+                        }
+                        //System.Diagnostics.Debug.WriteLine(overwrittenNode);
+                        //System.Diagnostics.Debug.WriteLine(nodeOverwriting);
+
+                        if (nodeOverwriting != null && overwrittenNode == null)
+                        {
+                            // mod file is only overwritten, we just tell the overwriting mod its no longer overwriting this one
+                            // no need to delete the file from the game
+                            nodeOverwriting.RemoveAttribute("Overwrites");
+                            
+                        } else if (overwrittenNode != null && nodeOverwriting == null)
+                        {
+                            // mod file is only overwriting, so we just tell the overwritten mod its no longer overwritten by this one
+                            // delete the file from the game as because its ONLY overwriting, we know its currently installed
+                            // then install the file it was overwriting
+                            overwrittenNode.RemoveAttribute("Overwritten");
+                            try
+                            {
+                                File.Delete(gameLocation + file.Attributes["Path"].Value);
+                                File.Copy(overwrittenNode.GetAttribute("ContentPath"), gameLocation + file.GetAttribute("Path"));
+                                //mod.RemoveChild(file);
+                            }
+                            catch { }
+                        } else if (nodeOverwriting != null && overwrittenNode != null)
+                        {
+                            // mod file is both overwritten AND overwriting, so we tell the overwritten mod that its now overtten by the overwriting mod, and the overwriting mod that 
+                            // its not overwriting the overwritten mod
+
+                            // we dont need to delete the file as its not installed by this mod
+                            // we also dont need to re-install any files
+                            overwrittenNode.SetAttribute("Overwritten", overwrittenBy);
+                            nodeOverwriting.SetAttribute("Overwrites", overwrites);
+                            
+                        } else if (nodeOverwriting == null && overwrittenNode == null)
+                        {
+                            // if there are no overwrite issues, we delete the file
+                            try
+                            {
+                                File.Delete(gameLocation + file.Attributes["Path"].Value);
+                                //mod.RemoveChild(file);
+                            }
+                            catch { }
+                        }
+
+                        mod.RemoveChild(file);
+
                     }
                     modRoot.RemoveChild(mod);
                 }
