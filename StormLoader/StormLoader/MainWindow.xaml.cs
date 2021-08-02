@@ -127,7 +127,9 @@ namespace StormLoader
             foreach (string dir in filesInDirectory)
             {
                 ModListItem mli = new ModListItem();
-                mli.ModName.Content = new DirectoryInfo(dir).Name;
+                mli.ModName.Text = new DirectoryInfo(dir).Name;
+                //DbgLog.WriteLine(new DirectoryInfo(dir).Name);
+                //DbgLog.WriteLine(mli.ModName.Text.ToString()) ;
                 mli.modPath = dir;
                 DbgLog.WriteLine(dir);
                 ModList.Children.Add(mli);
@@ -144,7 +146,7 @@ namespace StormLoader
                 {
                     foreach (ModListItem mli in ModList.Children)
                     {
-                        if (mod.SelectSingleNode("Name").InnerText == (string)mli.ModName.Content)
+                        if (mod.SelectSingleNode("Name").InnerText == (string)mli.ModName.Text)
                         {
                             mli.SetActive(true);
 
@@ -155,7 +157,7 @@ namespace StormLoader
                 {
                     foreach (ModListItem mli in ModList.Children)
                     {
-                        if (mod.SelectSingleNode("Name").InnerText == (string)mli.ModName.Content)
+                        if (mod.SelectSingleNode("Name").InnerText == (string)mli.ModName.Text)
                         {
                             mli.SetActive(false);
 
@@ -170,10 +172,10 @@ namespace StormLoader
             currentProfile.Load("CurrentProfile.xml");
             foreach (ModListItem mli in ModList.Children)
             {
-                if (currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()=\"" + mli.ModName.Content + "\"]") != null)
+                if (currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()=\"" + mli.ModName.Text + "\"]") != null)
                 {
-                    DbgLog.WriteLine(mli.ModName.Content.ToString());
-                    DbgLog.WriteLine(currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()=\"" + mli.ModName.Content + "\"]").InnerText);
+                    DbgLog.WriteLine(mli.ModName.Text.ToString());
+                    DbgLog.WriteLine(currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()=\"" + mli.ModName.Text + "\"]").InnerText);
                     DbgLog.WriteLine("Found");
                     mli.SetActive(true);
                 } else
@@ -447,7 +449,7 @@ namespace StormLoader
                     bool modFound = false;
                     foreach (ModListItem mli in ModList.Children)
                     {
-                        if (mli.ModName.Content.ToString() == m.SelectSingleNode("Name").InnerText)
+                        if (mli.ModName.Text.ToString() == m.SelectSingleNode("Name").InnerText)
                         {
                             DbgLog.WriteLine("Found mod");
                             modFound = true;
@@ -497,10 +499,10 @@ namespace StormLoader
             currentProfile.Load("CurrentProfile.xml");
             foreach (ModListItem mli in ModList.Children)
             {
-                if (currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()=\"" + mli.ModName.Content + "\"]") != null)
+                if (currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()=\"" + mli.ModName.Text + "\"]") != null)
                 {
-                    //Debug.WriteLine(mli.ModName.Content);
-                    //Debug.WriteLine(currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()='" + mli.ModName.Content + "']"));
+                    //Debug.WriteLine(mli.ModName.Text);
+                    //Debug.WriteLine(currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()='" + mli.ModName.Text + "']"));
                     //DbgLog.WriteLine("Found");
                     string modPath = mli.modPath;
                     //DbgLog.WriteLine("test");

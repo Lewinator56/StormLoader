@@ -17,7 +17,7 @@ namespace StormLoader
             DateTime dt = DateTime.Now;
             var culture = new CultureInfo("en-GB");
             string output = dt.ToString(culture) + ": " + msg;
-            //Console.WriteLine(output);
+            Console.WriteLine(output);
             string p = "./log.txt";
             if (!File.Exists(p))
             {

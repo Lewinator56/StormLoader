@@ -13,7 +13,7 @@
                 
             </materialDesign:PackIcon>
             <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Margin="5, 0, 5, 0"/>
-            <Label Name="ModName" Content="Mod Name Here" MaxWidth="500" VerticalAlignment="Center"></Label>
+            <TextBlock Name="ModName" Text="Mod Name Here" MaxWidth="500" VerticalAlignment="Center"></TextBlock>
             <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Margin="5, 0, 5, 0"/>
             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Style="{DynamicResource MaterialDesignToolButton}" Name="ActvMod_Btn" Click="ActvMod_Btn_Click">

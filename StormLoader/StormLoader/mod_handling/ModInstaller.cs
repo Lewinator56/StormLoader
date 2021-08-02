@@ -23,7 +23,7 @@ namespace StormLoader.mod_handling
             if (CheckModInstalled(modName, gamePath))
             {
                 //ask overwrite
-                if (MessageBox.Show("The mod " + modName + " is already installed, do you want to overwrite it? \n (Overwriting a mod will place THIS mod at the top of the overwrites list unless you choose not to overwrite individual files)", "Overwrite File", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                if (MessageBox.Show("The mod:\n\n" + modName + "\n\nis already installed, do you want to overwrite it? \n\n (Overwriting a mod will place THIS mod at the top of the overwrites list unless you choose not to overwrite individual files)", "Overwrite File", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
                 {
                     overwrite = false;
                 }
@@ -88,7 +88,8 @@ namespace StormLoader.mod_handling
             foreach (FileInfo f in source.GetFiles())
             {
                 bool installFile = true;
-                bool exists = File.Exists(location + f.Name);
+                bool fileExists = false;
+                bool modFileExists = false;
                 string overwriteSource = "";
                 string relativeFileName = location.ToString().Replace(GlobalVar.mw.gameLocation, "") + f.Name;
                 // check the file doesnt exist
@@ -121,12 +122,14 @@ namespace StormLoader.mod_handling
                         // if there are no files to overwrite, proceed with a normal install
                         if (filePath == relativeFileName && overwrittenData == "" && modRoot.GetAttribute("Name") != currentModNode.GetAttribute("Name"))
                         {
+                            modFileExists = true;
                             //ask overwrite
                             if (AskOverwriteFile(relativeFileName, modRoot.GetAttribute("Name")))
                             {
                                 // overwrite the file
                                 overwriteSource = modRoot.GetAttribute("Name") + "::" + filePath;
                                 installFile = true;
+                                
 
 
                                 //modFile.RemoveAttribute("Overwrites");
@@ -143,9 +146,24 @@ namespace StormLoader.mod_handling
                             }
                         } else
                         {
+
                             installFile = true;
+
+                            
                             
                         }
+                    }
+                }
+                // this only runs if the file exists, but isnt in the installinfo file, this means its probably installed by the game, or manually
+                if (fileExists && !modFileExists)
+                {
+                    if (MessageBox.Show("The file:\n\n" + f.Name + "\n\nAlready exists in your Stormworks installlation, this means it is either a BASE GAME file, or was a mod installed manually. \n\n Uninstalling this mod will delete this file, you may experience issues if it is a base game part. \n\n Do you want to overwrite this file? (this cannot be undone with stormloader)" , "Overwrite File", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                    {
+                        installFile = false;
+                    }
+                    else
+                    {
+                        installFile = true;
                     }
                 }
                 
@@ -227,6 +245,7 @@ namespace StormLoader.mod_handling
                         {
                             // mod file is only overwritten, we just tell the overwriting mod its no longer overwriting this one
                             // no need to delete the file from the game
+                            DbgLog.WriteLine("Not deleting " + file.GetAttribute("Path"));
                             nodeOverwriting.RemoveAttribute("Overwrites");
                             
                         } else if (overwrittenNode != null && nodeOverwriting == null)
@@ -235,13 +254,17 @@ namespace StormLoader.mod_handling
                             // delete the file from the game as because its ONLY overwriting, we know its currently installed
                             // then install the file it was overwriting
                             overwrittenNode.RemoveAttribute("Overwritten");
+
+                            DbgLog.WriteLine("Deleting file " + gameLocation + file.Attributes["Path"].Value);
+                            DbgLog.WriteLine("Installing file " + overwrittenNode.GetAttribute("ContentPath") + " to " + gameLocation + file.Attributes["Path"].Value);
                             try
                             {
                                 File.Delete(gameLocation + file.Attributes["Path"].Value);
                                 File.Copy(overwrittenNode.GetAttribute("ContentPath"), gameLocation + file.GetAttribute("Path"));
+                                
                                 //mod.RemoveChild(file);
                             }
-                            catch { }
+                            catch (Exception e) { DbgLog.WriteLine(e.ToString()); }
                         } else if (nodeOverwriting != null && overwrittenNode != null)
                         {
                             // mod file is both overwritten AND overwriting, so we tell the overwritten mod that its now overtten by the overwriting mod, and the overwriting mod that 
@@ -251,19 +274,24 @@ namespace StormLoader.mod_handling
                             // we also dont need to re-install any files
                             overwrittenNode.SetAttribute("Overwritten", overwrittenBy);
                             nodeOverwriting.SetAttribute("Overwrites", overwrites);
-                            
+                            DbgLog.WriteLine("Not deleting " + file.GetAttribute("Path"));
+
                         } else if (nodeOverwriting == null && overwrittenNode == null)
                         {
                             // if there are no overwrite issues, we delete the file
+                            DbgLog.WriteLine("Deleting file " + gameLocation + file.Attributes["Path"].Value);
                             try
                             {
                                 File.Delete(gameLocation + file.Attributes["Path"].Value);
+                                
                                 //mod.RemoveChild(file);
                             }
-                            catch { }
+                            catch (Exception e) { DbgLog.WriteLine(e.ToString()); }
                         }
-
-                        mod.RemoveChild(file);
+                        DbgLog.WriteLine("Deleting file " + gameLocation + file.Attributes["Path"].Value);
+                        // for whatever reason, this breaks it
+                        // no clue why, but dont uncomment this line
+                        //mod.RemoveChild(file);
 
                     }
                     modRoot.RemoveChild(mod);
@@ -277,7 +305,7 @@ namespace StormLoader.mod_handling
         {
             bool overwrite;
             
-            if (MessageBox.Show( "The file " + file + ", is installed by " + installedBy + ". Do you want to overwrite this file?", "Overwrite File", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            if (MessageBox.Show( "The file:\n\n" + file + "\n\nis installed by:\n\n" + installedBy + "\n\nDo you want to overwrite this file?", "Overwrite File", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
             {
                 overwrite = false;
             }
@@ -289,6 +317,10 @@ namespace StormLoader.mod_handling
             return overwrite;
         }
 
+
+        //
+        // Not used
+        //
         public void RecursiveDeleteCheckInstalled(DirectoryInfo extractedPath, DirectoryInfo location)
         {
             foreach (FileInfo f in extractedPath.GetFiles())
@@ -308,6 +340,12 @@ namespace StormLoader.mod_handling
         //
         //
 
+        //
+        /// <summary>
+        /// Creates the StormLoader_install_info xml file, this lets stormloader know what mods are and arent installed, even after
+        /// removing stormloader
+        /// </summary>
+        /// <param name="gamePath">The path to the game installation</param>
         private void CreateInstallXML(string gamePath)
         {
             if (!File.Exists(gamePath + "/StormLoader_install_info.xml"))

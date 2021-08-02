@@ -46,7 +46,7 @@ namespace StormLoader
             //mod_handling.ModInstaller mi = new mod_handling.ModInstaller();
             //mi.InstallMod(ModName.Content.ToString(), modPath, GlobalVar.mw.gameLocation);
             
-            GlobalVar.mw.SetModActive(ModName.Content.ToString(), modPath, true);
+            GlobalVar.mw.SetModActive(ModName.Text.ToString(), modPath, true);
             
         }
 
@@ -55,19 +55,19 @@ namespace StormLoader
             SetActive(false);
             //mod_handling.ModInstaller mi = new mod_handling.ModInstaller();
             //mi.DeleteByInstallInfo(ModName.Content.ToString(), GlobalVar.mw.gameLocation);
-            GlobalVar.mw.SetModActive(ModName.Content.ToString(), modPath, false);
+            GlobalVar.mw.SetModActive(ModName.Text.ToString(), modPath, false);
         }
 
         private void UninsMod_Click(object sender, RoutedEventArgs e)
         {
             //mod_handling.ModInstaller mi = new mod_handling.ModInstaller();
             //mi.DeleteByInstallInfo(ModName.Content.ToString(), GlobalVar.mw.gameLocation);
-            GlobalVar.mw.DeleteMod(ModName.Content.ToString(), modPath);
+            GlobalVar.mw.DeleteMod(ModName.Text.ToString(), modPath);
         }
 
         private void Card_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            GlobalVar.mw.SelectMod(ModName.Content.ToString(), modPath);
+            GlobalVar.mw.SelectMod(ModName.Text.ToString(), modPath);
         }
 
         private void Card_MouseEnter(object sender, MouseEventArgs e)
