@@ -132,11 +132,19 @@
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <ScrollViewer Margin="0,0,5,0">
-                    <StackPanel Name="ModList" Orientation="Vertical">
-                        
-                    </StackPanel>
-                </ScrollViewer>
+                <Border BorderBrush="LightGray" CornerRadius="5" BorderThickness="1" Margin="0,0,5,0">
+                    <ScrollViewer Margin="5,5,5,5">
+                        <Grid>
+                            <Label VerticalAlignment="Top" HorizontalAlignment="Center" Content="Mods in your extracted folder show here" Foreground="Gray"></Label>
+                            <StackPanel Name="ModList" Orientation="Vertical" Background="Transparent">
+
+                            </StackPanel>
+
+                        </Grid>
+
+                    </ScrollViewer>
+                </Border>
+                
                 <DockPanel Grid.Column="1">
                     <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
                         <Label Name="ModNameLabel" Content="Name: "/>
@@ -146,8 +154,8 @@
                     
 
 
-                    <materialDesign:Card Height="auto" VerticalAlignment="Stretch">
-                        <WebBrowser Name="infoDisp">
+                    <materialDesign:Card Height="auto" VerticalAlignment="Stretch" UniformCornerRadius="5">
+                        <WebBrowser Name="infoDisp" Margin="5,5,5,5">
 
                         </WebBrowser>
                     </materialDesign:Card>

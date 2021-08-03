@@ -5,6 +5,7 @@
              xmlns:local="clr-namespace:StormLoader"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="Grey" SecondaryColor="Amber" />
