@@ -13,6 +13,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <materialDesign:Card Background="White" materialDesign:ShadowAssist.ShadowDepth="Depth2"  UniformCornerRadius="0" Grid.Row="0" Height="100">
                 <DockPanel >
@@ -163,7 +164,18 @@
                 
                 
             </Grid>
+            <Border BorderBrush="LightGray" CornerRadius="5" BorderThickness="1" Margin="5,5,5,5" Grid.Row="2">
+                <ScrollViewer Margin="5,5,5,5">
+                    <Grid>
+                        <Label VerticalAlignment="Top" HorizontalAlignment="Center" Content="Mods being installed show here!" Foreground="Gray"></Label>
+                        <StackPanel Name="ModInstallList" Orientation="Vertical" Background="Transparent">
 
+                        </StackPanel>
+
+                    </Grid>
+
+                </ScrollViewer>
+            </Border>
         </Grid>
     </materialDesign:DialogHost>
 </Window>

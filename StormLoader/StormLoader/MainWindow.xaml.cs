@@ -18,6 +18,7 @@ using System.Windows.Shapes;
 using System.Xml;
 using Ionic.Zip;
 using System.Security.RightsManagement;
+using System.Threading;
 
 using System.Net;
 using StormLoader.repository;
@@ -29,6 +30,7 @@ namespace StormLoader
     /// </summary>
     public partial class MainWindow : Window
     {
+        public Queue<Mod> installQueue = new Queue<Mod>();
         public XmlDocument settingsDoc = new XmlDocument();
         public String modExtractionDir = "";
         public XmlDocument currentProfile = new XmlDocument();
@@ -64,6 +66,11 @@ namespace StormLoader
             x64Box.DataContext = this;
             x86Box.DataContext = this;
             displayModList();
+
+            // install mods on a separate thread
+            Thread t = new Thread(ModInstallListenerThread);
+            t.Start();
+            
             //ApplyProfileAlt();
             
             
@@ -108,6 +115,31 @@ namespace StormLoader
                 
             }
             return onlineVer;
+        }
+
+        public void ModInstallListenerThread()
+        {
+            while (true)
+            {
+                // check if mod installs are queued;
+                
+                if (installQueue.Count == 0)
+                {
+                    Thread.Sleep(50);
+                }
+                else
+                {
+                    Mod m = installQueue.Dequeue();
+                    DbgLog.WriteLine(m.path);
+                    SetModActive(m.name, m.path, true);
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        ModInstallList.Children.RemoveAt(0);
+                    });
+                    
+                }
+            } 
+            
         }
 
         
@@ -231,8 +263,22 @@ namespace StormLoader
         private void AddModFromSLP(string path, string nameWithoutExt)
         {
             ZipFile z = new ZipFile(path);
-            z.ExtractAll(modExtractionDir + "/" + nameWithoutExt, ExtractExistingFileAction.OverwriteSilently);
-            
+            // extract to a temporary directory
+            Directory.CreateDirectory("temp");
+            z.ExtractAll("temp", ExtractExistingFileAction.OverwriteSilently);
+            Directory.CreateDirectory(modExtractionDir + "/" + nameWithoutExt);
+            string workingDirectory = "./temp";
+            while (!File.Exists(workingDirectory + "/" + "metadata.xml"))
+            {
+                workingDirectory = Directory.GetDirectories(workingDirectory)[0];
+                DbgLog.WriteLine(workingDirectory);
+            }
+            RecursiveCopy(new DirectoryInfo(workingDirectory + "/" ), new DirectoryInfo(modExtractionDir + "/" + nameWithoutExt + "/"));
+            Directory.Delete("temp", true);
+            //z.ExtractAll(modExtractionDir + "/" + nameWithoutExt, ExtractExistingFileAction.OverwriteSilently);
+
+
+
         }
         private void AddModFromZip(string path, string nameWithoutExt)
         {

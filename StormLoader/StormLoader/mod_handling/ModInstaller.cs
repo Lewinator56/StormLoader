@@ -13,6 +13,8 @@ namespace StormLoader.mod_handling
 {
     class ModInstaller
     {
+
+
         // installs a mod
         // first checks if there is an installinfo xml document
         public void InstallMod(string modName, string modPath, string gamePath)
@@ -68,6 +70,16 @@ namespace StormLoader.mod_handling
                 try
                 {
                     RecursiveCopyCheckInstalled(installInfo,installRoot, modParent, new DirectoryInfo(modPath + "/Audio/"), new DirectoryInfo(gamePath + "/rom/audio/"));
+                }
+                catch (Exception e) { }
+                try
+                {
+                    RecursiveCopyCheckInstalled(installInfo, installRoot, modParent, new DirectoryInfo(modPath + "/Graphics/"), new DirectoryInfo(gamePath + "/rom/graphics/"));
+                }
+                catch (Exception e) { }
+                try
+                {
+                    RecursiveCopyCheckInstalled(installInfo, installRoot, modParent, new DirectoryInfo(modPath + "/Data/"), new DirectoryInfo(gamePath + "/rom/data/"));
                 }
                 catch (Exception e) { }
 
