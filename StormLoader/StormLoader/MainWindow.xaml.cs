@@ -44,6 +44,7 @@ namespace StormLoader
         {
             AppDomain cd = AppDomain.CurrentDomain;
             cd.UnhandledException += new UnhandledExceptionEventHandler(UnhandledExceptionHandler);
+            
 
 
             InitializeComponent();
@@ -70,11 +71,11 @@ namespace StormLoader
             // install mods on a separate thread
             Thread t = new Thread(ModInstallListenerThread);
             t.Start();
-            
+
             //ApplyProfileAlt();
             
-            
-            
+
+
 
 
 
@@ -87,6 +88,9 @@ namespace StormLoader
             Exception e = (Exception) args.ExceptionObject;
             DbgLog.WriteLine(e.Message);
             DbgLog.WriteLine(e.StackTrace.ToString());
+            MessageBox.Show(e.Message + "\r\n\r\n" + "Kindly report this to the developer, your log is located in the install directory.\r\nThe application will now quit", "An error occurred");
+            Application.Current.Shutdown();
+            
         }
         private string checkNewVersion(bool ShowDialog)
         {

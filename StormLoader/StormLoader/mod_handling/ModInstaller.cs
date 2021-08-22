@@ -45,7 +45,7 @@ namespace StormLoader.mod_handling
                     DeleteByInstallInfo(modName, gamePath);
                 }
                 XmlDocument installInfo = new XmlDocument();
-                installInfo.Load(gamePath + "/StormLoader_install_info.xml");
+                installInfo.Load(gamePath + "t/StormLoader_install_info.xml");
                 XmlNode installRoot = installInfo.SelectSingleNode("/InstallInfo");
                 XmlElement modParent;
                 modParent = installInfo.CreateElement("Mod");
