@@ -70,6 +70,7 @@ namespace StormLoader
 
             // install mods on a separate thread
             Thread t = new Thread(ModInstallListenerThread);
+            t.IsBackground = true;
             t.Start();
 
             //ApplyProfileAlt();
