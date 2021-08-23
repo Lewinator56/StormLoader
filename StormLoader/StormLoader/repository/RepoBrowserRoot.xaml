@@ -13,7 +13,8 @@
                 <RowDefinition Height="75"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
-                
+                <RowDefinition Height="auto"/>
+
             </Grid.RowDefinitions>
             <materialDesign:Card Background="White" materialDesign:ShadowAssist.ShadowDepth="Depth2"  UniformCornerRadius="0" Height="75" Grid.Row="0">
                 <DockPanel Margin="10,10,10,10">
@@ -46,6 +47,18 @@
                     
                 </WrapPanel>
             </ScrollViewer>
+            <Border BorderBrush="LightGray" CornerRadius="5" BorderThickness="1" Margin="5,5,5,5" Grid.Row="3">
+                <ScrollViewer Margin="5,5,5,5">
+                    <Grid>
+                        <Label VerticalAlignment="Top" HorizontalAlignment="Center" Content="Mods being downloaded will show here!" Foreground="Gray"></Label>
+                        <StackPanel Name="ModDownloadList" Orientation="Vertical" Background="Transparent">
+
+                        </StackPanel>
+
+                    </Grid>
+
+                </ScrollViewer>
+            </Border>
         </Grid>
     </materialDesign:DialogHost>
 </Window>

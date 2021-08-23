@@ -46,8 +46,9 @@ namespace StormLoader
             //mod_handling.ModInstaller mi = new mod_handling.ModInstaller();
             //mi.InstallMod(ModName.Content.ToString(), modPath, GlobalVar.mw.gameLocation);
             DbgLog.WriteLine(modPath);
-            GlobalVar.mw.ModInstallList.Children.Add(new Label() { Content = "INSTALLING: " + ModName.Text.ToString() });
-            GlobalVar.mw.installQueue.Enqueue(new Mod(ModName.Text.ToString(), modPath));
+            //GlobalVar.mw.ModInstallList.Children.Add(new Label() { Content = "INSTALLING: " + ModName.Text.ToString() });
+            //GlobalVar.mw.installQueue.Enqueue(new Mod(ModName.Text.ToString(), modPath));
+            GlobalVar.mw.AddModToInstallQueue(ModName.Text.ToString(), modPath);
             //GlobalVar.mw.SetModActive(ModName.Text.ToString(), modPath, true);
             
         }

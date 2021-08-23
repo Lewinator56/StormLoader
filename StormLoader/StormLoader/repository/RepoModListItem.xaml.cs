@@ -75,11 +75,32 @@ namespace StormLoader.repository
 
         private async void downloadMod(string name)
         {
-            byte[] mod = await GlobalVar.sqcm.downloadMod(id);
-            File.WriteAllBytes("Downloaded/" + name + ".slp", mod);
+            bool install = true;
+            this.Dispatcher.Invoke(() =>
+            {
+                rbr.ModDownloadList.Children.Add(new Label() { Content = "DOWNLOADING: " + name });
+            });
+            try
+            {
+                byte[] mod = await GlobalVar.sqcm.downloadMod(id);
+                File.WriteAllBytes("Downloaded/" + name + ".slp", mod);
+            } catch
+            {
+                install = false;
+                MessageBox.Show("Something went wrong while downloading the mod, you can try again.\r\nIf the problem persists, contact the developer", "Something went wrong");
+            }
+            
+            this.Dispatcher.Invoke(() =>
+            {
+                rbr.ModDownloadList.Children.RemoveAt(0);
+            });
             //InfoPopup ifp = new InfoPopup();
             //ifp.titleText.Content = "Download Complete, Activating Mod";
-            GlobalVar.mw.addModFromFile("Downloaded/" + name + ".slp", name, ".slp");
+            if (install)
+            {
+                GlobalVar.mw.addModFromFile("Downloaded/" + name + ".slp", name, ".slp");
+            }
+            
             
             //await rbr.RepoDialog.ShowDialog(ifp);
 

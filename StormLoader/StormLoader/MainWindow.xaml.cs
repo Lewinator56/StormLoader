@@ -93,6 +93,15 @@ namespace StormLoader
             Application.Current.Shutdown();
             
         }
+        public void AddModToInstallQueue(string name, string path)
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                ModInstallList.Children.Add(new Label() { Content = "INSTALLING: " + name });
+            });
+            
+            installQueue.Enqueue(new Mod(name, path));
+        }
         private string checkNewVersion(bool ShowDialog)
         {
             
@@ -243,6 +252,10 @@ namespace StormLoader
 
         public void addModFromFile(string path, string nameWithoutExt, string ext)
         {
+            this.Dispatcher.Invoke(() =>
+            {
+                ModInstallList.Children.Add(new Label() { Content = "COPYING: " + nameWithoutExt });
+            });
             
             if (ext == ".slp")
             {
@@ -254,9 +267,14 @@ namespace StormLoader
             XmlDocument meta = new XmlDocument();
             meta.Load(modExtractionDir + "/" + nameWithoutExt + "/metadata.xml");
             DbgLog.WriteLine(meta.OuterXml);
+            this.Dispatcher.Invoke(() =>
+            {
+                ModInstallList.Children.RemoveAt(0);
+            });
+            AddModToInstallQueue(nameWithoutExt, modExtractionDir + "/" + nameWithoutExt);
+            //SetModActive(modExtractionDir + "/" + nameWithoutExt, nameWithoutExt, true);
 
-
-            AddModNew(modExtractionDir + "/" + nameWithoutExt, nameWithoutExt, meta.SelectSingleNode("/Metadata/Version").InnerText, meta.SelectSingleNode("/Metadata/Author").InnerText);
+            //AddModNew(modExtractionDir + "/" + nameWithoutExt, nameWithoutExt, meta.SelectSingleNode("/Metadata/Version").InnerText, meta.SelectSingleNode("/Metadata/Author").InnerText);
             this.Dispatcher.Invoke(() =>
             {
                 displayModList();
