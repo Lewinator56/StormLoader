@@ -19,25 +19,35 @@ namespace StormLoader
             string output = dt.ToString(culture) + ": " + msg;
             Console.WriteLine(output);
             string p = "./log.txt";
-            if (!File.Exists(p))
+            try
             {
-                
-                using (StreamWriter sw = File.CreateText(p))
+                if (!File.Exists(p))
                 {
-                    sw.WriteLine(output);
 
+                    using (StreamWriter sw = File.CreateText(p))
+                    {
+                        sw.WriteLine(output);
+
+                    }
                 }
-            } else
+                else
+                {
+                    using (StreamWriter sw = File.AppendText(p))
+                    {
+                        sw.WriteLine(output);
+
+                    }
+                }
+            } catch
             {
-                using (StreamWriter sw = File.AppendText(p))
-                {
-                    sw.WriteLine(output);
-
-                }
+                // log in the colsole we couldnt access the file
+                Console.WriteLine("Couldn't access log file");
             }
+                
+        } 
+            
 
             
-            
-        }
+     
     }
 }
