@@ -7,6 +7,12 @@ I, StormLoader and mods loaded with stormloader are not affiliated with stormwor
 # Downloads
 - Head to releases to get the latest version!
 
+# Security Update
+I've had a few questions about security for database connections. As those of you in the security sector will know, having a direct database connection ins a public facing application is not a particually good idea, unless of course there are other protections at the server end. I of course implement protections at the server end, i.e the user that stormloader connects to the database ONLY has SELECT access rights for specific tables and fields, it was however brought to my attention that due to an unnoticed misconfiguration of these access rights, this user could also update mod IDs, this has now been fixed. The details for the user are stored within a DLL, which you can decompile if you wish, though this DLL has now been merged with the executable. As the user has very limited access rights, there is no security risk from allowing this. I will allow connections to the database from other applications using the login details in the DLL, or the DLL iteslef, however, I advise if you choose to do this, please do not use the URL in the DLL, please use: portal.stormloader.uk as the URL. In the near future, I will be changing mod database access to an API.
+
+Any questions about this, please dm me on discord or start a new issue here.
+
+
 # FAQ
 **Q** What platforms are supported?<br>
 **A** StormLoader only runs on windows.
