@@ -74,6 +74,9 @@ namespace StormLoader
             t.Start();
 
             //ApplyProfileAlt();
+
+            //check the stuff from steam
+            
             
 
 
@@ -843,6 +846,11 @@ namespace StormLoader
             settingsDoc.Load("Settings.xml");
             settingsDoc.SelectSingleNode("/Settings/x64").InnerText = x64 ? "true" : "false";
             settingsDoc.Save("Settings.xml");
+        }
+
+        private void CheckSteam_Click(object sender, RoutedEventArgs e)
+        {
+            mod_handling.Workshop.copyMods(mod_handling.Workshop.getWorkshopPath());
         }
     }
 }

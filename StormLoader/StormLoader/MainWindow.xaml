@@ -64,6 +64,18 @@
                         </StackPanel>
                     </Button>
 
+                    <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="CheckSteam" Height="75" Width="75" Background="White" BorderBrush="LightGray" BorderThickness="2 2 2 2" Foreground="Black" Margin="10" Click="CheckSteam_Click">
+                        
+                        <StackPanel Orientation="Vertical" Margin="-10" >
+                            <materialDesign:PackIcon Kind="Steam" HorizontalAlignment="Center">
+                                <materialDesign:PackIcon.LayoutTransform>
+                                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                </materialDesign:PackIcon.LayoutTransform>
+                            </materialDesign:PackIcon>
+                            <Label Content="sync wrkshp"/>
+                        </StackPanel>
+                    </Button>
+
                     <!--Menu-->
                     <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="True" Foreground="black" Margin="10">
                         <StackPanel>
