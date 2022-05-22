@@ -55,7 +55,7 @@ namespace StormLoader.mod_handling
             
             
 
-            Parallel.ForEach(directoryInfo.GetDirectories(), d =>
+            foreach(DirectoryInfo d in directoryInfo.GetDirectories())
             {
                 DbgLog.WriteLine(d.FullName);
                 foreach(DirectoryInfo id in d.GetDirectories())
@@ -79,20 +79,48 @@ namespace StormLoader.mod_handling
                                     //DbgLog.WriteLine(BitConverter.ToUInt32(head, 0).ToString("X2")) ;
                                     if (BitConverter.ToUInt32(head, 0) == 0x04034b50)
                                     {
-                                        // we know this is a zip, so extract the contents (the .slp file) into the ztormloader downloads directory
+                                        // we know this is a zip, so extract the contents (the .slp file) into the stormloader downloads directory
                                         ZipFile z = new ZipFile(f.FullName);
-                                        z.ExtractAll("./Downloaded", ExtractExistingFileAction.OverwriteSilently);
+                                        z.ExtractAll("./Temp", ExtractExistingFileAction.OverwriteSilently);
+                                        foreach(FileInfo slpf in new DirectoryInfo("./Temp").GetFiles())
+                                        {
+                                            DbgLog.WriteLine(slpf.Name);
+                                            if (File.Exists("./Downloaded/" + slpf.Name))
+                                            {
+                                                DbgLog.WriteLine(slpf.Name);
+                                                System.Diagnostics.Debug.WriteLine(slpf.Name);
+                                                // check the hash
+                                                if (slpf.Length == new FileInfo("./Downloaded/" + slpf.Name).Length)
+                                                {
+                                                    // dont overwrite, they are the same
+                                                    DbgLog.WriteLine("File sizes the same, dont copy over");
+                                                    System.Diagnostics.Debug.WriteLine("not copyiing");
+                                                }
+                                                else
+                                                {
+                                                    File.Copy(slpf.FullName, "./Downloaded/" + slpf.Name, true);
+                                                    GlobalVar.mw.AddModFromSLP(slpf.FullName, System.IO.Path.GetFileNameWithoutExtension(slpf.FullName));
+                                                }
+                                            } else
+                                            {
+                                                File.Copy(slpf.FullName, "./Downloaded/" + slpf.Name, true);
+                                                GlobalVar.mw.AddModFromSLP(slpf.FullName, System.IO.Path.GetFileNameWithoutExtension(slpf.FullName));
+                                            }
+                                        }
+                                        Directory.Delete("./Temp", true);
                                     }
                                 } catch (Exception e)
                                 {
-                                    DbgLog.WriteLine(e.Message);
+                                    DbgLog.WriteLine(f.Name);
+                                    DbgLog.WriteLine(e.ToString());
+                                    //throw e;
                                 }
 
                             }
                         }
                     }
                 }
-            });
+            }
         }
 
     }

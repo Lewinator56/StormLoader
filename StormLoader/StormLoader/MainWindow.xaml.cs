@@ -286,7 +286,7 @@ namespace StormLoader
             
         }
 
-        private void AddModFromSLP(string path, string nameWithoutExt)
+        public void AddModFromSLP(string path, string nameWithoutExt)
         {
             ZipFile z = new ZipFile(path);
             // extract to a temporary directory
@@ -676,6 +676,7 @@ namespace StormLoader
             version.InnerText = modVersion;
             XmlElement author = currentProfile.CreateElement("Author");
             author.InnerText = modAuthor;
+           
 
 
 
@@ -848,9 +849,10 @@ namespace StormLoader
             settingsDoc.Save("Settings.xml");
         }
 
-        private void CheckSteam_Click(object sender, RoutedEventArgs e)
+        private async void CheckSteam_Click(object sender, RoutedEventArgs e)
         {
-            mod_handling.Workshop.copyMods(mod_handling.Workshop.getWorkshopPath());
+            await Task.Run(() => mod_handling.Workshop.copyMods(mod_handling.Workshop.getWorkshopPath()));
+            displayModList();
         }
     }
 }
