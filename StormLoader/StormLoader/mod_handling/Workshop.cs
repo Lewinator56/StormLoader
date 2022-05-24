@@ -112,7 +112,7 @@ namespace StormLoader.mod_handling
                                                 //GlobalVar.mw.SetModActive(System.IO.Path.GetFileNameWithoutExtension(slpf.FullName), slpf.FullName, true);
                                             }
                                         }
-                                        Directory.Delete("./temp_steam", true);
+                                        //Directory.Delete("./temp_steam", true); // IO exception here because the installation is still happening when the system tries to delete this, this is an issueif there is more than one mod, temporary fix is to comment this out, needs fixing!
                                     }
                                 } catch (Exception e)
                                 {
