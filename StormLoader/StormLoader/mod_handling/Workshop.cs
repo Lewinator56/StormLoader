@@ -81,8 +81,8 @@ namespace StormLoader.mod_handling
                                     {
                                         // we know this is a zip, so extract the contents (the .slp file) into the stormloader downloads directory
                                         ZipFile z = new ZipFile(f.FullName);
-                                        z.ExtractAll("./Temp", ExtractExistingFileAction.OverwriteSilently);
-                                        foreach(FileInfo slpf in new DirectoryInfo("./Temp").GetFiles())
+                                        z.ExtractAll("./temp_steam", ExtractExistingFileAction.OverwriteSilently);
+                                        foreach(FileInfo slpf in new DirectoryInfo("./temp_steam").GetFiles())
                                         {
                                             DbgLog.WriteLine(slpf.Name);
                                             if (File.Exists("./Downloaded/" + slpf.Name))
@@ -99,15 +99,20 @@ namespace StormLoader.mod_handling
                                                 else
                                                 {
                                                     File.Copy(slpf.FullName, "./Downloaded/" + slpf.Name, true);
-                                                    GlobalVar.mw.AddModFromSLP(slpf.FullName, System.IO.Path.GetFileNameWithoutExtension(slpf.FullName));
+                                                    
+                                                    GlobalVar.mw.addModFromFile(slpf.FullName, System.IO.Path.GetFileNameWithoutExtension(slpf.FullName), ".slp");
+
+                                                    
+                                                    //GlobalVar.mw.SetModActive(System.IO.Path.GetFileNameWithoutExtension(slpf.FullName), slpf.FullName, true);
                                                 }
                                             } else
                                             {
                                                 File.Copy(slpf.FullName, "./Downloaded/" + slpf.Name, true);
-                                                GlobalVar.mw.AddModFromSLP(slpf.FullName, System.IO.Path.GetFileNameWithoutExtension(slpf.FullName));
+                                                GlobalVar.mw.addModFromFile(slpf.FullName, System.IO.Path.GetFileNameWithoutExtension(slpf.FullName), ".slp");
+                                                //GlobalVar.mw.SetModActive(System.IO.Path.GetFileNameWithoutExtension(slpf.FullName), slpf.FullName, true);
                                             }
                                         }
-                                        Directory.Delete("./Temp", true);
+                                        Directory.Delete("./temp_steam", true);
                                     }
                                 } catch (Exception e)
                                 {

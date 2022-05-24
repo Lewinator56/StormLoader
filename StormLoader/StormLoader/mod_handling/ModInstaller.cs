@@ -61,27 +61,30 @@ namespace StormLoader.mod_handling
                     RecursiveCopyCheckInstalled(installInfo, installRoot, modParent, new DirectoryInfo(modPath + "/Meshes/"), new DirectoryInfo(gamePath + "/rom/meshes/"));
                     //DbgLog.WriteLine("Running");
                 }
-                catch (Exception e) { }
+                catch (Exception e) {
+                    DbgLog.WriteLine(e.ToString());
+                    
+                }
                 try
                 {
                     RecursiveCopyCheckInstalled(installInfo, installRoot, modParent, new DirectoryInfo(modPath + "/Definitions/"), new DirectoryInfo(gamePath + "/rom/data/definitions/"));
                 }
-                catch (Exception e) { }
+                catch (Exception e) { DbgLog.WriteLine(e.ToString()); }
                 try
                 {
                     RecursiveCopyCheckInstalled(installInfo,installRoot, modParent, new DirectoryInfo(modPath + "/Audio/"), new DirectoryInfo(gamePath + "/rom/audio/"));
                 }
-                catch (Exception e) { }
+                catch (Exception e) { DbgLog.WriteLine(e.ToString()); }
                 try
                 {
                     RecursiveCopyCheckInstalled(installInfo, installRoot, modParent, new DirectoryInfo(modPath + "/Graphics/"), new DirectoryInfo(gamePath + "/rom/graphics/"));
                 }
-                catch (Exception e) { }
+                catch (Exception e) { DbgLog.WriteLine(e.ToString()); }
                 try
                 {
                     RecursiveCopyCheckInstalled(installInfo, installRoot, modParent, new DirectoryInfo(modPath + "/Data/"), new DirectoryInfo(gamePath + "/rom/data/"));
                 }
-                catch (Exception e) { }
+                catch (Exception e) { DbgLog.WriteLine(e.ToString()); }
 
                 installInfo.Save(gamePath + "/StormLoader_install_info.xml");
 

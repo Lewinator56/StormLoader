@@ -11,11 +11,13 @@ namespace StormLoader
     {
         public string path;
         public string name;
+        public bool active;
 
-        public Mod(string name, string path)
+        public Mod(string name, string path, bool active)
         {
             this.path = path;
             this.name = name;
+            this.active = active;
         }
     }
 }

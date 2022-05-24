@@ -48,7 +48,7 @@ namespace StormLoader
             DbgLog.WriteLine(modPath);
             //GlobalVar.mw.ModInstallList.Children.Add(new Label() { Content = "INSTALLING: " + ModName.Text.ToString() });
             //GlobalVar.mw.installQueue.Enqueue(new Mod(ModName.Text.ToString(), modPath));
-            GlobalVar.mw.AddModToInstallQueue(ModName.Text.ToString(), modPath);
+            GlobalVar.mw.AddModToInstallQueue(ModName.Text.ToString(), modPath, true);
             //GlobalVar.mw.SetModActive(ModName.Text.ToString(), modPath, true);
             
         }
@@ -58,7 +58,8 @@ namespace StormLoader
             SetActive(false);
             //mod_handling.ModInstaller mi = new mod_handling.ModInstaller();
             //mi.DeleteByInstallInfo(ModName.Content.ToString(), GlobalVar.mw.gameLocation);
-            GlobalVar.mw.SetModActive(ModName.Text.ToString(), modPath, false);
+            //GlobalVar.mw.SetModActive(ModName.Text.ToString(), modPath, false);
+            GlobalVar.mw.AddModToInstallQueue(ModName.Text.ToString(), modPath, false);
         }
 
         private void UninsMod_Click(object sender, RoutedEventArgs e)

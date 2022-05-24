@@ -36,7 +36,7 @@ namespace StormLoader
         public XmlDocument currentProfile = new XmlDocument();
         public string gameLocation = "";
         public List<ModListItem> modListItems = new List<ModListItem>();
-        public string version = "v1.0.12";
+        public string version = "v1.0.13";
         public bool x64 { get; set; }
         public bool notx64 { get { return !x64; } set { x64=!value; } }
         mod_handling.ModInstaller mi = new mod_handling.ModInstaller();
@@ -96,14 +96,17 @@ namespace StormLoader
             Application.Current.Shutdown();
             
         }
-        public void AddModToInstallQueue(string name, string path)
+        public void AddModToInstallQueue(string name, string path, bool active)
         {
+            
             this.Dispatcher.Invoke(() =>
             {
-                ModInstallList.Children.Add(new Label() { Content = "INSTALLING: " + name });
+                Label l = new Label() { Content = (active? "INSTALLING: " : "UNINSTALLING :") + name };
+                ModInstallList.Children.Add(l);
+                
             });
             
-            installQueue.Enqueue(new Mod(name, path));
+            installQueue.Enqueue(new Mod(name, path, active));
         }
         private string checkNewVersion(bool ShowDialog)
         {
@@ -148,7 +151,7 @@ namespace StormLoader
                 {
                     Mod m = installQueue.Dequeue();
                     DbgLog.WriteLine(m.path);
-                    SetModActive(m.name, m.path, true);
+                    SetModActive(m.name, m.path, m.active);
                     this.Dispatcher.Invoke(() =>
                     {
                         ModInstallList.Children.RemoveAt(0);
@@ -274,7 +277,7 @@ namespace StormLoader
             {
                 ModInstallList.Children.RemoveAt(0);
             });
-            AddModToInstallQueue(nameWithoutExt, modExtractionDir + "/" + nameWithoutExt);
+            AddModToInstallQueue(nameWithoutExt, modExtractionDir + "/" + nameWithoutExt, true);
             //SetModActive(modExtractionDir + "/" + nameWithoutExt, nameWithoutExt, true);
 
             //AddModNew(modExtractionDir + "/" + nameWithoutExt, nameWithoutExt, meta.SelectSingleNode("/Metadata/Version").InnerText, meta.SelectSingleNode("/Metadata/Author").InnerText);
@@ -297,7 +300,7 @@ namespace StormLoader
             while (!File.Exists(workingDirectory + "/" + "metadata.xml"))
             {
                 workingDirectory = Directory.GetDirectories(workingDirectory)[0];
-                DbgLog.WriteLine(workingDirectory);
+                //DbgLog.WriteLine(workingDirectory);
             }
             RecursiveCopy(new DirectoryInfo(workingDirectory + "/" ), new DirectoryInfo(modExtractionDir + "/" + nameWithoutExt + "/"));
             Directory.Delete("temp", true);
@@ -728,13 +731,23 @@ namespace StormLoader
 
         public void DeleteMod(string modName, string path)
         {
+            if (installQueue.Count > 0)
+            {
+                MessageBox.Show("Please wait untill all installs/uninstalls are complete before deleting a mod");
+                return;
+            }
             //SetModActive(modName, "false");
             currentProfile.Load("CurrentProfile.xml");
-            XmlNode ModRoot = currentProfile.SelectSingleNode("/Profile/Mods");
+            //XmlNode ModRoot = currentProfile.SelectSingleNode("/Profile/Mods");
             SetModActive(modName, path, false);
             if (Directory.Exists(path))
             {
                 Directory.Delete(path, true);
+                try
+                {
+                    File.Delete("./Downloaded/" + modName + ".slp");
+                }
+                catch { }
             }
             //ApplyProfileAlt();
             mi.DeleteByInstallInfo(modName, gameLocation);
@@ -851,8 +864,14 @@ namespace StormLoader
 
         private async void CheckSteam_Click(object sender, RoutedEventArgs e)
         {
+            Label l = new Label() { Content = "Synchronising workshop mods, please wait"};
+
+            //ModInstallList.Children.Add(l);
             await Task.Run(() => mod_handling.Workshop.copyMods(mod_handling.Workshop.getWorkshopPath()));
             displayModList();
+            //ModInstallList.Children.Remove(l);
+
+            
         }
     }
 }
