@@ -117,7 +117,7 @@ namespace StormLoader.mod_handling
                                 } catch (Exception e)
                                 {
                                     DbgLog.WriteLine(f.Name);
-                                    DbgLog.WriteLine(e.ToString());
+                                    DbgLog.WriteLine(e.ToString()+ e.StackTrace);
                                     //throw e;
                                 }
 

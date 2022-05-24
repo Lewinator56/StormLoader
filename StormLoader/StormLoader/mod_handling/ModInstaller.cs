@@ -213,8 +213,10 @@ namespace StormLoader.mod_handling
             if (overwrite)
             {
                 modFileElement.SetAttribute("Overwrites", overwriteSource);
+                
 
             }
+            DbgLog.WriteLine("Copying file " + source);
             modFileElement.SetAttribute("ContentPath", source);
             currentModNode.AppendChild(modFileElement);
             installInfo.Save(GlobalVar.mw.gameLocation + "/StormLoader_install_info.xml");
