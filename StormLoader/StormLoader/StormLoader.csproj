@@ -276,7 +276,7 @@
     </Compile>
     <Compile Include="DbgLog.cs" />
     <Compile Include="Mod.cs" />
-    <Compile Include="modder_control_panel\Mod.cs" />
+    <Compile Include="mod_handling\install\Mod.cs" />
     <Compile Include="modder_control_panel\modderPanelModListItem.xaml.cs">
       <DependentUpon>modderPanelModListItem.xaml</DependentUpon>
     </Compile>
@@ -289,6 +289,8 @@
     <Compile Include="modder_control_panel\ModderUploadPanel.xaml.cs">
       <DependentUpon>ModderUploadPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="mod_handling\install\InstallList.cs" />
+    <Compile Include="mod_handling\install\ModFile.cs" />
     <Compile Include="mod_handling\ModInstaller.cs" />
     <Compile Include="mod_handling\Workshop.cs" />
     <Compile Include="Nexus\NexusModsAPIManager.cs" />
