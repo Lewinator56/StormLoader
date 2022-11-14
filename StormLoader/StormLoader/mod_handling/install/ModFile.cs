@@ -10,14 +10,15 @@ namespace StormLoader.mod_handling.install
     class ModFile
     {
         string name;
-        public string path;
+        public string installPath;
+        public string contentPath;
         ModFile overwrites = null;
         ModFile overwritten = null;
         public bool active = true;
 
         public ModFile(string path)
         {
-            this.path = path;
+            this.installPath = path;
         }
 
         public bool IsOverwritten()

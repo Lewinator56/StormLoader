@@ -694,7 +694,8 @@ namespace StormLoader
             currentProfile.Save("CurrentProfile.xml");
 
             // install the mod
-            mi.InstallMod(modName, modPath, gameLocation);
+            mi.DeserializeOrCreateMods(gameLocation);
+            mi.InstallModPack(modName, modPath, gameLocation);
             //ApplyProfileAlt();
         }
 

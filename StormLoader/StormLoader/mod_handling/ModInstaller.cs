@@ -17,6 +17,10 @@ namespace StormLoader.mod_handling
     {
         public InstallList il;
 
+        public ModInstaller()
+        {
+            il = new InstallList();
+        }
         public void DeserializeOrCreateMods(string source)
         {
             if (!File.Exists(source + "/StormLoader_install_info.bin"))
@@ -24,10 +28,32 @@ namespace StormLoader.mod_handling
                 File.Create(source + "/StormLoader_install_info.bin");
             } else
             {
-                // assume the format is correct
-                BinaryFormatter f = new BinaryFormatter();
-                il = (InstallList) f.Deserialize(File.OpenRead(source + "/StormLoader_install_info.bin"));
+                try
+                {
+                    // assume the format is correct
+                    BinaryFormatter f = new BinaryFormatter();
+                    using (Stream sr = File.OpenRead(source + "/StormLoader_install_info.bin"))
+                    {
+                        il = (InstallList)f.Deserialize(sr);
+                    }
+                    
+                }
+                catch (Exception e)
+                {
+                    // empty file
+                }
+                
             }
+
+           
+        }
+
+        public void SerializeToInstallFile(string source)
+        {
+            Stream s = File.OpenWrite(source + "/StormLoader_install_info.bin");
+            BinaryFormatter f = new BinaryFormatter();
+            f.Serialize(s, il);
+            s.Close();
         }
 
 
@@ -53,7 +79,7 @@ namespace StormLoader.mod_handling
             {
                 if (overwrite)
                 {
-                    DeleteByInstallList(mp);
+                    DeleteByInstallList(mp.name, gamePath);
                 }
 
                 // add the modpack to the install list, right now its blank
@@ -61,7 +87,7 @@ namespace StormLoader.mod_handling
 
                 try
                 {
-                    RecursiveCopyCheckInstalledList(installInfo, installRoot, modParent, new DirectoryInfo(modPath + "/Meshes/"), new DirectoryInfo(gamePath + "/rom/meshes/"));
+                    RecursiveCopyCheckInstalledList(mp, new DirectoryInfo(modPath + "/Meshes/"), new DirectoryInfo(gamePath + "/rom/meshes/"));
                     //DbgLog.WriteLine("Running");
                 }
                 catch (Exception e)
@@ -69,32 +95,87 @@ namespace StormLoader.mod_handling
                     DbgLog.WriteLine(e.ToString());
 
                 }
+                
                 try
                 {
-                    RecursiveCopyCheckInstalledList(installInfo, installRoot, modParent, new DirectoryInfo(modPath + "/Definitions/"), new DirectoryInfo(gamePath + "/rom/data/definitions/"));
+                    RecursiveCopyCheckInstalledList(mp, new DirectoryInfo(modPath + "/Definitions/"), new DirectoryInfo(gamePath + "/rom/data/definitions/"));
                 }
                 catch (Exception e) { DbgLog.WriteLine(e.ToString()); }
                 try
                 {
-                    RecursiveCopyCheckInstalledList(installInfo, installRoot, modParent, new DirectoryInfo(modPath + "/Audio/"), new DirectoryInfo(gamePath + "/rom/audio/"));
+                    RecursiveCopyCheckInstalledList(mp, new DirectoryInfo(modPath + "/Audio/"), new DirectoryInfo(gamePath + "/rom/audio/"));
                 }
                 catch (Exception e) { DbgLog.WriteLine(e.ToString()); }
                 try
                 {
-                    RecursiveCopyCheckInstalledList(installInfo, installRoot, modParent, new DirectoryInfo(modPath + "/Graphics/"), new DirectoryInfo(gamePath + "/rom/graphics/"));
+                    RecursiveCopyCheckInstalledList(mp, new DirectoryInfo(modPath + "/Graphics/"), new DirectoryInfo(gamePath + "/rom/graphics/"));
                 }
                 catch (Exception e) { DbgLog.WriteLine(e.ToString()); }
                 try
                 {
-                    RecursiveCopyCheckInstalledList(installInfo, installRoot, modParent, new DirectoryInfo(modPath + "/Data/"), new DirectoryInfo(gamePath + "/rom/data/"));
+                    RecursiveCopyCheckInstalledList(mp, new DirectoryInfo(modPath + "/Data/"), new DirectoryInfo(gamePath + "/rom/data/"));
                 }
                 catch (Exception e) { DbgLog.WriteLine(e.ToString()); }
+                
+                SerializeToInstallFile(gamePath);
             }
         }
 
-        public void DeleteByInstallList(ModPack mp)
+        public void DeleteByInstallList(string modName, string gameLocation)
         {
+            int i = 0;
+            while (il.mods.Count > i)
+            {
+                ModPack mp = il.mods[i];
+                if (mp.name == modName)
+                {
+                    
+                    foreach (ModFile mf in mp.modFiles)
+                    {
+                        // mod is overwritten and does not overwrite
+                        if (mf.IsOverwritten() && !mf.Overwrites())
+                        {
+                            // dont delete the mod (because the fiel doesnt exist), and wipe the reference from the list
+                            mf.GetOverwrittenBy().SetOverwrites(null);
+                        }  
+                        // mod overwrites and is not overwritten
+                        else if (!mf.IsOverwritten() && mf.Overwrites())
+                        {
+                            // delete the file, reinstall the file it was overwriting, and remove the reference
+                            try
+                            {
+                                File.Delete(gameLocation + mf.installPath);
+                                File.Copy(mf.GetOverwrites().contentPath, gameLocation + mf.installPath);
+                                mf.GetOverwrites().SetOverwrittenBy(null);
+                            }
+                            catch (Exception e) { DbgLog.WriteLine(e.ToString()); }
+                        }
+                        // mod is overwritten and overwrites another
+                        else if (mf.IsOverwritten() && mf.Overwrites())
+                        {
+                            // nothing to delete, but we do need to update references
+                            mf.GetOverwrittenBy().SetOverwrites(mf.GetOverwrites());
+                            mf.GetOverwrites().SetOverwrittenBy(mf.GetOverwrittenBy());
+                        }
+                        // mod isnt iverwriting anything and isnt overwritten by anything
+                        else if (!mf.IsOverwritten() && !mf.Overwrites())
+                        {
+                            try
+                            {
+                                File.Delete(gameLocation + mf.installPath);
+                            }
+                            catch (Exception e) { DbgLog.WriteLine(e.ToString()); }
+                        }
 
+                    }
+                    il.mods.Remove(mp);
+                }
+                i++;
+            }
+            SerializeToInstallFile(gameLocation);
+
+
+            
         }
 
 
@@ -105,7 +186,8 @@ namespace StormLoader.mod_handling
 
             foreach (FileInfo f in source.GetFiles())
             {
-                ModFile m = new ModFile(f.Name);
+                ModFile m = new ModFile(location + f.Name);
+                m.contentPath = source + f.Name;
                 pack.modFiles.Add(m);
 
 
@@ -122,7 +204,7 @@ namespace StormLoader.mod_handling
                     {
                         // loop for every file
                         // in the installinfo xml to check for overwrites
-                        string filePath = modFile.path;
+                        string filePath = modFile.installPath.Replace(GlobalVar.mw.gameLocation, "");
                         ModFile overwritesData = null;
                         ModFile overwrittenData = null;
                         bool active;
@@ -154,7 +236,7 @@ namespace StormLoader.mod_handling
                             if (AskOverwriteFile(relativeFileName, modRoot.name))
                             {
                                 // overwrite the file
-                                overwriteSource = m;
+                                overwriteSource = modFile;
                                 installFile = true;
 
 
@@ -202,11 +284,11 @@ namespace StormLoader.mod_handling
                 {
                     if (overwriteSource != null)
                     {
-                        InstallModFile(source + f.Name, location + f.Name, true, overwriteSource, installInfo, currentModNode);
+                        InstallModFile(m, true, overwriteSource);
                     }
                     else
                     {
-                        InstallModFile(source + f.Name, location + f.Name, false, "", installInfo, currentModNode);
+                        InstallModFile(m, false, null);
                     }
                 }
 
@@ -219,6 +301,16 @@ namespace StormLoader.mod_handling
                 DirectoryInfo dn = new DirectoryInfo(d.FullName + "/");
                 next = new DirectoryInfo(next.FullName + "/");
                 RecursiveCopyCheckInstalledList(pack, dn, next);
+            }
+        }
+
+        public void InstallModFile(ModFile mf, bool overwrite, ModFile overwriteSource)
+        {
+            File.Copy(mf.contentPath, mf.installPath, true);
+            if (overwrite)
+            {
+                mf.SetOverwrites(overwriteSource);
+                //overwriteSource.SetOverwrittenBy(mf);
             }
         }
 

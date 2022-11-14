@@ -20,6 +20,7 @@ namespace StormLoader.mod_handling.install
         {
             this.name = name;
             this.path = path;
+            modFiles = new List<ModFile>();
         }
 
     }
