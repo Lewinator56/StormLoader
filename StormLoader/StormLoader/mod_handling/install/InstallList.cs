@@ -6,9 +6,20 @@ using System.Threading.Tasks;
 
 namespace StormLoader.mod_handling.install
 {
+    [Serializable]
     class InstallList
     {
-        private List<Mod> mods;
+        public List<ModPack> mods;
+
+        public InstallList()
+        {
+
+        }
+
+        public bool IsModInstalled(ModPack mp)
+        {
+            return mods.Contains(mp);
+        }
 
 
     }

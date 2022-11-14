@@ -276,7 +276,7 @@
     </Compile>
     <Compile Include="DbgLog.cs" />
     <Compile Include="Mod.cs" />
-    <Compile Include="mod_handling\install\Mod.cs" />
+    <Compile Include="mod_handling\install\ModPack.cs" />
     <Compile Include="modder_control_panel\modderPanelModListItem.xaml.cs">
       <DependentUpon>modderPanelModListItem.xaml</DependentUpon>
     </Compile>
