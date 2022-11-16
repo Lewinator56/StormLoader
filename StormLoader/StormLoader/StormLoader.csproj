@@ -294,6 +294,8 @@
     <Compile Include="mod_handling\ModInstaller.cs" />
     <Compile Include="mod_handling\Workshop.cs" />
     <Compile Include="Nexus\NexusModsAPIManager.cs" />
+    <Compile Include="Profiles\ModPack.cs" />
+    <Compile Include="Profiles\Profile.cs" />
     <Compile Include="repository\RepoBrowserRoot.xaml.cs">
       <DependentUpon>RepoBrowserRoot.xaml</DependentUpon>
     </Compile>

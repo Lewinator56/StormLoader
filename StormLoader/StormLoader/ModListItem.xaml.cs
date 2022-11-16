@@ -1,4 +1,5 @@
 ﻿using MaterialDesignThemes.Wpf;
+using StormLoader.Profiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,11 +22,15 @@ namespace StormLoader
     /// </summary>
     public partial class ModListItem : UserControl
     {
-
+        public ModPack modPack;
         public string modPath = "";
-        public ModListItem()
+        public ModListItem(ModPack reference)
         {
             InitializeComponent();
+
+            this.modPack = reference;
+            this.ModName.Text = modPack.Name;
+
         }
         public void SetActive(bool active)
         {
@@ -33,10 +38,12 @@ namespace StormLoader
             {
                 ModActive.Kind = PackIconKind.Check;
                 ModActive.Foreground = new SolidColorBrush(Colors.Green);
+                modPack.Active = true;
             } else
             {
                 ModActive.Kind = PackIconKind.Close;
                 ModActive.Foreground = new SolidColorBrush(Colors.Red);
+                modPack.Active = false;
             }
         }
 
@@ -48,7 +55,7 @@ namespace StormLoader
             DbgLog.WriteLine(modPath);
             //GlobalVar.mw.ModInstallList.Children.Add(new Label() { Content = "INSTALLING: " + ModName.Text.ToString() });
             //GlobalVar.mw.installQueue.Enqueue(new Mod(ModName.Text.ToString(), modPath));
-            GlobalVar.mw.AddModToInstallQueue(ModName.Text.ToString(), modPath, true);
+            GlobalVar.mw.AddModToInstallQueue(modPack, true);
             //GlobalVar.mw.SetModActive(ModName.Text.ToString(), modPath, true);
             
         }
@@ -59,19 +66,19 @@ namespace StormLoader
             //mod_handling.ModInstaller mi = new mod_handling.ModInstaller();
             //mi.DeleteByInstallInfo(ModName.Content.ToString(), GlobalVar.mw.gameLocation);
             //GlobalVar.mw.SetModActive(ModName.Text.ToString(), modPath, false);
-            GlobalVar.mw.AddModToInstallQueue(ModName.Text.ToString(), modPath, false);
+            GlobalVar.mw.AddModToInstallQueue(modPack, false);
         }
 
         private void UninsMod_Click(object sender, RoutedEventArgs e)
         {
             //mod_handling.ModInstaller mi = new mod_handling.ModInstaller();
             //mi.DeleteByInstallInfo(ModName.Content.ToString(), GlobalVar.mw.gameLocation);
-            GlobalVar.mw.DeleteMod(ModName.Text.ToString(), modPath);
+            GlobalVar.mw.DeleteMod(modPack);
         }
 
         private void Card_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            GlobalVar.mw.SelectMod(ModName.Text.ToString(), modPath);
+            GlobalVar.mw.SelectMod(modPack);
         }
 
         private void Card_MouseEnter(object sender, MouseEventArgs e)

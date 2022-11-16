@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StormLoader.Profiles;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,15 +10,14 @@ namespace StormLoader
     // stores data about mods for use in install queues
     public class Mod
     {
+        public ModPack pack;
         public string path;
         public string name;
         public bool active;
 
-        public Mod(string name, string path, bool active)
+        public Mod(ModPack pack)
         {
-            this.path = path;
-            this.name = name;
-            this.active = active;
+            this.pack = pack;
         }
     }
 }

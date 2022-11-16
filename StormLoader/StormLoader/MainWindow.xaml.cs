@@ -22,6 +22,7 @@ using System.Threading;
 
 using System.Net;
 using StormLoader.repository;
+using StormLoader.Profiles;
 
 namespace StormLoader
 {
@@ -40,6 +41,8 @@ namespace StormLoader
         public bool x64 { get; set; }
         public bool notx64 { get { return !x64; } set { x64=!value; } }
         mod_handling.ModInstaller mi = new mod_handling.ModInstaller();
+
+        Profile liveProfile = new Profile();
         public MainWindow()
         {
             AppDomain cd = AppDomain.CurrentDomain;
@@ -61,8 +64,11 @@ namespace StormLoader
             settingsDoc.Save("Settings.xml");
 
 
-            currentProfile.Load("CurrentProfile.xml");
-            this.Title = "StormLoader : " + currentProfile.SelectSingleNode("/Profile").Attributes["Name"].InnerText;
+            liveProfile = Profile.Load("CurrentProfile.spf");
+            this.Title = "StormLoader : " + liveProfile.Name;
+
+            //currentProfile.Load("CurrentProfile.xml");
+            //this.Title = "StormLoader : " + currentProfile.SelectSingleNode("/Profile").Attributes["Name"].InnerText;
 
             x64Box.DataContext = this;
             x86Box.DataContext = this;
@@ -96,17 +102,17 @@ namespace StormLoader
             Application.Current.Shutdown();
             
         }
-        public void AddModToInstallQueue(string name, string path, bool active)
+        public void AddModToInstallQueue(ModPack pack, bool active)
         {
             
             this.Dispatcher.Invoke(() =>
             {
-                Label l = new Label() { Content = (active? "INSTALLING: " : "UNINSTALLING :") + name };
+                Label l = new Label() { Content = (active? "INSTALLING: " : "UNINSTALLING :") + pack.Name };
                 ModInstallList.Children.Add(l);
                 
             });
             
-            installQueue.Enqueue(new Mod(name, path, active));
+            installQueue.Enqueue(new Mod(pack));
         }
         private string checkNewVersion(bool ShowDialog)
         {
@@ -150,8 +156,8 @@ namespace StormLoader
                 else
                 {
                     Mod m = installQueue.Dequeue();
-                    DbgLog.WriteLine(m.path);
-                    SetModActive(m.name, m.path, m.active);
+                    DbgLog.WriteLine(m.pack.ContentPath);
+                    SetModActive(m.pack, m.pack.Active);
                     this.Dispatcher.Invoke(() =>
                     {
                         ModInstallList.Children.RemoveAt(0);
@@ -176,29 +182,39 @@ namespace StormLoader
         {
             ModList.Children.Clear();
             string[] filesInDirectory = Directory.GetDirectories(modExtractionDir);
+            foreach (ModPack p in liveProfile.ModPacks)
+            {
+                ModListItem mli = new ModListItem(p);
+                ModList.Children.Add(mli);
+            }
+            /**
             foreach (string dir in filesInDirectory)
             {
-                ModListItem mli = new ModListItem();
-                mli.ModName.Text = new DirectoryInfo(dir).Name;
+                ModPack pack = new ModPack();
+                pack.ContentPath = dir;
+                pack.Name = new DirectoryInfo(dir).Name;
+                ModListItem mli = new ModListItem(pack);
+                //mli.ModName.Text = new DirectoryInfo(dir).Name;
                 //DbgLog.WriteLine(new DirectoryInfo(dir).Name);
                 //DbgLog.WriteLine(mli.ModName.Text.ToString()) ;
-                mli.modPath = dir;
+                //mli.modPath = dir;
                 DbgLog.WriteLine(dir);
                 ModList.Children.Add(mli);
             }
-            CheckModActiveAlt();
+            */
+            CheckModActive();
         }
-        public void checkModActive()
+        public void CheckModActive()
         {
-            currentProfile.Load("CurrentProfile.xml");
-            XmlNode modRoot = currentProfile.SelectSingleNode("/Profile/Mods");
-            foreach (XmlNode mod in modRoot)
+            //currentProfile.Load("CurrentProfile.xml");
+            //XmlNode modRoot = currentProfile.SelectSingleNode("/Profile/Mods");
+            foreach (ModPack mod in liveProfile.ModPacks)
             {
-                if (mod.SelectSingleNode("Active").InnerText == "true")
+                if (mod.Active == true)
                 {
                     foreach (ModListItem mli in ModList.Children)
                     {
-                        if (mod.SelectSingleNode("Name").InnerText == (string)mli.ModName.Text)
+                        if (mod.Name == (string)mli.ModName.Text)
                         {
                             mli.SetActive(true);
 
@@ -209,7 +225,7 @@ namespace StormLoader
                 {
                     foreach (ModListItem mli in ModList.Children)
                     {
-                        if (mod.SelectSingleNode("Name").InnerText == (string)mli.ModName.Text)
+                        if (mod.Name == (string)mli.ModName.Text)
                         {
                             mli.SetActive(false);
 
@@ -219,9 +235,10 @@ namespace StormLoader
             }
         }
 
+        /**
         public void CheckModActiveAlt()
         {
-            currentProfile.Load("CurrentProfile.xml");
+            //currentProfile.Load("CurrentProfile.xml");
             foreach (ModListItem mli in ModList.Children)
             {
                 if (currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()=\"" + mli.ModName.Text + "\"]") != null)
@@ -238,7 +255,7 @@ namespace StormLoader
 
             }
         }
-
+        **/
 
         private void AddMod_Click(object sender, RoutedEventArgs e)
         {
@@ -272,12 +289,20 @@ namespace StormLoader
             }
             XmlDocument meta = new XmlDocument();
             meta.Load(modExtractionDir + "/" + nameWithoutExt + "/metadata.xml");
+
+            ModPack pack = new ModPack();
+
+            pack.Name = nameWithoutExt;
+            pack.ContentPath = modExtractionDir + "/" + nameWithoutExt;
+            pack.Author = meta.SelectSingleNode("/Metadata/Author").InnerText;
+            pack.Version = meta.SelectSingleNode("/Metadata/Version").InnerText;
+            pack.InstalledOn = DateTime.Now;
             DbgLog.WriteLine(meta.OuterXml);
             this.Dispatcher.Invoke(() =>
             {
                 ModInstallList.Children.RemoveAt(0);
             });
-            AddModToInstallQueue(nameWithoutExt, modExtractionDir + "/" + nameWithoutExt, true);
+            AddModToInstallQueue(pack, true);
             //SetModActive(modExtractionDir + "/" + nameWithoutExt, nameWithoutExt, true);
 
             //AddModNew(modExtractionDir + "/" + nameWithoutExt, nameWithoutExt, meta.SelectSingleNode("/Metadata/Version").InnerText, meta.SelectSingleNode("/Metadata/Author").InnerText);
@@ -445,7 +470,8 @@ namespace StormLoader
             }
 
             System.IO.Directory.CreateDirectory("Profiles");
-
+            
+            /**
             if (!File.Exists("CurrentProfile.xml"))
             {
                 XmlWriter xwm = XmlWriter.Create("CurrentProfile.xml", xws);
@@ -458,6 +484,7 @@ namespace StormLoader
                 xwm.WriteEndDocument();
                 xwm.Close();
             }
+            **/
             
             
 
@@ -555,15 +582,18 @@ namespace StormLoader
         private void SaveProfile_Btn_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.SaveFileDialog opf = new Microsoft.Win32.SaveFileDialog();
-            opf.Filter = "XML Profile file (.xml)|*.xml";
+            opf.Filter = "Stormloader Profile File (.spf)|*.spf";
             Nullable<bool> r = opf.ShowDialog();
 
             if (r == true)
             {
-                currentProfile.Load("CurrentProfile.xml");
-                currentProfile.SelectSingleNode("/Profile").Attributes["Name"].InnerText = System.IO.Path.GetFileNameWithoutExtension(opf.FileName);
-                currentProfile.Save("CurrentProfile.xml");
-                File.Copy("CurrentProfile.xml", opf.FileName, true);
+                //currentProfile.Load("CurrentProfile.xml");
+                //currentProfile.SelectSingleNode("/Profile").Attributes["Name"].InnerText = System.IO.Path.GetFileNameWithoutExtension(opf.FileName);
+                //currentProfile.Save("CurrentProfile.xml");
+                //File.Copy("CurrentProfile.xml", opf.FileName, true);
+
+                liveProfile.Name = System.IO.Path.GetFileNameWithoutExtension(opf.FileName);
+                liveProfile.Save(opf.FileName);
             }
             this.Title = "StormLoader : " + currentProfile.SelectSingleNode("/Profile").Attributes["Name"].InnerText;
         }
@@ -656,9 +686,10 @@ namespace StormLoader
         }
 
         
-        public void AddModNew(string modPath, string modName, string modVersion, string modAuthor)
+        public void AddModNew(ModPack pack)
         {
-            XmlNode ModRoot = currentProfile.SelectSingleNode("/Profile/Mods");
+            //XmlNode ModRoot = currentProfile.SelectSingleNode("/Profile/Mods");
+            /**
             string modActive = "false";
             foreach (XmlNode n in ModRoot)
             {
@@ -692,45 +723,55 @@ namespace StormLoader
             ModRoot.AppendChild(ModNode);
 
             currentProfile.Save("CurrentProfile.xml");
+            **/
+            int i = 0;
+            while (liveProfile.ModPacks.Count > i)
+            {
+                if (liveProfile.ModPacks[i].Name == pack.Name)
+                {
+                    liveProfile.RemoveMod(liveProfile.ModPacks[i]);
+                }
+                i++;
+            }
+            liveProfile.AddMod(pack);
+            liveProfile.Save("CurrentProfile.spf");
 
             // install the mod
             mi.DeserializeOrCreateMods(gameLocation);
-            mi.InstallModPack(modName, modPath, gameLocation);
+            mi.InstallModPack(pack.Name, pack.ContentPath, gameLocation);
             //ApplyProfileAlt();
         }
 
         
 
-        public void SetModActive(string modName, string path, bool active)
+        public void SetModActive(ModPack pack, bool active)
         {
-            currentProfile.Load("CurrentProfile.xml");
+            //currentProfile.Load("CurrentProfile.xml");
             if (active)
             {
-                XmlDocument meta = new XmlDocument();
-                meta.Load(path + "/metadata.xml");
-                DbgLog.WriteLine(meta.OuterXml);
-                AddModNew(path, modName, meta.SelectSingleNode("/Metadata/Version").InnerText, meta.SelectSingleNode("/Metadata/Author").InnerText);
+                //XmlDocument meta = new XmlDocument();
+                //meta.Load(path + "/metadata.xml");
+                //DbgLog.WriteLine(meta.OuterXml);
+                AddModNew(pack);
+                pack.Active = true;
             } else
             {
-                try
-                {
-                    XmlElement modNode = (XmlElement)currentProfile.SelectSingleNode("/Profile/Mods/Mod[Name='" + modName + "']");
-                    if (modNode != null)
-                    {
-                        modNode.ParentNode.RemoveChild(modNode);
-                    }
-                    
                 
-                }
-                catch (Exception) { }
-                mi.DeleteByInstallInfo(modName, gameLocation);
+                mi.DeleteByInstallList(pack.Name, gameLocation);
+                pack.Active = false;
             }
-            currentProfile.Save("CurrentProfile.xml");
+            //currentProfile.Save("CurrentProfile.xml");
             //ApplyProfileAlt();
+            liveProfile.Save("CurrentProfile.spf");
+            this.Dispatcher.Invoke(() =>
+            {
+                displayModList();
+            });
+            
 
         }
 
-        public void DeleteMod(string modName, string path)
+        public void DeleteMod(ModPack pack)
         {
             if (installQueue.Count > 0)
             {
@@ -738,33 +779,35 @@ namespace StormLoader
                 return;
             }
             //SetModActive(modName, "false");
-            currentProfile.Load("CurrentProfile.xml");
+            //currentProfile.Load("CurrentProfile.xml");
             //XmlNode ModRoot = currentProfile.SelectSingleNode("/Profile/Mods");
-            SetModActive(modName, path, false);
-            if (Directory.Exists(path))
+            SetModActive(pack, false);
+            if (Directory.Exists(pack.ContentPath))
             {
-                Directory.Delete(path, true);
+                Directory.Delete(pack.ContentPath, true);
                 try
                 {
-                    File.Delete("./Downloaded/" + modName + ".slp");
+                    File.Delete("./Downloaded/" + pack.Name + ".slp");
                 }
                 catch { }
             }
             //ApplyProfileAlt();
-            mi.DeleteByInstallInfo(modName, gameLocation);
+            mi.DeleteByInstallList(pack.Name, gameLocation);
             displayModList();
         }
 
-        public void SelectMod(string modName, string modPath)
+        public void SelectMod(ModPack pack)
         {
-            ModNameLabel.Content = "Name: " + modName;
-            currentProfile.Load("CurrentProfile.xml");
-            XmlDocument meta = new XmlDocument();
-            meta.Load(modPath + "/Metadata.xml");
-            AuthorLabel.Content = "Author: " + meta.SelectSingleNode("/Metadata/Author").InnerText;
-            ModVersionLabel.Content = "Version: " + meta.SelectSingleNode("/Metadata/Version").InnerText;
+            ModNameLabel.Content = "Name: " + pack.Name;
+
+            //ModNameLabel.Content = "Name: " + modName;
+            //currentProfile.Load("CurrentProfile.xml");
+            //XmlDocument meta = new XmlDocument();
+            //meta.Load(pack.ContentPath + "/Metadata.xml");
+            AuthorLabel.Content = "Author: " + pack.Author;
+            ModVersionLabel.Content = "Version: " + pack.Version;
             //string modPath = n.ParentNode.SelectSingleNode("Path").InnerText;
-            string infoPath = modPath + "/info.html";
+            string infoPath = pack.ContentPath + "/info.html";
             if (File.Exists(infoPath))
             {
                 infoDisp.Navigate(new Uri("file://" + System.IO.Path.GetFullPath(infoPath)));
