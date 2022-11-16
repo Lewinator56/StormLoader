@@ -30,6 +30,13 @@ namespace StormLoader
 
             this.modPack = reference;
             this.ModName.Text = modPack.Name;
+            Steam_Btn.Visibility = modPack.SteamMod == true? Visibility.Visible : Visibility.Collapsed;
+
+            if (modPack.SteamMod == true)
+            {
+                ModCard.Background = new SolidColorBrush(Color.FromRgb(225, 225, 235));
+            }
+            
 
         }
         public void SetActive(bool active)
@@ -89,6 +96,11 @@ namespace StormLoader
         private void Card_MouseLeave(object sender, MouseEventArgs e)
         {
             MaterialDesignThemes.Wpf.ShadowAssist.SetShadowDepth(ModCard, ShadowDepth.Depth1);
+        }
+
+        private void Steam_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://steamcommunity.com/sharedfiles/filedetails/?id=" + modPack.steamID);
         }
     }
 }

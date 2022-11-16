@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Win32;
 using System.IO;
 using Ionic.Zip;
+using StormLoader.Profiles;
 
 namespace StormLoader.mod_handling
 {
@@ -80,6 +81,8 @@ namespace StormLoader.mod_handling
                                     if (BitConverter.ToUInt32(head, 0) == 0x04034b50)
                                     {
                                         // we know this is a zip, so extract the contents (the .slp file) into the stormloader downloads directory
+
+                                        
                                         ZipFile z = new ZipFile(f.FullName);
                                         z.ExtractAll("./temp_steam", ExtractExistingFileAction.OverwriteSilently);
                                         foreach(FileInfo slpf in new DirectoryInfo("./temp_steam").GetFiles())
@@ -99,8 +102,12 @@ namespace StormLoader.mod_handling
                                                 else
                                                 {
                                                     File.Copy(slpf.FullName, "./Downloaded/" + slpf.Name, true);
-                                                    
-                                                    GlobalVar.mw.addModFromFile(slpf.FullName, System.IO.Path.GetFileNameWithoutExtension(slpf.FullName), ".slp");
+
+                                                    ModPack p = new ModPack();
+                                                    p.SteamMod = true;
+                                                    p.steamID = d.Name;
+                                                    p.Active = true;
+                                                    GlobalVar.mw.addModFromFile(slpf.FullName, System.IO.Path.GetFileNameWithoutExtension(slpf.FullName), ".slp", p);
 
                                                     
                                                     //GlobalVar.mw.SetModActive(System.IO.Path.GetFileNameWithoutExtension(slpf.FullName), slpf.FullName, true);
@@ -108,10 +115,15 @@ namespace StormLoader.mod_handling
                                             } else
                                             {
                                                 File.Copy(slpf.FullName, "./Downloaded/" + slpf.Name, true);
-                                                GlobalVar.mw.addModFromFile(slpf.FullName, System.IO.Path.GetFileNameWithoutExtension(slpf.FullName), ".slp");
+                                                ModPack p = new ModPack();
+                                                p.SteamMod = true;
+                                                p.steamID = d.Name;
+                                                p.Active |= true;
+                                                GlobalVar.mw.addModFromFile(slpf.FullName, System.IO.Path.GetFileNameWithoutExtension(slpf.FullName), ".slp", p);
                                                 //GlobalVar.mw.SetModActive(System.IO.Path.GetFileNameWithoutExtension(slpf.FullName), slpf.FullName, true);
                                             }
                                         }
+                                        
                                         //Directory.Delete("./temp_steam", true); // IO exception here because the installation is still happening when the system tries to delete this, this is an issueif there is more than one mod, temporary fix is to comment this out, needs fixing!
                                     }
                                 } catch (Exception e)

@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.Diagnostics;
 using MaterialDesignThemes.Wpf;
 using System.Threading;
+using StormLoader.mod_handling.install;
 
 namespace StormLoader.repository
 {
@@ -96,9 +97,11 @@ namespace StormLoader.repository
             });
             //InfoPopup ifp = new InfoPopup();
             //ifp.titleText.Content = "Download Complete, Activating Mod";
+            Profiles.ModPack p = new Profiles.ModPack();
+            p.Active = true;
             if (install)
             {
-                GlobalVar.mw.addModFromFile("Downloaded/" + name + ".slp", name, ".slp");
+                GlobalVar.mw.addModFromFile("Downloaded/" + name + ".slp", name, ".slp", p);
             }
             
             

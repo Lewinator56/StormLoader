@@ -182,26 +182,14 @@ namespace StormLoader
         {
             ModList.Children.Clear();
             string[] filesInDirectory = Directory.GetDirectories(modExtractionDir);
-            foreach (ModPack p in liveProfile.ModPacks)
+            int i = 0;
+            while (liveProfile.ModPacks.Count > i)
             {
-                ModListItem mli = new ModListItem(p);
+                
+                ModListItem mli = new ModListItem(liveProfile.ModPacks[i]);
                 ModList.Children.Add(mli);
+                i++;
             }
-            /**
-            foreach (string dir in filesInDirectory)
-            {
-                ModPack pack = new ModPack();
-                pack.ContentPath = dir;
-                pack.Name = new DirectoryInfo(dir).Name;
-                ModListItem mli = new ModListItem(pack);
-                //mli.ModName.Text = new DirectoryInfo(dir).Name;
-                //DbgLog.WriteLine(new DirectoryInfo(dir).Name);
-                //DbgLog.WriteLine(mli.ModName.Text.ToString()) ;
-                //mli.modPath = dir;
-                DbgLog.WriteLine(dir);
-                ModList.Children.Add(mli);
-            }
-            */
             CheckModActive();
         }
         public void CheckModActive()
@@ -235,27 +223,6 @@ namespace StormLoader
             }
         }
 
-        /**
-        public void CheckModActiveAlt()
-        {
-            //currentProfile.Load("CurrentProfile.xml");
-            foreach (ModListItem mli in ModList.Children)
-            {
-                if (currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()=\"" + mli.ModName.Text + "\"]") != null)
-                {
-                    DbgLog.WriteLine(mli.ModName.Text.ToString());
-                    DbgLog.WriteLine(currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()=\"" + mli.ModName.Text + "\"]").InnerText);
-                    DbgLog.WriteLine("Found");
-                    mli.SetActive(true);
-                } else
-                {
-                    mli.SetActive(false);
-                    
-                }
-
-            }
-        }
-        **/
 
         private void AddMod_Click(object sender, RoutedEventArgs e)
         {
@@ -265,7 +232,10 @@ namespace StormLoader
 
             if (r == true)
             {
-                addModFromFile(opf.FileName, System.IO.Path.GetFileNameWithoutExtension(opf.FileName), System.IO.Path.GetExtension(opf.FileName));
+                ModPack p = new ModPack();
+                p.Active = true;
+                p.Name = System.IO.Path.GetFileNameWithoutExtension(opf.FileName);
+                addModFromFile(opf.FileName, System.IO.Path.GetFileNameWithoutExtension(opf.FileName), System.IO.Path.GetExtension(opf.FileName), p);
                 
                 
             }
@@ -273,7 +243,7 @@ namespace StormLoader
 
         }
 
-        public void addModFromFile(string path, string nameWithoutExt, string ext)
+        public void addModFromFile(string path, string nameWithoutExt, string ext, ModPack pack)
         {
             this.Dispatcher.Invoke(() =>
             {
@@ -290,7 +260,7 @@ namespace StormLoader
             XmlDocument meta = new XmlDocument();
             meta.Load(modExtractionDir + "/" + nameWithoutExt + "/metadata.xml");
 
-            ModPack pack = new ModPack();
+            
 
             pack.Name = nameWithoutExt;
             pack.ContentPath = modExtractionDir + "/" + nameWithoutExt;
@@ -688,42 +658,7 @@ namespace StormLoader
         
         public void AddModNew(ModPack pack)
         {
-            //XmlNode ModRoot = currentProfile.SelectSingleNode("/Profile/Mods");
-            /**
-            string modActive = "false";
-            foreach (XmlNode n in ModRoot)
-            {
-                if (n.SelectSingleNode("Name").InnerText == modName)
-                {
-
-                    currentProfile.SelectSingleNode("/Profile/Mods").RemoveChild(n);
-                    
-                }
-                
-            }
-            XmlNode ModNode = currentProfile.CreateElement("Mod");
-            XmlElement name = currentProfile.CreateElement("Name");
-            name.InnerText = modName;
-            XmlElement path = currentProfile.CreateElement("Path");
-            path.InnerText = modPath;
-            XmlElement version = currentProfile.CreateElement("Version");
-            version.InnerText = modVersion;
-            XmlElement author = currentProfile.CreateElement("Author");
-            author.InnerText = modAuthor;
-           
-
-
-
-            ModNode.AppendChild(name);
-            ModNode.AppendChild(path);
-            ModNode.AppendChild(version);
-            ModNode.AppendChild(author);
-            //ModNode.AppendChild(active);
-
-            ModRoot.AppendChild(ModNode);
-
-            currentProfile.Save("CurrentProfile.xml");
-            **/
+            
             int i = 0;
             while (liveProfile.ModPacks.Count > i)
             {
