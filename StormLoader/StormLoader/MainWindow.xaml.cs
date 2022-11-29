@@ -28,6 +28,27 @@ namespace StormLoader
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
+    /// 
+    /// 
+    /// I'm really sorry, this code is an abomination of legacy c**p and years of me becoming a better programmer.
+    /// A lot is written badly, and following function calls is spaghetti. I've made some changes, but these are for the most part relying on 
+    /// the legacy stuff that will be a pain in the backside to refactor. 
+    /// 
+    /// All future updates and changes should  aim to reduce the relience on the legacy code and will be added in self contained modules where
+    /// possible, take for example the mod packager.
+    /// 
+    /// Oh, and an automatic version counter would be nice, I just don't know how to do that (probably a build configuration somewhere).
+    /// 
+    /// Anyway...
+    /// 
+    /// This is the main window for stormloader, this file handles most of the interaction logic for this, but also a lot of the backend logic (which it shouldnt)
+    /// Mod installs, for the most part, are handled by the modInstaller in mod_handling, but some stuff is still in here, waiting to break and scare me when I
+    /// least expect it.
+    /// 
+    /// Theres some multithreaded shenanigans going on too for mod installation to isolate the UI and mod threads, but the queue situation is a mess, and updates
+    /// to the UI to show whats going on sometimes happen in the wrong order, breaking things. Oh, and you cant uninstall and install at the same time - i.e you cant queue up
+    /// uninstalls... don't know why, thats just how i wrote it and probably need to change it.
+    ///
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -69,6 +90,7 @@ namespace StormLoader
 
             //currentProfile.Load("CurrentProfile.xml");
             //this.Title = "StormLoader : " + currentProfile.SelectSingleNode("/Profile").Attributes["Name"].InnerText;
+            mi.DeserializeOrCreateMods(gameLocation);
 
             x64Box.DataContext = this;
             x86Box.DataContext = this;
@@ -672,7 +694,7 @@ namespace StormLoader
             liveProfile.Save("CurrentProfile.spf");
 
             // install the mod
-            mi.DeserializeOrCreateMods(gameLocation);
+            
             mi.InstallModPack(pack.Name, pack.ContentPath, gameLocation);
             //ApplyProfileAlt();
         }
@@ -716,6 +738,7 @@ namespace StormLoader
             //SetModActive(modName, "false");
             //currentProfile.Load("CurrentProfile.xml");
             //XmlNode ModRoot = currentProfile.SelectSingleNode("/Profile/Mods");
+            
             SetModActive(pack, false);
             if (Directory.Exists(pack.ContentPath))
             {
@@ -726,8 +749,9 @@ namespace StormLoader
                 }
                 catch { }
             }
+            liveProfile.RemoveMod(pack);
             //ApplyProfileAlt();
-            mi.DeleteByInstallList(pack.Name, gameLocation);
+            //mi.DeleteByInstallList(pack.Name, gameLocation);
             displayModList();
         }
 
@@ -851,6 +875,26 @@ namespace StormLoader
             //ModInstallList.Children.Remove(l);
 
             
+        }
+
+        private void Packager_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Sync_Files_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Browse_Files_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Browse_Game_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

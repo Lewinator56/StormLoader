@@ -2,6 +2,7 @@
 using StormLoader.Profiles;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,7 @@ namespace StormLoader
             this.modPack = reference;
             this.ModName.Text = modPack.Name;
             Steam_Btn.Visibility = modPack.SteamMod == true? Visibility.Visible : Visibility.Collapsed;
+            steam_context.IsEnabled = modPack.SteamMod;
 
             if (modPack.SteamMod == true)
             {
@@ -101,6 +103,11 @@ namespace StormLoader
         private void Steam_Btn_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://steamcommunity.com/sharedfiles/filedetails/?id=" + modPack.steamID);
+        }
+
+        private void ShowMod_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("explorer.exe", new DirectoryInfo(modPack.ContentPath).FullName);
         }
     }
 }

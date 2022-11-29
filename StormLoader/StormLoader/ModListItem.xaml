@@ -8,9 +8,20 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <materialDesign:Card Name="ModCard" Height="40" HorizontalAlignment="Stretch" Width="auto" Margin="5" MouseDown="Card_MouseDown" MouseEnter="Card_MouseEnter" MouseLeave="Card_MouseLeave" materialDesign:ShadowAssist.ShadowDepth="Depth1">
+        <materialDesign:Card.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Show in folder" Click="ShowMod_Click"></MenuItem>
+                <MenuItem Header="Show on steam" Click="Steam_Btn_Click" Name="steam_context"/>
+                <Separator/>
+                <MenuItem Header="Activate mod" Click="ActvMod_Btn_Click"/>
+                <MenuItem Header="Deactivate mod" Click="DeActvMod_Click"/>
+                <MenuItem Header="Uninstall mod" Click="UninsMod_Click"/>
+
+            </ContextMenu>
+        </materialDesign:Card.ContextMenu>
         <DockPanel Margin="5">
             <materialDesign:PackIcon Name="ModActive" Kind="Check" Foreground="Green" VerticalAlignment="Center">
-                
+
             </materialDesign:PackIcon>
             <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Margin="5, 0, 5, 0"/>
             <TextBlock Name="ModName" Text="Mod Name Here" MaxWidth="500" VerticalAlignment="Center"></TextBlock>
@@ -29,8 +40,8 @@
                     <materialDesign:PackIcon Kind="Bin"/>
                 </Button>
             </StackPanel>
-            
-            
+
+
 
         </DockPanel>
     </materialDesign:Card>

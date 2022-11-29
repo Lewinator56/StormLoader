@@ -32,8 +32,9 @@ namespace StormLoader.mod_handling
                 {
                     // assume the format is correct
                     BinaryFormatter f = new BinaryFormatter();
-                    using (Stream sr = File.OpenRead(source + "/StormLoader_install_info.bin"))
+                    using (FileStream sr = new FileStream(source + "/StormLoader_install_info.bin", FileMode.Open))
                     {
+
                         il = (InstallList)f.Deserialize(sr);
                     }
                     
@@ -169,6 +170,7 @@ namespace StormLoader.mod_handling
 
                     }
                     il.mods.Remove(mp);
+                    
                 }
                 i++;
             }

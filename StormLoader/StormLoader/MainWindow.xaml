@@ -9,15 +9,43 @@
         Title="MainWindow" Height="450" Width="800"
         Loaded="Window_Loaded">
     <materialDesign:DialogHost Background="Transparent" Loaded="DialogHost_Loaded">
+        <materialDesign:DrawerHost>
+            <materialDesign:DrawerHost.LeftDrawerContent>
+                <StackPanel Width="200">
+                    <Button Style="{DynamicResource MaterialDesignToolButton}" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}" Height="50" Width="50" Background="White" BorderBrush="LightGray" BorderThickness="0" Foreground="Black" Margin="7" HorizontalAlignment="Right" >
+                        <StackPanel Orientation="Horizontal" Margin="-10" >
+                            <materialDesign:PackIcon Kind="ArrowBack" HorizontalAlignment="left" VerticalAlignment="Center">
+                                <materialDesign:PackIcon.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                </materialDesign:PackIcon.LayoutTransform>
+                            </materialDesign:PackIcon>
+                        </StackPanel>
+                    </Button>
+                    <Separator/>
+                    
+                </StackPanel>
+            </materialDesign:DrawerHost.LeftDrawerContent>
+        
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <materialDesign:Card Background="White" materialDesign:ShadowAssist.ShadowDepth="Depth2"  UniformCornerRadius="0" Grid.Row="0" Height="100">
+            <materialDesign:Card Background="White" materialDesign:ShadowAssist.ShadowDepth="Depth2"  UniformCornerRadius="0" Grid.Row="0" Height="auto">
                 <DockPanel >
-                    <StackPanel Orientation="Vertical" DockPanel.Dock="left" HorizontalAlignment="left" VerticalAlignment="Center">
+                        <Button Style="{DynamicResource MaterialDesignToolButton}" Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}" Height="50" Width="50" Background="White" BorderBrush="LightGray" BorderThickness="0" Foreground="Black" Margin="7" DockPanel.Dock="Left" Visibility="Collapsed" >
+                            <StackPanel Orientation="Horizontal" Margin="-10" >
+                                <materialDesign:PackIcon Kind="Menu" HorizontalAlignment="left" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon.LayoutTransform>
+                                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                    </materialDesign:PackIcon.LayoutTransform>
+                                </materialDesign:PackIcon>
+                            </StackPanel>
+                        </Button>
+
+
+                        <StackPanel Orientation="Vertical" DockPanel.Dock="left" HorizontalAlignment="left" VerticalAlignment="Center">
                         <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="AddMod" Height="30" Width="160" Background="White" BorderBrush="LightGray" BorderThickness="2 2 2 2" Foreground="Black" Margin="7" Click="AddMod_Click" >
                             <StackPanel Orientation="Horizontal" Margin="-10" >
                                 <materialDesign:PackIcon Kind="PlaylistPlus" HorizontalAlignment="left" VerticalAlignment="Center">
@@ -28,23 +56,24 @@
                                 <Label Content="Add mod from file"/>
                             </StackPanel>
                         </Button>
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="BrowseOnline" Height="30" Width="160" Background="White" BorderBrush="LightGray" BorderThickness="2 2 2 2" Foreground="Black" Margin="7"  HorizontalContentAlignment="Left" Click="BrowseOnline_Click">
-                            <StackPanel Orientation="horizontal" Margin="-10" HorizontalAlignment="Left" >
-                                <materialDesign:PackIcon Kind="DownloadBox" VerticalAlignment="Center">
-                                    <materialDesign:PackIcon.LayoutTransform>
-                                        <ScaleTransform ScaleX="1" ScaleY="1"/>
-                                    </materialDesign:PackIcon.LayoutTransform>
-                                </materialDesign:PackIcon>
-                                <Label Content="Browse online"/>
-                            </StackPanel>
-                            <Button.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="Browse Repo" Click="BrowseRepo_Click"/>
-                                    <MenuItem Header="Browse Nexus" Click="BrowseNexus_Click"/>
-                                </ContextMenu>
-                            </Button.ContextMenu>
-                        </Button>
-                    </StackPanel>
+                            <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="BrowseOnline" Height="30" Width="160" Background="White" BorderBrush="LightGray" BorderThickness="2 2 2 2" Foreground="Black" Margin="7"  HorizontalContentAlignment="Left" Click="BrowseOnline_Click">
+                                <StackPanel Orientation="horizontal" Margin="-10" HorizontalAlignment="Left" >
+                                    <materialDesign:PackIcon Kind="DownloadBox" VerticalAlignment="Center">
+                                        <materialDesign:PackIcon.LayoutTransform>
+                                            <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                        </materialDesign:PackIcon.LayoutTransform>
+                                    </materialDesign:PackIcon>
+                                    <Label Content="Browse online"/>
+                                </StackPanel>
+                                <Button.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Browse Repo" Click="BrowseRepo_Click"/>
+                                        <MenuItem Header="Browse Nexus" Click="BrowseNexus_Click"/>
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+                            </Button>
+                            
+                        </StackPanel>
                     
 
                     <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="LaunchGame" Height="75" Width="75" Background="White" BorderBrush="LightGray" BorderThickness="2 2 2 2" Foreground="Black" Margin="10" Click="LaunchGame_Click">
@@ -77,7 +106,8 @@
                     </Button>
 
                     <!--Menu-->
-                    <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="True" Foreground="black" Margin="10">
+                    <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="True" Foreground="black" Margin="20">
+
                         <StackPanel>
                             <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="Settings" Height="auto" Width="auto" Background="White" BorderBrush="LightGray" BorderThickness="0" Foreground="Black" Margin="0" Click="Settings_Click" HorizontalAlignment="Stretch" DockPanel.Dock="Right" HorizontalContentAlignment="Left">
                                 <StackPanel Orientation="Horizontal" Margin="0" >
@@ -101,7 +131,36 @@
                                     <Label Content="Updates"/>
                                 </StackPanel>
                             </Button>
-                        </StackPanel>
+                            <Separator/>
+                                <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="Packager" Height="auto" Width="auto" Background="White" BorderBrush="LightGray" BorderThickness="0" Foreground="Black" Margin="0" Click="Packager_Click" HorizontalAlignment="Stretch" DockPanel.Dock="Right" HorizontalContentAlignment="Left">
+                                    <StackPanel Orientation="Horizontal" Margin="0" >
+                                        <materialDesign:PackIcon Kind="PackageVariant" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        </materialDesign:PackIcon>
+                                        <Label Content="Mod Packager"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="Sync_Files" Height="auto" Width="auto" Background="White" BorderBrush="LightGray" BorderThickness="0" Foreground="Black" Margin="0" Click="Sync_Files_Click" HorizontalAlignment="Stretch" DockPanel.Dock="Right" HorizontalContentAlignment="Left" ToolTip="Synchronise folders in the extracted directory with the internal tracker">
+                                    <StackPanel Orientation="Horizontal" Margin="0" >
+                                        <materialDesign:PackIcon Kind="Sync" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        </materialDesign:PackIcon>
+                                        <Label Content="Sync Extracted"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="Browse_Files" Height="auto" Width="auto" Background="White" BorderBrush="LightGray" BorderThickness="0" Foreground="Black" Margin="0" Click="Browse_Files_Click"  HorizontalAlignment="Stretch" DockPanel.Dock="Right" HorizontalContentAlignment="Left" ToolTip="Browse extracted mod files">
+                                    <StackPanel Orientation="Horizontal" Margin="0" >
+                                        <materialDesign:PackIcon Kind="Folder" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        </materialDesign:PackIcon>
+                                        <Label Content="Browse Extracted"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="Browse_Game" Height="auto" Width="auto" Background="White" BorderBrush="LightGray" BorderThickness="0" Foreground="Black" Margin="0" Click="Browse_Game_Click"  HorizontalAlignment="Stretch" DockPanel.Dock="Right" HorizontalContentAlignment="Left" ToolTip="Browse the game files">
+                                    <StackPanel Orientation="Horizontal" Margin="0" >
+                                        <materialDesign:PackIcon Kind="Gamepad" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        </materialDesign:PackIcon>
+                                        <Label Content="Browse Game"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
                         
 
                     </materialDesign:PopupBox>
@@ -146,16 +205,18 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Border BorderBrush="LightGray" CornerRadius="5" BorderThickness="1" Margin="0,0,5,0">
-                    <ScrollViewer Margin="5,5,5,5">
-                        <Grid>
-                            <Label VerticalAlignment="Top" HorizontalAlignment="Center" Content="Mods in your extracted folder show here" Foreground="Gray"></Label>
-                            <StackPanel Name="ModList" Orientation="Vertical" Background="Transparent">
+                    <Grid>
+                        <ScrollViewer Margin="5,5,5,5">
+                            <Grid>
+                                <Label VerticalAlignment="Top" HorizontalAlignment="Center" Content="Mods in your extracted folder show here" Foreground="Gray"></Label>
+                                <StackPanel Name="ModList" Orientation="Vertical" Background="Transparent">
 
-                            </StackPanel>
+                                </StackPanel>
 
-                        </Grid>
+                            </Grid>
 
-                    </ScrollViewer>
+                        </ScrollViewer>
+                    </Grid>
                 </Border>
                 
                 <DockPanel Grid.Column="1">
@@ -189,5 +250,6 @@
                 </ScrollViewer>
             </Border>
         </Grid>
+        </materialDesign:DrawerHost>
     </materialDesign:DialogHost>
 </Window>
