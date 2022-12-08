@@ -1,5 +1,7 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,13 +26,20 @@ namespace StormLoader
         public string Hint { get; set; }
         public bool isModified = false;
 
+        public string HelpText { get; set; }
+
+        public Visibility HelpBtnVisibility { get; set; }
+
         public BrowsableFolderSelect()
         {
+            
             InitializeComponent();
+            
 
             this.DataContext = this;
             Tooltip = "";
             Hint = "";
+            
         }
 
         private void Browse_Btn_Click(object sender, EventArgs e)
@@ -44,6 +53,16 @@ namespace StormLoader
         {
             return Loc.Text;
         }
+        public DirectoryInfo GetDirectory()
+        {
+            try
+            {
+                return new DirectoryInfo(Loc.Text);
+            } catch {
+                return null;
+            }
+            
+        }
 
         private void Loc_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -53,6 +72,15 @@ namespace StormLoader
         public void setText(string text)
         {
             Loc.Text = text;
+        }
+
+        private void HelpBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                MessageBox.Show(HelpText.Replace("\\n", Environment.NewLine));
+            } catch { }
+            
         }
     }
 }

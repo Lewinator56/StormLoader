@@ -879,7 +879,9 @@ namespace StormLoader
 
         private void Packager_Click(object sender, RoutedEventArgs e)
         {
-
+            Window window = new Window();
+            window.Content = new Packager.PackagerControlPanel();
+            window.Show();
         }
 
         private void Sync_Files_Click(object sender, RoutedEventArgs e)
@@ -889,12 +891,12 @@ namespace StormLoader
 
         private void Browse_Files_Click(object sender, RoutedEventArgs e)
         {
-
+            System.Diagnostics.Process.Start("explorer.exe", new DirectoryInfo(modExtractionDir).FullName);
         }
 
         private void Browse_Game_Click(object sender, RoutedEventArgs e)
         {
-
+            System.Diagnostics.Process.Start("explorer.exe", new DirectoryInfo(gameLocation).FullName);
         }
     }
 }

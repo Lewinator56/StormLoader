@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="StormLoader.Packager.PackagerControlPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:StormLoader.Packager"
+             xmlns:root ="clr-namespace:StormLoader"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <materialDesign:Card  Margin="5" UniformCornerRadius="10" Background="Transparent">
+        <ScrollViewer>
+            <DockPanel Margin="20">
+                <Label Content="Mod Packager" FontSize="25" DockPanel.Dock="Top"/>
+                <Label Content="Use this to package a mod from source files and to convert to steam formatting" FontSize="16" DockPanel.Dock="Top"/>
+                <Border BorderThickness="2 2 2 2" BorderBrush="LightGray" CornerRadius="5" DockPanel.Dock="Top">
+                    <DockPanel Margin="10">
+                        <Label Content="Mod Data Files" FontSize="18" DockPanel.Dock="Top"/>
+                        <StackPanel>
+                            <StackPanel.Resources>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="Margin" Value="0,10,0,0"/>
+                                </Style>
+                            </StackPanel.Resources>
+                            <root:BrowsableFolderSelect x:Name="MeshLoc" Hint="Meshes folder" Tooltip="Meshes for the mod are in this folder, and any subfolders" HelpText="This folder should contain any meshes, in the .mesh format, for your mod. \n\nYou can include subfolders in here too, remember your definitions need to include subfolder paths though!" HelpBtnVisibility="Visible"/>
+                            <root:BrowsableFolderSelect x:Name="DefLoc" Hint="Definitions folder" Tooltip="XML definitions for the mod are in this folder, subfolders will not work" HelpText="This folder should contain all the XML definition files for any additional blocks. Remember that you can't put subfolders in this folder as the game will not parse them"/>
+                            <root:BrowsableFolderSelect x:Name="AudioLoc" Hint="Audio folder" Tooltip="Audio files for the mod are in this folder in the format of .ogg, and any subfolders" HelpText="This folder should contain any audio that your mod adds. Subfolders are supported. \n\n Audio should be in the .ogg format."/>
+                            <root:BrowsableFolderSelect x:Name="GraphicsLoc" Hint="Graphics folder" Tooltip="Graphics files for the mod are here, follow the folder structure of the 'graphics' folder in the stormworks directory" HelpText="This folder should contain any graphics changes your mod adds. The format should follow the graphics folder in the game directory, the following subfolders are supported: \n\n- effects \n- fonts \n- ies \n- light_flare \n- lightning \n- main_ui \n- noise \n- particles \n- shaders \n- ui \n\n Subfolders in subfolders should also follow their respective layouts."/>
+                            <root:BrowsableFolderSelect x:Name="DataLoc" Hint="Data folder" Tooltip="Data files for the mod are here, follow the format of the 'data' folder in the stormworks directory. While you can, avoid placing your 'definitions' folder within this" HelpText="This folder should contain any data that falls under the games 'data' folder, this includes tile definitions, preset missions, tile data etc...\nThe following folders are supported:\n\n- benchmark\n- debris\n- definitions (putting this in here works, but is frowned upon, use the dedicated definitions folder)\n- missions\n- narrative\n- preset_vehicles_advanced\n- realtime_values\n- tiles\n\nSubfolders in thei respective parent folders should also follow structures in the 'data' folder."/>
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+
+                <Border BorderThickness="2 2 2 2" BorderBrush="LightGray" CornerRadius="5" DockPanel.Dock="Top" Margin="0, 10, 0, 0">
+                    <DockPanel Margin="10">
+                        <Label Content="Mod Metadata" FontSize="18" DockPanel.Dock="Top"/>
+                        <StackPanel>
+                            <TextBox Name="ModName"  materialDesign:HintAssist.Hint="Mod Name" FontSize="20" Margin="5"  PreviewTextInput="ModName_PreviewTextInput"/>
+                            <TextBox Name="Author" materialDesign:HintAssist.Hint="Author" FontSize="20" Margin="5"/>
+                            <TextBox Name="Version" materialDesign:HintAssist.Hint="Version" FontSize="20" Margin="5"/>
+                            <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth0" Background="#ffebee" UniformCornerRadius="5">
+                                <root:BrowsableFolderSelect x:Name="InfoLoc" Hint="Info folder" Tooltip="HTML info files are located in this folder, they will be copied treating this as the ROOT folder, OPTIONAL" HelpText="This folder should contain any metadata for the mod. Stormloader supports drawing webpages in the mod list, you can add them here.\nThe root webpage must be in the root folder and called 'info.html' you may add other folders and images etc... and structure this like a webbsite."/>
+                            </materialDesign:Card>
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+                <DockPanel HorizontalAlignment="Stretch" Margin="20">
+                    <Button Width="100" Content="Package" Foreground="White" Background="#1E88E5" BorderThickness="0" DockPanel.Dock="Right" HorizontalAlignment="Right" materialDesign:ButtonAssist.CornerRadius="5" Name="PackageBtn" Click="PackageBtn_Click"/>
+                    <CheckBox Name="SteamPackage" Content="Package for steam" HorizontalAlignment="Right" DockPanel.Dock="Right" Margin="5"/>
+
+
+                </DockPanel>
+
+            </DockPanel>
+        </ScrollViewer>
+        
+    </materialDesign:Card>
+</UserControl>
