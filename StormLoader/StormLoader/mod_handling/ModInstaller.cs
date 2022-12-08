@@ -23,6 +23,11 @@ namespace StormLoader.mod_handling
         }
         public void DeserializeOrCreateMods(string source)
         {
+            if (source == "" || source == null || !Directory.Exists(source))
+            {
+                return;
+            }
+
             if (!File.Exists(source + "/StormLoader_install_info.bin"))
             {
                 File.Create(source + "/StormLoader_install_info.bin");
