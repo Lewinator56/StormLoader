@@ -7,6 +7,18 @@ I, StormLoader and mods loaded with stormloader are not affiliated with stormwor
 # Downloads
 - Head to releases to get the latest version!
 
+# Major Update v1.1
+I'm slowly working on a pretty significant update which adds a number of requested features and makes existing ones more robust. The feature list is as follows:
+* Completely re-written mod install tracking code. This now makes use of serialisation to directly store data structures for mods. This is far faster and more reliable than the old XML version and offers easier expansion in the future.
+* Completely re-written profile handling. Profiles are now handled in a similar way to mod install file tracking.
+* Support for mods uploaded onto the steam workshop. Hiding data in missions makes this possible.
+* A mod packager. This does all the hard work of creating an SLP for you, all you need to do is supply the right folders. Also packages for the workshop as the method for this is complex.
+* Mod context menus. 
+* Easily access mod files, game files and install locations straight from StormLoader.
+* Custom theme support. Change primary, secondary, accent and text colours to your liking.
+
+As this update is still in progress, please feel free to make suggestions by opening new issues!
+
 # Security Update
 I've had a few questions about security for database connections. As those of you in the security sector will know, having a direct database connection in a public facing application is not a particually good idea, unless of course there are other protections at the server end. I of course implement protections at the server end, i.e the user that stormloader connects to the database ONLY has SELECT access rights for specific tables and fields, it was however brought to my attention that due to an unnoticed misconfiguration of these access rights, this user could also update mod IDs, this has now been fixed. The details for the user are stored within a DLL, which you can decompile if you wish, though this DLL has now been merged with the executable. As the user has very limited access rights, there is no security risk from allowing this. I will allow connections to the database from other applications using the login details in the DLL, or the DLL itself, however, I advise if you choose to do this, please do not use the URL in the DLL, please use: portal.stormloader.uk as the URL, the URL in the DLL is a relic of a past project and will go inactive soon. In the near future, I will be changing mod database access to an API.
 
