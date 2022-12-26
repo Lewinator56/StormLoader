@@ -30,7 +30,7 @@ namespace StormLoader
             InitializeComponent();
 
             this.modPack = reference;
-            this.ModName.Text = modPack.Name;
+            this.ModName.Content = modPack.Name;
             Steam_Btn.Visibility = modPack.SteamMod == true? Visibility.Visible : Visibility.Collapsed;
             steam_context.IsEnabled = modPack.SteamMod;
 

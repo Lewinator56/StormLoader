@@ -18,7 +18,7 @@
                 </DockPanel>
 
             </materialDesign:Card>
-            <Button DockPanel.Dock="Bottom" Width="100" Content="Next" Foreground="White" Background="#1E88E5" BorderThickness="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" materialDesign:ButtonAssist.CornerRadius="5" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"  Name="Next_Btn"/>
+            <Button DockPanel.Dock="Bottom" Width="100" Content="Next" Foreground="{DynamicResource secondary}" Background="{DynamicResource primary}" BorderThickness="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" materialDesign:ButtonAssist.CornerRadius="5" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"  Name="Next_Btn"/>
         </DockPanel>
     </materialDesign:Card>
 </UserControl>

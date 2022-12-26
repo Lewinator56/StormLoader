@@ -11,6 +11,41 @@
                 <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="Grey" SecondaryColor="Amber" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <SolidColorBrush x:Key="background" Color="#ffffff"/>
+            <SolidColorBrush x:Key="text-dark" Color="#000000"/>
+            <SolidColorBrush x:Key="text-light" Color="#ffffff"/>
+            <SolidColorBrush x:Key="text-hint" Color="#FFD3D3D3"/>
+            <SolidColorBrush x:Key="primary" Color="#1E88E5"/>
+            <SolidColorBrush x:Key="border-color" Color="#FFD3D3D3"/>
+            <SolidColorBrush x:Key="secondary" Color="#ffffff"/>
+            <SolidColorBrush x:Key="button-icon" Color="#000000"/>
+            <SolidColorBrush x:Key="button-icon-dark" Color="#757575"/>
+
+            <Style TargetType="materialDesign:Card">
+                <Setter Property="Background" Value="{DynamicResource background}"/>
+            </Style>
+
+            <Style TargetType="Border">
+                <Setter Property="BorderBrush" Value="{DynamicResource border-color}"/>
+            </Style>
+
+            <Style TargetType="Label">
+                <Setter Property="Foreground" Value="{DynamicResource text-dark}"/>
+            </Style>
+            <!--
+            <Style TargetType="TextBlock">
+                <Setter Property="Foreground" Value="{DynamicResource text-dark}"/>
+            </Style>-->
+            <Style TargetType="materialDesign:PackIcon">
+                <Setter Property="Foreground" Value="{DynamicResource button-icon}"/>
+            </Style>
+
+
+            
+
+            
+
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:StormLoader"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <materialDesign:Card Background="White" materialDesign:ShadowAssist.ShadowDepth="Depth2"  VerticalAlignment="Top" UniformCornerRadius="10" MaxWidth="800">
+    <materialDesign:Card Background="{DynamicResource background}" materialDesign:ShadowAssist.ShadowDepth="Depth2"  VerticalAlignment="Top" UniformCornerRadius="10" MaxWidth="800">
         <StackPanel Orientation="Vertical">
             <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
                 <materialDesign:PackIcon Name="icon" Kind="Exclamation" VerticalAlignment="Center">
@@ -18,7 +18,7 @@
                 <Label Name ="titleText" Content="Error" FontSize="18"/>
             </StackPanel>
             <DockPanel Name="infoContainer" Margin="10" MaxHeight="200"></DockPanel>
-            <Button Name="close_btn" Content="Ok" HorizontalAlignment="Right" Height="40" Background="White" materialDesign:ShadowAssist.ShadowDepth="Depth0" BorderThickness="1" BorderBrush="LightGray" Foreground="#FF2196F3" materialDesign:ButtonAssist.CornerRadius="5" Style="{DynamicResource MaterialDesignFlatButton}" Margin="10" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
+            <Button Name="close_btn" Content="Ok" HorizontalAlignment="Right" Height="40" Background="{DynamicResource background}" materialDesign:ShadowAssist.ShadowDepth="Depth0" BorderThickness="1" BorderBrush="{DynamicResource border-color}" Foreground="{DynamicResource primary}" materialDesign:ButtonAssist.CornerRadius="5" Style="{DynamicResource MaterialDesignFlatButton}" Margin="10" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
         </StackPanel>
     </materialDesign:Card>
 </UserControl>

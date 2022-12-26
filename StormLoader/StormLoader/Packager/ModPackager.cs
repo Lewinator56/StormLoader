@@ -20,7 +20,7 @@ namespace StormLoader.Packager
             bool isComplete = false;
 
             //setup working directories
-            string packageRoot = "./" + name;
+            string packageRoot = "./packages/" + name;
             string slpRoot = packageRoot + "/SLP";
             string steamRoot = packageRoot + "/steam";
             Directory.CreateDirectory(packageRoot);
@@ -28,34 +28,47 @@ namespace StormLoader.Packager
 
             // create the slp zip
             ZipFile z = new ZipFile();
+            DbgLog.WriteLine("Creating mod package: " + name);
 
             
             try
             {
                 z.AddDirectory(data["meshes"].FullName, "Meshes");
-            } catch { }
+            } catch {
+                DbgLog.WriteLine("No mesh folder, bypassing");
+            }
             try
             {
                 z.AddDirectory(data["definitions"].FullName, "Definitions");
-            } catch { }
+            } catch {
+                DbgLog.WriteLine("No definitions folder, bypassing");
+            }
             try
             {
                 z.AddDirectory(data["audio"].FullName, "Audio");
-            } catch { }
+            } catch {
+                DbgLog.WriteLine("No audio folder, bypassing");
+            }
             try
             {
                 z.AddDirectory(data["graphics"].FullName, "Graphics");
-            } catch { }
+            } catch {
+                DbgLog.WriteLine("No graphics folder, bypassing");
+            }
             try
             {
                 z.AddDirectory(data["data"].FullName, "Data");
-            } catch { }
+            } catch {
+                DbgLog.WriteLine("No data folder, bypassing");
+            }
 
             // copy info directory
             try
             {
                 z.AddDirectory(data["info"].FullName);
-            } catch { }
+            } catch {
+                DbgLog.WriteLine("No info folder, bypassing");
+            }
             //create metadata file
             XmlWriterSettings xws = new XmlWriterSettings();
             xws.Indent = true;

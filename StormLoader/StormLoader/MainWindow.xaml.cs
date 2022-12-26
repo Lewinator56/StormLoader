@@ -23,6 +23,8 @@ using System.Threading;
 using System.Net;
 using StormLoader.repository;
 using StormLoader.Profiles;
+using StormLoader.Themes;
+using Microsoft.Win32;
 
 namespace StormLoader
 {
@@ -64,6 +66,8 @@ namespace StormLoader
         mod_handling.ModInstaller mi = new mod_handling.ModInstaller();
 
         Profile liveProfile = new Profile();
+
+        ThemeManager themeManager = new ThemeManager();
         public MainWindow()
         {
             AppDomain cd = AppDomain.CurrentDomain;
@@ -98,6 +102,7 @@ namespace StormLoader
 
             // install mods on a separate thread
             Thread t = new Thread(ModInstallListenerThread);
+            t.SetApartmentState(ApartmentState.STA);
             t.IsBackground = true;
             t.Start();
 
@@ -208,7 +213,7 @@ namespace StormLoader
             while (liveProfile.ModPacks.Count > i)
             {
                 
-                ModListItem mli = new ModListItem(liveProfile.ModPacks[i]);
+                ModListItem mli = new ModListItem(liveProfile.ModPacks[liveProfile.ModPacks.Count - 1 -i]);
                 ModList.Children.Add(mli);
                 i++;
             }
@@ -224,7 +229,7 @@ namespace StormLoader
                 {
                     foreach (ModListItem mli in ModList.Children)
                     {
-                        if (mod.Name == (string)mli.ModName.Text)
+                        if (mod.Name == (string)mli.ModName.Content)
                         {
                             mli.SetActive(true);
 
@@ -235,7 +240,7 @@ namespace StormLoader
                 {
                     foreach (ModListItem mli in ModList.Children)
                     {
-                        if (mod.Name == (string)mli.ModName.Text)
+                        if (mod.Name == (string)mli.ModName.Content)
                         {
                             mli.SetActive(false);
 
@@ -543,7 +548,7 @@ namespace StormLoader
                     bool modFound = false;
                     foreach (ModListItem mli in ModList.Children)
                     {
-                        if (mli.ModName.Text.ToString() == m.SelectSingleNode("Name").InnerText)
+                        if (mli.ModName.Content.ToString() == m.SelectSingleNode("Name").InnerText)
                         {
                             DbgLog.WriteLine("Found mod");
                             modFound = true;
@@ -565,6 +570,8 @@ namespace StormLoader
                     ShowInfoPopup("Mods in this profile are not known about", ls, PackIconKind.Exclamation);
                 }
             }
+            
+            
             this.Title = "StormLoader : " + currentProfile.SelectSingleNode("/Profile").Attributes["Name"].InnerText;
             displayModList();
             //CheckModActiveAlt();
@@ -587,7 +594,12 @@ namespace StormLoader
                 liveProfile.Name = System.IO.Path.GetFileNameWithoutExtension(opf.FileName);
                 liveProfile.Save(opf.FileName);
             }
-            this.Title = "StormLoader : " + currentProfile.SelectSingleNode("/Profile").Attributes["Name"].InnerText;
+            try
+            {
+                this.Title = "StormLoader : " + currentProfile.SelectSingleNode("/Profile").Attributes["Name"].InnerText;
+            }
+            catch { }
+            
         }
 
         
@@ -596,7 +608,7 @@ namespace StormLoader
             currentProfile.Load("CurrentProfile.xml");
             foreach (ModListItem mli in ModList.Children)
             {
-                if (currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()=\"" + mli.ModName.Text + "\"]") != null)
+                if (currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()=\"" + mli.ModName.Content + "\"]") != null)
                 {
                     //Debug.WriteLine(mli.ModName.Text);
                     //Debug.WriteLine(currentProfile.SelectSingleNode("/Profile/Mods/Mod/Name[text()='" + mli.ModName.Text + "']"));
@@ -897,6 +909,69 @@ namespace StormLoader
         private void Browse_Game_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Process.Start("explorer.exe", new DirectoryInfo(gameLocation).FullName);
+        }
+
+        private void Theme_Editor_Click(object sender, RoutedEventArgs e)
+        {
+            Window window = new Window();
+            window.Content = new Themes.ThemePicker(themeManager, window);
+            
+            window.SizeToContent = SizeToContent.Height;
+            window.MaxHeight = 600;
+            window.Width = 600;
+            window.Show();
+        }
+
+        private void Backup_Files_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "zip file (.zip)|*.zip";
+            Nullable<bool> r = sfd.ShowDialog();
+
+            if (r == true)
+            {
+                DialogHost.Show(new UI.Common.LoadingSpinner());
+                Task t = new Task(delegate
+                {
+                ZipFile z = new ZipFile();
+                z.AddDirectory(gameLocation + "/rom", "rom");
+                z.Save(sfd.FileName);
+                this.Dispatcher.Invoke(() => MainHost.IsOpen = false);
+                    
+
+                });
+                t.Start();
+                
+                
+                
+            
+                
+            }
+        }
+
+        private void Restore_Files_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "zip file (.zip)|*.zip";
+            Nullable<bool> r = ofd.ShowDialog();
+
+            if (r == true)
+            {
+                DialogHost.Show(new UI.Common.LoadingSpinner());
+                Task t = new Task(delegate
+                {
+                    ZipFile z = new ZipFile(ofd.FileName);
+                    z.ExtractAll(gameLocation, ExtractExistingFileAction.OverwriteSilently);
+                    this.Dispatcher.Invoke(() => MainHost.IsOpen = false);
+                });
+                t.Start();
+               
+            }
+        }
+
+        public void HideDialog()
+        {
+            DialogHost.CloseDialogCommand.Execute(null, null);
         }
     }
 }

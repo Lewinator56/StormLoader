@@ -17,6 +17,7 @@ namespace StormLoader.mod_handling.install
         public string path;
         public bool steam;
         public string steamID;
+        public int OverwriteType;
 
 
         public ModPack(string name, string path)

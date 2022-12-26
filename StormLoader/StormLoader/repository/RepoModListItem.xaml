@@ -33,13 +33,13 @@
             <Label Name="Author" Content="Author: " DockPanel.Dock="Top"/>
             <Label Name="Version" Content="Version: " DockPanel.Dock="Top"/>
             <!--<Label Content="Description" DockPanel.Dock="Top"/>-->
-            <TextBlock Width="auto" Height="auto" Name="Description" DockPanel.Dock="Top" Margin="5" TextWrapping="Wrap"  />
+            <TextBlock Width="auto" Height="auto" Name="Description" DockPanel.Dock="Top" Margin="5" TextWrapping="Wrap" Foreground="{DynamicResource text-dark}" />
             <!--<RichTextBox Width="auto" Height="110" Name="Description" DockPanel.Dock="Top" Margin="5" />-->
 
 
             <DockPanel  DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
-                <Button Name="infoBtn" Style="{DynamicResource MaterialDesignFlatButton}" DockPanel.Dock="Left" Content="more info" HorizontalAlignment="left" VerticalAlignment="Bottom" IsEnabled="False" Click="infoBtn_Click"/>
-                <Button Name="getModBtn" Style="{DynamicResource MaterialDesignFlatButton}" DockPanel.Dock="Right" Content="Get" HorizontalAlignment="right" VerticalAlignment="Bottom" Click="getModBtn_Click"/>
+                <Button Name="infoBtn" Style="{DynamicResource MaterialDesignFlatButton}" DockPanel.Dock="Left" Content="more info" HorizontalAlignment="left" VerticalAlignment="Bottom" IsEnabled="False" Click="infoBtn_Click" Foreground="{DynamicResource primary}"/>
+                <Button Name="getModBtn" Style="{DynamicResource MaterialDesignFlatButton}" DockPanel.Dock="Right" Content="Get" HorizontalAlignment="right" VerticalAlignment="Bottom" Click="getModBtn_Click" Foreground="{DynamicResource primary}"/>
 
                 
             </DockPanel>

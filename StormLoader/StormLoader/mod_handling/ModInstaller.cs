@@ -10,6 +10,8 @@ using System.Windows;
 using StormLoader.mod_handling.install;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading;
+using System.Windows.Threading;
 
 namespace StormLoader.mod_handling
 {
@@ -42,16 +44,16 @@ namespace StormLoader.mod_handling
 
                         il = (InstallList)f.Deserialize(sr);
                     }
-                    
+
                 }
                 catch (Exception e)
                 {
                     // empty file
                 }
-                
+
             }
 
-           
+
         }
 
         public void SerializeToInstallFile(string source)
@@ -67,7 +69,7 @@ namespace StormLoader.mod_handling
         {
             ModPack mp = new ModPack(modName, modPath);
             bool overwrite = false;
-
+            mp.OverwriteType = 0; // used for tracking if it should overwrite files 
             if (il.IsModInstalled(mp))
             {
                 //ask overwrite
@@ -101,7 +103,7 @@ namespace StormLoader.mod_handling
                     DbgLog.WriteLine(e.ToString());
 
                 }
-                
+
                 try
                 {
                     RecursiveCopyCheckInstalledList(mp, new DirectoryInfo(modPath + "/Definitions/"), new DirectoryInfo(gamePath + "/rom/data/definitions/"));
@@ -122,7 +124,7 @@ namespace StormLoader.mod_handling
                     RecursiveCopyCheckInstalledList(mp, new DirectoryInfo(modPath + "/Data/"), new DirectoryInfo(gamePath + "/rom/data/"));
                 }
                 catch (Exception e) { DbgLog.WriteLine(e.ToString()); }
-                
+
                 SerializeToInstallFile(gamePath);
             }
         }
@@ -135,7 +137,7 @@ namespace StormLoader.mod_handling
                 ModPack mp = il.mods[i];
                 if (mp.name == modName)
                 {
-                    
+
                     foreach (ModFile mf in mp.modFiles)
                     {
                         // mod is overwritten and does not overwrite
@@ -143,7 +145,7 @@ namespace StormLoader.mod_handling
                         {
                             // dont delete the mod (because the fiel doesnt exist), and wipe the reference from the list
                             mf.GetOverwrittenBy().SetOverwrites(null);
-                        }  
+                        }
                         // mod overwrites and is not overwritten
                         else if (!mf.IsOverwritten() && mf.Overwrites())
                         {
@@ -175,14 +177,14 @@ namespace StormLoader.mod_handling
 
                     }
                     il.mods.Remove(mp);
-                    
+
                 }
                 i++;
             }
             SerializeToInstallFile(gameLocation);
 
 
-            
+
         }
 
 
@@ -240,7 +242,12 @@ namespace StormLoader.mod_handling
                         {
                             modFileExists = true;
                             //ask overwrite
-                            if (AskOverwriteFile(relativeFileName, modRoot.name))
+                            if (pack.OverwriteType == 0 || pack.OverwriteType == 2)
+                            {
+                                pack.OverwriteType = AskOverwriteFileEnum(relativeFileName, modRoot.name);
+                            }
+                            
+                            if (pack.OverwriteType == 2 || pack.OverwriteType == 3)
                             {
                                 // overwrite the file
                                 overwriteSource = modFile;
@@ -335,13 +342,14 @@ namespace StormLoader.mod_handling
          * 
          */
 
-        
+
 
         private bool AskOverwriteFile(string file, string installedBy)
         {
             bool overwrite;
-            
-            if (MessageBox.Show( "The file:\n\n" + file + "\n\nis installed by:\n\n" + installedBy + "\n\nDo you want to overwrite this file?", "Overwrite File", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            AskOverwriteFileEnum(file, installedBy);
+
+            if (MessageBox.Show("The file:\n\n" + file + "\n\nis installed by:\n\n" + installedBy + "\n\nDo you want to overwrite this file?", "Overwrite File", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
             {
                 overwrite = false;
             }
@@ -350,8 +358,24 @@ namespace StormLoader.mod_handling
                 overwrite = true;
             }
             
+
             return overwrite;
         }
+
+        private int AskOverwriteFileEnum(string file, string installedBy)
+        {
+            
+            int overwrite = 0;
+            string message = "The file:\n\n" + file + "\n\nis installed by:\n\n" + installedBy + "\n\nDo you want to overwrite this file?";
+            Window w = new Window();
+            w.Content = new OverwriteDialog(ref overwrite, message);
+            w.SizeToContent = SizeToContent.WidthAndHeight;
+            w.ShowDialog();
+            overwrite = ((OverwriteDialog)w.Content).GetOverwrite();
+            DbgLog.WriteLine(overwrite.ToString());
+            return overwrite;
+        }
+
 
 
         
@@ -370,10 +394,12 @@ namespace StormLoader.mod_handling
                 RecursiveDeleteCheckInstalled(dn, next);
             }
         }
+
+        
         //
         //
         //
 
-     
+
     }
 }

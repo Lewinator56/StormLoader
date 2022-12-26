@@ -8,14 +8,14 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <materialDesign:DialogHost Name="infoDialog">
-        <materialDesign:Card Background="White" materialDesign:ShadowAssist.ShadowDepth="Depth2"  VerticalAlignment="Top" UniformCornerRadius="10" Width="200" Height="200">
+        <materialDesign:Card Background="{DynamicResource background}" materialDesign:ShadowAssist.ShadowDepth="Depth2"  VerticalAlignment="Top" UniformCornerRadius="10" Width="200" Height="200">
             <DockPanel>
                 <Label Content="Login / sign up" FontSize="18" DockPanel.Dock="top"/>
                 <TextBox Name="UsernameTxbx" Width="190" HorizontalAlignment="Center" materialDesign:HintAssist.Hint="username" DockPanel.Dock="Top"/>
                 <PasswordBox Name="PasswordTxbx" Width="190" HorizontalAlignment="Center" materialDesign:HintAssist.Hint="Password" DockPanel.Dock="Top"/>
                 <DockPanel  DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="10">
-                    <Button Name="SignUpBtn" Content="Sign up" Background="#1E88E5" Foreground ="White" DockPanel.Dock="Left" HorizontalAlignment="Left" Click="SignUpBtn_Click"/>
-                    <Button Name="LoginBtn" Content="login" Background="#1E88E5" Foreground="White" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="LoginBtn_Click"/>
+                    <Button Name="SignUpBtn" Content="Sign up" Background="{DynamicResource primary}" Foreground ="{DynamicResource background}" DockPanel.Dock="Left" HorizontalAlignment="Left" Click="SignUpBtn_Click"/>
+                    <Button Name="LoginBtn" Content="login" Background="{DynamicResource primary}" Foreground="{DynamicResource background}" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="LoginBtn_Click"/>
                 </DockPanel>
             </DockPanel>
         </materialDesign:Card>

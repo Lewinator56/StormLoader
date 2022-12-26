@@ -15,7 +15,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="75"/>
             </Grid.RowDefinitions>
-            <materialDesign:Card Background="White" materialDesign:ShadowAssist.ShadowDepth="Depth2"  UniformCornerRadius="0" Height="75" Grid.Row="0" Panel.ZIndex="1000">
+            <materialDesign:Card Background="{DynamicResource background}" materialDesign:ShadowAssist.ShadowDepth="Depth2"  UniformCornerRadius="0" Height="75" Grid.Row="0" Panel.ZIndex="1000">
                 <DockPanel Margin="10,10,10,10">
                     <materialDesign:PackIcon Name="icon" Kind="SourceRepositories" VerticalAlignment="Center" DockPanel.Dock="Left">
                         <materialDesign:PackIcon.LayoutTransform>
@@ -33,7 +33,7 @@
                 </StackPanel>
             </ScrollViewer>
             <DockPanel Grid.Row="2">
-                <Button  Width="auto" Content="Upload new" Foreground="White" Background="#1E88E5" BorderThickness="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" materialDesign:ButtonAssist.CornerRadius="5" Margin="10" Click="Button_Click"/>
+                <Button  Width="auto" Content="Upload new" Foreground="{DynamicResource background}" Background="{DynamicResource primary}" BorderThickness="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" materialDesign:ButtonAssist.CornerRadius="5" Margin="10" Click="Button_Click"/>
             </DockPanel>
         </Grid>
         

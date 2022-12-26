@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:StormLoader"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <materialDesign:Card Background="White" materialDesign:ShadowAssist.ShadowDepth="Depth2"  VerticalAlignment="Top" UniformCornerRadius="10" MaxWidth="800">
+    <materialDesign:Card Background="{DynamicResource background}" materialDesign:ShadowAssist.ShadowDepth="Depth2"  VerticalAlignment="Top" UniformCornerRadius="10" MaxWidth="800">
         <StackPanel Orientation="Vertical">
             <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
                 <materialDesign:PackIcon Name="icon" Kind="Update" VerticalAlignment="Center">
@@ -20,11 +20,11 @@
             <DockPanel Name="infoContainer" Margin="10" MaxHeight="200">
                 <Label Name="UpdateInfo" Content="Click 'Check' to check for updates" DockPanel.Dock="Top"/>
                 <StackPanel Orientation="Horizontal">
-                    <Button Name="Check_Btn" Content="Check" HorizontalAlignment="Right" Height="40" Background="White" materialDesign:ShadowAssist.ShadowDepth="Depth0" BorderThickness="1" BorderBrush="LightGray" Foreground="#FF2196F3" materialDesign:ButtonAssist.CornerRadius="5" Style="{DynamicResource MaterialDesignFlatButton}" Margin="10" Click="Check_Btn_Click"/>
-                    <Button Name="GetUpdate_Btn" Content="Go To Releases" HorizontalAlignment="Right" Height="40" Background="White" materialDesign:ShadowAssist.ShadowDepth="Depth0" BorderThickness="1" BorderBrush="LightGray" Foreground="#FF2196F3" materialDesign:ButtonAssist.CornerRadius="5" Style="{DynamicResource MaterialDesignFlatButton}" Margin="10" IsEnabled="False" Click="GetUpdate_Btn_Click"/>
+                    <Button Name="Check_Btn" Content="Check" HorizontalAlignment="Right" Height="40" Background="{DynamicResource background}" materialDesign:ShadowAssist.ShadowDepth="Depth0" BorderThickness="1" BorderBrush="{DynamicResource border-color}" Foreground="#FF2196F3" materialDesign:ButtonAssist.CornerRadius="5" Style="{DynamicResource MaterialDesignFlatButton}" Margin="10" Click="Check_Btn_Click"/>
+                    <Button Name="GetUpdate_Btn" Content="Go To Releases" HorizontalAlignment="Right" Height="40" Background="{DynamicResource background}" materialDesign:ShadowAssist.ShadowDepth="Depth0" BorderThickness="1" BorderBrush="{DynamicResource border-color}" Foreground="#FF2196F3" materialDesign:ButtonAssist.CornerRadius="5" Style="{DynamicResource MaterialDesignFlatButton}" Margin="10" IsEnabled="False" Click="GetUpdate_Btn_Click"/>
                 </StackPanel>
             </DockPanel>
-            <Button Name="close_btn" Content="Ok" HorizontalAlignment="Right" Height="40" Background="White" materialDesign:ShadowAssist.ShadowDepth="Depth0" BorderThickness="1" BorderBrush="LightGray" Foreground="#FF2196F3" materialDesign:ButtonAssist.CornerRadius="5" Style="{DynamicResource MaterialDesignFlatButton}" Margin="10" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
+            <Button Name="close_btn" Content="Ok" HorizontalAlignment="Right" Height="40" Background="{DynamicResource background}" materialDesign:ShadowAssist.ShadowDepth="Depth0" BorderThickness="1" BorderBrush="{DynamicResource border-color}" Foreground="#FF2196F3" materialDesign:ButtonAssist.CornerRadius="5" Style="{DynamicResource MaterialDesignFlatButton}" Margin="10" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
         </StackPanel>
     </materialDesign:Card>
 </UserControl>

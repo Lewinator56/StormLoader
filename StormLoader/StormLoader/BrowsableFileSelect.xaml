@@ -7,10 +7,10 @@
              xmlns:local="clr-namespace:StormLoader"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Border Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Top" DockPanel.Dock="Top" BorderThickness="2 2 2 2" BorderBrush="LightGray" CornerRadius="5">
+    <Border Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Top" DockPanel.Dock="Top" BorderThickness="2 2 2 2" BorderBrush="{DynamicResource border-color}" CornerRadius="5">
         <DockPanel >
             <TextBox DockPanel.Dock="left" Width="auto"  ToolTip="{Binding Path=Tooltip}" x:Name="Loc" materialDesign:HintAssist.Hint="{Binding Path=Hint}" Margin="5 0 0 0" BorderThickness="0,0,0,0"  Style="{DynamicResource MaterialDesignTextBox}" materialDesign:TextFieldAssist.UnderlineBrush="Transparent" FontSize="20" TextChanged="Loc_TextChanged" HorizontalAlignment="Stretch" Padding="5"/>
-            <Button DockPanel.Dock="right" Width="100" Content="Browse" Foreground="White" Background="#1E88E5" BorderThickness="0" VerticalAlignment="Center" HorizontalAlignment="Right" materialDesign:ButtonAssist.CornerRadius="5" IsEnabled="true" x:Name="Browse_Btn" Click="Browse_Btn_Click" Margin="5, 5, 10, 5"/>
+            <Button DockPanel.Dock="right" Width="100" Content="Browse" Foreground="{DynamicResource secondary}" Background="{DynamicResource primary}" BorderThickness="0" VerticalAlignment="Center" HorizontalAlignment="Right" materialDesign:ButtonAssist.CornerRadius="5" IsEnabled="true" x:Name="Browse_Btn" Click="Browse_Btn_Click" Margin="5, 5, 10, 5"/>
         </DockPanel>
 
     </Border>

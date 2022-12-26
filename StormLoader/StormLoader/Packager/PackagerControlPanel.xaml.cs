@@ -47,6 +47,11 @@ namespace StormLoader.Packager
             }
             Dictionary<string, DirectoryInfo> d = new Dictionary<string, DirectoryInfo>();
             d.Add("meshes", MeshLoc.GetDirectory());
+            d.Add("definitions", DefLoc.GetDirectory());
+            d.Add("audio", AudioLoc.GetDirectory());
+            d.Add("graphics", GraphicsLoc.GetDirectory());
+            d.Add("data", DataLoc.GetDirectory());
+            d.Add("info", InfoLoc.GetDirectory());
             ModPackager.Package(ModName.Text, Author.Text, Version.Text, steam, d);
 
 

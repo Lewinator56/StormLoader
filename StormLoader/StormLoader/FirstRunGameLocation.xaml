@@ -15,11 +15,11 @@
             <materialDesign:Card Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Top" DockPanel.Dock="Top">
                 <DockPanel >
                     <TextBox DockPanel.Dock="left" Width="550"  ToolTip="Install location for stormworks, you can copy and paste the path here" Name="InsLoc" materialDesign:HintAssist.Hint="Install Location" Margin="5 0 0 0" BorderThickness="0,0,0,0"  Style="{DynamicResource MaterialDesignTextBox}" materialDesign:TextFieldAssist.UnderlineBrush="Transparent" FontSize="20" TextChanged="InsLoc_TextChanged" HorizontalAlignment="Stretch"/>
-                    <Button DockPanel.Dock="right" Width="100" Content="Browse" Foreground="White" Background="#1E88E5" BorderThickness="0" VerticalAlignment="Center" HorizontalAlignment="Right" materialDesign:ButtonAssist.CornerRadius="5" IsEnabled="true" Name="Browse_Btn" Click="Browse_Btn_Click"/>
+                    <Button DockPanel.Dock="right" Width="100" Content="Browse" Foreground="{DynamicResource secondary}" Background="{DynamicResource primary}" BorderThickness="0" VerticalAlignment="Center" HorizontalAlignment="Right" materialDesign:ButtonAssist.CornerRadius="5" IsEnabled="true" Name="Browse_Btn" Click="Browse_Btn_Click"/>
                 </DockPanel>
 
             </materialDesign:Card>
-            <Button DockPanel.Dock="Bottom" Width="100" Content="Next" Foreground="White" Background="#1E88E5" BorderThickness="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" materialDesign:ButtonAssist.CornerRadius="5" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" IsEnabled="False" Name="Next_Btn"/>
+            <Button DockPanel.Dock="Bottom" Width="100" Content="Next" Foreground="{DynamicResource secondary}" Background="{DynamicResource primary}" BorderThickness="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" materialDesign:ButtonAssist.CornerRadius="5" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" IsEnabled="False" Name="Next_Btn"/>
         </DockPanel>
     </materialDesign:Card>
 </UserControl>

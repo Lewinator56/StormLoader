@@ -7,13 +7,14 @@
              xmlns:local="clr-namespace:StormLoader.Packager"
              xmlns:root ="clr-namespace:StormLoader"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="{DynamicResource background}">
     <materialDesign:Card  Margin="5" UniformCornerRadius="10" Background="Transparent">
         <ScrollViewer>
             <DockPanel Margin="20">
                 <Label Content="Mod Packager" FontSize="25" DockPanel.Dock="Top"/>
-                <Label Content="Use this to package a mod from source files and to convert to steam formatting" FontSize="16" DockPanel.Dock="Top"/>
-                <Border BorderThickness="2 2 2 2" BorderBrush="LightGray" CornerRadius="5" DockPanel.Dock="Top">
+                <Label Content="Use this to package a mod from source files and to convert to steam formatting, if you need help click the help icons" FontSize="16" DockPanel.Dock="Top"/>
+                <Border BorderThickness="2 2 2 2" BorderBrush="{DynamicResource border-color}" CornerRadius="5" DockPanel.Dock="Top">
                     <DockPanel Margin="10">
                         <Label Content="Mod Data Files" FontSize="18" DockPanel.Dock="Top"/>
                         <StackPanel>
@@ -31,7 +32,7 @@
                     </DockPanel>
                 </Border>
 
-                <Border BorderThickness="2 2 2 2" BorderBrush="LightGray" CornerRadius="5" DockPanel.Dock="Top" Margin="0, 10, 0, 0">
+                <Border BorderThickness="2 2 2 2" BorderBrush="{DynamicResource border-color}" CornerRadius="5" DockPanel.Dock="Top" Margin="0, 10, 0, 0">
                     <DockPanel Margin="10">
                         <Label Content="Mod Metadata" FontSize="18" DockPanel.Dock="Top"/>
                         <StackPanel>
@@ -45,7 +46,7 @@
                     </DockPanel>
                 </Border>
                 <DockPanel HorizontalAlignment="Stretch" Margin="20">
-                    <Button Width="100" Content="Package" Foreground="White" Background="#1E88E5" BorderThickness="0" DockPanel.Dock="Right" HorizontalAlignment="Right" materialDesign:ButtonAssist.CornerRadius="5" Name="PackageBtn" Click="PackageBtn_Click"/>
+                    <Button Width="100" Content="Package" Foreground="{DynamicResource background}" Background="{DynamicResource primary}" BorderThickness="0" DockPanel.Dock="Right" HorizontalAlignment="Right" materialDesign:ButtonAssist.CornerRadius="5" Name="PackageBtn" Click="PackageBtn_Click"/>
                     <CheckBox Name="SteamPackage" Content="Package for steam" HorizontalAlignment="Right" DockPanel.Dock="Right" Margin="5"/>
 
 

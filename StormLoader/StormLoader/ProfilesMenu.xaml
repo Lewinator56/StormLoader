@@ -12,8 +12,8 @@
             <DockPanel Margin="20">
                 <Label Content="Select a profile or Create a new one" FontSize="25" DockPanel.Dock="Top"/>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-                    <Button Style="{DynamicResource MaterialDesignFlatButton}" Width="100" Content="Save" Foreground="#1E88E5" Background="White" BorderThickness="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" materialDesign:ButtonAssist.CornerRadius="5"  Margin="0, 0, 5, 0"/>
-                    <Button  Width="100" Content="Next" Foreground="White" Background="#1E88E5" BorderThickness="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" materialDesign:ButtonAssist.CornerRadius="5" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
+                    <Button Style="{DynamicResource MaterialDesignFlatButton}" Width="100" Content="Save" Foreground="{DynamicResource primary}" Background="{DynamicResource background}" BorderThickness="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" materialDesign:ButtonAssist.CornerRadius="5"  Margin="0, 0, 5, 0"/>
+                    <Button  Width="100" Content="Next" Foreground="{DynamicResource background}" Background="{DynamicResource primary}" BorderThickness="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" materialDesign:ButtonAssist.CornerRadius="5" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
                 </StackPanel>
                 
             </DockPanel>

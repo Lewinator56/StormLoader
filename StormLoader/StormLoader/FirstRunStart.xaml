@@ -12,7 +12,7 @@
             <Label Content="Hi! Welcome to StormLoader" FontSize="25" DockPanel.Dock="Top"/>
             <Label Content="Before we get started, I need some information from you, Click 'Next' to continue" FontSize="16" DockPanel.Dock="Top"/>
             <Label Content="You might also want to take a look at the user guide" FontSize="16" DockPanel.Dock="Top"/>
-            <Button DockPanel.Dock="Bottom" Width="100" Content="Next" Foreground="White" Background="#1E88E5" BorderThickness="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" materialDesign:ButtonAssist.CornerRadius="5" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
+            <Button DockPanel.Dock="Bottom" Width="100" Content="Next" Foreground="{DynamicResource secondary}" Background="{DynamicResource primary}" BorderThickness="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" materialDesign:ButtonAssist.CornerRadius="5" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
         </DockPanel>
     </materialDesign:Card>
 </UserControl>

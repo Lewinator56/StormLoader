@@ -6,7 +6,8 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:StormLoader.repository"
         mc:Ignorable="d"
-        Title="RepoBrowserRoot" Height="450" Width="800">
+        Title="RepoBrowserRoot" Height="450" Width="800"
+        Background="{DynamicResource background}">
     <materialDesign:DialogHost CloseOnClickAway="True" Name="RepoDialog" Identifier="RepoDialog">
         <Grid>
             <Grid.RowDefinitions>
@@ -16,7 +17,7 @@
                 <RowDefinition Height="auto"/>
 
             </Grid.RowDefinitions>
-            <materialDesign:Card Background="White" materialDesign:ShadowAssist.ShadowDepth="Depth2"  UniformCornerRadius="0" Height="75" Grid.Row="0">
+            <materialDesign:Card Background="{DynamicResource background}" materialDesign:ShadowAssist.ShadowDepth="Depth2"  UniformCornerRadius="0" Height="75" Grid.Row="0">
                 <DockPanel Margin="10,10,10,10">
                     <materialDesign:PackIcon Name="icon" Kind="SourceRepositories" VerticalAlignment="Center" DockPanel.Dock="Left">
                         <materialDesign:PackIcon.LayoutTransform>
@@ -24,7 +25,7 @@
                         </materialDesign:PackIcon.LayoutTransform>
                     </materialDesign:PackIcon>
                     <Label Name ="titleText" Content="Repository Browser" FontSize="24" VerticalAlignment="Center" DockPanel.Dock="left"/>
-                    <Button Name="UploadMod" Style="{DynamicResource MaterialDesignFlatButton}" Content="Manage your content" DockPanel.Dock="Right" HorizontalAlignment="right" Click="UploadMod_Click"/>
+                    <Button Name="UploadMod" Style="{DynamicResource MaterialDesignFlatButton}" Content="Manage your content" DockPanel.Dock="Right" HorizontalAlignment="right" Click="UploadMod_Click" Foreground="{DynamicResource primary}"/>
                 </DockPanel>
                 
             </materialDesign:Card>
@@ -32,7 +33,7 @@
                 <DockPanel>
                     <CheckBox Name="VerifiedOnly" Content="Verified Only" Margin="5" DockPanel.Dock="left" Checked="refreshListing_Click" Unchecked="refreshListing_Click"/>
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right">
-                        <TextBox Name="SearchTxbx" Width="200" Margin="5" materialDesign:HintAssist.Hint="Search"/>
+                        <TextBox Name="SearchTxbx" Width="200" Margin="5" materialDesign:HintAssist.Hint="Search" Foreground="{DynamicResource text-dark}"/>
                         <Button Name="SearchMods" Style="{DynamicResource MaterialDesignFlatButton}" Click="refreshListing_Click">
                             <materialDesign:PackIcon Kind="Search"/>
                         </Button>
@@ -47,7 +48,7 @@
                     
                 </WrapPanel>
             </ScrollViewer>
-            <Border BorderBrush="LightGray" CornerRadius="5" BorderThickness="1" Margin="5,5,5,5" Grid.Row="3">
+            <Border BorderBrush="{DynamicResource border-color}" CornerRadius="5" BorderThickness="1" Margin="5,5,5,5" Grid.Row="3">
                 <ScrollViewer Margin="5,5,5,5">
                     <Grid>
                         <Label VerticalAlignment="Top" HorizontalAlignment="Center" Content="Mods being downloaded will show here!" Foreground="Gray"></Label>

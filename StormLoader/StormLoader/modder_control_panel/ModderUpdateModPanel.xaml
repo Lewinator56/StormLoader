@@ -9,7 +9,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <materialDesign:DialogHost Name="UploadDialogHost" CloseOnClickAway="True">
-        <materialDesign:Card Background="White" materialDesign:ShadowAssist.ShadowDepth="Depth2"  VerticalAlignment="Top" UniformCornerRadius="10" MaxWidth="700">
+        <materialDesign:Card Background="{DynamicResource background}" materialDesign:ShadowAssist.ShadowDepth="Depth2"  VerticalAlignment="Top" UniformCornerRadius="10" MaxWidth="700">
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
                     <materialDesign:PackIcon Name="icon" Kind="Upload" VerticalAlignment="Center">
@@ -29,7 +29,7 @@
                 <TextBox Name="ExtraDetailsLink" materialDesign:HintAssist.Hint="Full link to website (can be blank) (unchanged)" FontSize="20" Margin="5"/>
                 <TextBox Name="Description" materialDesign:HintAssist.Hint="Short description (400) (unchanged)" FontSize="20" Margin="5" TextWrapping="Wrap" MaxLength="400" VerticalScrollBarVisibility="Auto" AcceptsReturn="True"/>
 
-                <Button  Name="UpdateBtn" Width="auto" Content="Update" Foreground="White" Background="#1E88E5" BorderThickness="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" materialDesign:ButtonAssist.CornerRadius="5" Margin="10" Click="UpdateBtn_Click" />
+                <Button  Name="UpdateBtn" Width="auto" Content="Update" Foreground="{DynamicResource background}" Background="{DynamicResource primary}" BorderThickness="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" materialDesign:ButtonAssist.CornerRadius="5" Margin="10" Click="UpdateBtn_Click" />
 
             </StackPanel>
         </materialDesign:Card>
