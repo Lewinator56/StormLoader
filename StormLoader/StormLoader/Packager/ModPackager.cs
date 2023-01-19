@@ -96,9 +96,10 @@ namespace StormLoader.Packager
             if (steam)
             {
                 PackageSteam(steamRoot, slpRoot, name);
-                MessageBox.Show("Your mod package has automatically been created in the stormworks missions directory. Open stormworks, enter the mission editor, open the mission (DO NOT EDIT IT) and upload it to the workshop!");
+                
                 System.Diagnostics.Process.Start("explorer.exe", new DirectoryInfo(steamRoot).FullName);
             }
+            MessageBox.Show("Your mod package has automatically been created in the stormworks missions directory. Open stormworks, enter the mission editor, open the mission (DO NOT EDIT IT) and upload it to the workshop!");
             System.Diagnostics.Process.Start("explorer.exe", new DirectoryInfo(slpRoot).FullName);
 
         }

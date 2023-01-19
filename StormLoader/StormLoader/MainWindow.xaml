@@ -69,7 +69,8 @@
                                 <Button.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Header="Browse Repo" Click="BrowseRepo_Click"/>
-                                        <MenuItem Header="Browse Nexus" Click="BrowseNexus_Click"/>
+                                        <MenuItem Header="Browse Nexus" Click="BrowseNexus_Click" IsEnabled="False"/>
+                                        <MenuItem Header="Browse Steam" Click="BrowseSteam_Click"/>
                                     </ContextMenu>
                                 </Button.ContextMenu>
                             </Button>
@@ -118,8 +119,15 @@
                                 </StackPanel>
                             </Button>
                             <Separator/>
-                                
-                            <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="About" Height="auto" Width="auto" Background="{DynamicResource background}" BorderBrush="{DynamicResource border-color}" BorderThickness="0" Foreground="Black" Margin="0" Click="About_Click" HorizontalAlignment="Stretch" DockPanel.Dock="Right" HorizontalContentAlignment="Left">
+
+                                <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="Help_btn" Height="auto" Width="auto" Background="{DynamicResource background}" BorderBrush="{DynamicResource border-color}" BorderThickness="0" Foreground="Black" Margin="0" Click="Help_btn_Click"  HorizontalAlignment="Stretch" DockPanel.Dock="Right" HorizontalContentAlignment="Left" ToolTip="Get help">
+                                    <StackPanel Orientation="Horizontal" Margin="0" >
+                                        <materialDesign:PackIcon Kind="HelpCircleOutline" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        </materialDesign:PackIcon>
+                                        <Label Content="Help"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="About" Height="auto" Width="auto" Background="{DynamicResource background}" BorderBrush="{DynamicResource border-color}" BorderThickness="0" Foreground="Black" Margin="0" Click="About_Click" HorizontalAlignment="Stretch" DockPanel.Dock="Right" HorizontalContentAlignment="Left">
                                 <StackPanel Orientation="Horizontal" Margin="0" >
                                     <materialDesign:PackIcon Kind="About" HorizontalAlignment="Center" VerticalAlignment="Center">
                                     </materialDesign:PackIcon>
@@ -188,6 +196,9 @@
                                         <Label Content="Theme Editor"/>
                                     </StackPanel>
                                 </Button>
+
+                                
+                                
                             </StackPanel>
                         
 

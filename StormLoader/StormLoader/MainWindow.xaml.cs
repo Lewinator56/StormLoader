@@ -25,6 +25,7 @@ using StormLoader.repository;
 using StormLoader.Profiles;
 using StormLoader.Themes;
 using Microsoft.Win32;
+using StormLoader.mod_handling.install;
 
 namespace StormLoader
 {
@@ -60,7 +61,7 @@ namespace StormLoader
         public XmlDocument currentProfile = new XmlDocument();
         public string gameLocation = "";
         public List<ModListItem> modListItems = new List<ModListItem>();
-        public string version = "v1.1-pre-4";
+        public string version = "v1.1";
         public bool x64 { get; set; }
         public bool notx64 { get { return !x64; } set { x64=!value; } }
         mod_handling.ModInstaller mi = new mod_handling.ModInstaller();
@@ -129,7 +130,7 @@ namespace StormLoader
             Application.Current.Shutdown();
             
         }
-        public void AddModToInstallQueue(ModPack pack, bool active)
+        public void AddModToInstallQueue(Profiles.ModPack pack, bool active)
         {
             
             this.Dispatcher.Invoke(() =>
@@ -223,7 +224,7 @@ namespace StormLoader
         {
             //currentProfile.Load("CurrentProfile.xml");
             //XmlNode modRoot = currentProfile.SelectSingleNode("/Profile/Mods");
-            foreach (ModPack mod in liveProfile.ModPacks)
+            foreach (Profiles.ModPack mod in liveProfile.ModPacks)
             {
                 if (mod.Active == true)
                 {
@@ -259,7 +260,7 @@ namespace StormLoader
 
             if (r == true)
             {
-                ModPack p = new ModPack();
+                Profiles.ModPack p = new Profiles.ModPack();
                 p.Active = true;
                 p.Name = System.IO.Path.GetFileNameWithoutExtension(opf.FileName);
                 addModFromFile(opf.FileName, System.IO.Path.GetFileNameWithoutExtension(opf.FileName), System.IO.Path.GetExtension(opf.FileName), p);
@@ -270,7 +271,7 @@ namespace StormLoader
 
         }
 
-        public void addModFromFile(string path, string nameWithoutExt, string ext, ModPack pack)
+        public void addModFromFile(string path, string nameWithoutExt, string ext, Profiles.ModPack pack)
         {
             this.Dispatcher.Invoke(() =>
             {
@@ -690,7 +691,7 @@ namespace StormLoader
         }
 
         
-        public void AddModNew(ModPack pack)
+        public void AddModNew(Profiles.ModPack pack)
         {
             
             int i = 0;
@@ -713,7 +714,7 @@ namespace StormLoader
 
         
 
-        public void SetModActive(ModPack pack, bool active)
+        public void SetModActive(Profiles.ModPack pack, bool active)
         {
             //currentProfile.Load("CurrentProfile.xml");
             if (active)
@@ -740,7 +741,7 @@ namespace StormLoader
 
         }
 
-        public void DeleteMod(ModPack pack)
+        public void DeleteMod(Profiles.ModPack pack)
         {
             if (installQueue.Count > 0)
             {
@@ -767,7 +768,7 @@ namespace StormLoader
             displayModList();
         }
 
-        public void SelectMod(ModPack pack)
+        public void SelectMod(Profiles.ModPack pack)
         {
             ModNameLabel.Content = "Name: " + pack.Name;
 
@@ -870,6 +871,11 @@ namespace StormLoader
             BrowseOnline.ContextMenu.IsOpen = true;
         }
 
+        private void BrowseSteam_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://steamcommunity.com/workshop/browse/?appid=573090&searchtext=%5BMOD%5D&childpublishedfileid=0&browsesort=textsearch&section=readytouseitems&requiredtags%5B%5D=Mission");
+        }
+
         private void ContextMenu_Closed(object sender, RoutedEventArgs e)
         {
             settingsDoc.Load("Settings.xml");
@@ -898,7 +904,7 @@ namespace StormLoader
 
         private void Sync_Files_Click(object sender, RoutedEventArgs e)
         {
-
+            System.Diagnostics.Process.Start("https://steamcommunity.com/workshop/browse/?appid=573090&searchtext=%5BMOD%5D");
         }
 
         private void Browse_Files_Click(object sender, RoutedEventArgs e)
@@ -972,6 +978,11 @@ namespace StormLoader
         public void HideDialog()
         {
             DialogHost.CloseDialogCommand.Execute(null, null);
+        }
+
+        private void Help_btn_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://portal.stormloader.uk/stormloader/help.html");
         }
     }
 }

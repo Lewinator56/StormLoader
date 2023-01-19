@@ -305,18 +305,6 @@
     <Compile Include="DbgLog.cs" />
     <Compile Include="Mod.cs" />
     <Compile Include="mod_handling\install\ModPack.cs" />
-    <Compile Include="modder_control_panel\modderPanelModListItem.xaml.cs">
-      <DependentUpon>modderPanelModListItem.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="modder_control_panel\ModderPanelRoot.xaml.cs">
-      <DependentUpon>ModderPanelRoot.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="modder_control_panel\ModderUpdateModPanel.xaml.cs">
-      <DependentUpon>ModderUpdateModPanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="modder_control_panel\ModderUploadPanel.xaml.cs">
-      <DependentUpon>ModderUploadPanel.xaml</DependentUpon>
-    </Compile>
     <Compile Include="mod_handling\install\InstallList.cs" />
     <Compile Include="mod_handling\install\ModFile.cs" />
     <Compile Include="mod_handling\ModInstaller.cs" />
@@ -333,9 +321,6 @@
     <Compile Include="Profiles\Profile.cs" />
     <Compile Include="repository\RepoBrowserRoot.xaml.cs">
       <DependentUpon>RepoBrowserRoot.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="repository\RepoLoginPanel.xaml.cs">
-      <DependentUpon>RepoLoginPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="repository\RepoModListItem.xaml.cs">
       <DependentUpon>RepoModListItem.xaml</DependentUpon>
@@ -411,22 +396,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="modder_control_panel\modderPanelModListItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="modder_control_panel\ModderPanelRoot.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="modder_control_panel\ModderUpdateModPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="modder_control_panel\ModderUploadPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="ModListItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -444,10 +413,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="repository\RepoBrowserRoot.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="repository\RepoLoginPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
