@@ -7,7 +7,18 @@ I, StormLoader and mods loaded with stormloader are not affiliated with stormwor
 # Downloads
 - Head to releases to get the latest version!
 
-# Major Update v1.1
+# Steam Mods?
+Yep, thats right, the process is pretty simple, I wont explain quite HOW its working, it just goes on behind the scenes, and makes use of a mission.
+For the end user.
+* Open the built in modd packager from the top right menu and select all the folders you need (if you have an 'info' folder, make sure its separate from the data folders as selecting the parent for a mod structure may cause issues).
+* Select the 'package for steam' checkbox then click package.
+* Open stormloader, locate the newly created mission - DO NOT EDIT ANYTHING - and upload it to the workshop.
+
+To download a steam mod:
+* Subscribe to the mod on steam - the creator will indicate that it works with stormloader in the description or tag it with [MOD]
+* Open stormloader and click 'sync steam' and wait for the mods to be added then launch the game.
+
+# Major Update v1.1 - RELEASED!
 I'm slowly working on a pretty significant update which adds a number of requested features and makes existing ones more robust. The feature list is as follows:
 * Completely re-written mod install tracking code. This now makes use of serialisation to directly store data structures for mods. This is far faster and more reliable than the old XML version and offers easier expansion in the future.
 * Completely re-written profile handling. Profiles are now handled in a similar way to mod install file tracking.
