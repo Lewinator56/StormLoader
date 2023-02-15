@@ -123,7 +123,7 @@ namespace StormLoader.Packager
 
             File.Create(missionRoot + "/script.lua");
             ZipFile z = new ZipFile();
-            z.AddFile(slpRoot + "/" + name + ".slp");
+            z.AddFile(slpRoot + "/" + name + ".slp", "/");
             z.Save(missionRoot + "/vehicle_2.xml");
 
             /**

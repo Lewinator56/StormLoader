@@ -14,6 +14,7 @@
             <DockPanel Margin="20">
                 <Label Content="Mod Packager" FontSize="25" DockPanel.Dock="Top"/>
                 <Label Content="Use this to package a mod from source files and to convert to steam formatting, if you need help click the help icons" FontSize="16" DockPanel.Dock="Top"/>
+                <Label Content="If you experience an error, ensure all your folders are separated before selecting them (i.e if you add an info folder ensure that does not contain any other already added folders)" FontSize="16" DockPanel.Dock="Top"/>
                 <Border BorderThickness="2 2 2 2" BorderBrush="{DynamicResource border-color}" CornerRadius="5" DockPanel.Dock="Top">
                     <DockPanel Margin="10">
                         <Label Content="Mod Data Files" FontSize="18" DockPanel.Dock="Top"/>

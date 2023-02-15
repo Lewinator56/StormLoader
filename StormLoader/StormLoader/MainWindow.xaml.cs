@@ -61,7 +61,7 @@ namespace StormLoader
         public XmlDocument currentProfile = new XmlDocument();
         public string gameLocation = "";
         public List<ModListItem> modListItems = new List<ModListItem>();
-        public string version = "v1.1";
+        public string version = "v1.1.1";
         public bool x64 { get; set; }
         public bool notx64 { get { return !x64; } set { x64=!value; } }
         mod_handling.ModInstaller mi = new mod_handling.ModInstaller();
