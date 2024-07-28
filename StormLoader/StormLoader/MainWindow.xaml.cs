@@ -575,6 +575,7 @@ namespace StormLoader
             
             this.Title = "StormLoader : " + currentProfile.SelectSingleNode("/Profile").Attributes["Name"].InnerText;
             displayModList();
+            }
             //CheckModActiveAlt();
             //ApplyProfileAlt();
         }
